@@ -16,40 +16,23 @@
    as strings and shown verbatim; table cells are stored as numbers and shown
    with the manuscript's decimals (sup. CBU and CBU/cap: 2, risk: 3, lex: 1).
 
+   Image-conditioned cells (supported CBU per caption, risk) are read from
+   the released result file cbu_vqa_by_category_b64.json: for each (slice,
+   judge, surface) cell, m = all_types.supported_cap or all_types.risk and
+   sd = the matching *_std field (caption-level bootstrap). Claimed CBU/cap
+   and CBU/100 lex of the control surfaces come from the claimed_cbu_summary
+   files of the same bundle (claimed_dedup_per_caption, _per_100_tokens).
+
    Uncertainty: any numeric cell may be written as { m: <mean>, sd: <std> }
    instead of a bare number. Tables then print "mean ± std" and the Table 5
    chart draws a ±std whisker; plain numbers print as they are. Example:
-     qwen: { sup: { m: 13.84, sd: 0.08 }, risk: { m: 0.035, sd: 0.002 } }
+     qwen: { sup: { m: 13.73, sd: 0.05 }, risk: { m: 0.035, sd: 0.001 } }
    ========================================================================== */
 (function () {
   "use strict";
 
-  /* ------------------------------------------------------------------------
-     PENDING REFRESH (isolated on purpose)
-       (1) DataComp rows under the Gemma Judge
-       (2) The naive-captioner control under the Gemma Judge
-     These are being re-measured. The values below are the current manuscript
-     values. When the new numbers land, edit only this block: every table and
-     chart that shows them reads from here.
-     After a refresh, re-check the stated ranges in `summary` below. The
-     DataComp/Gemma cells are currently not an endpoint of any stated range
-     (sup. gain +5.07, risk drop 0.133, w/o count+relation gain +4.33), but a
-     new value outside a range would move that range.
-     ------------------------------------------------------------------------ */
-  var PENDING = {
-    // Table 5 (cross-corpus headline), DataComp row, Gemma Judge columns.
-    // The Ours pair is also Table 6 (captioner control), DataComp / Ours, Gemma.
-    dataCompGemma: { refSup: 7.68, oursSup: 12.75, refRisk: 0.217, oursRisk: 0.084 },
-    // Table 6 (captioner control), "Naive Qwen3.5-35B-A3B" rows, Gemma Judge.
-    naiveGemma: {
-      cc12m:    { sup: 11.90, risk: 0.033 },
-      datacomp: { sup: 11.37, risk: 0.040 }
-    }
-  };
 
   window.PAGE_DATA = {
-    PENDING: PENDING,
-
     /* Lay summary shown at the top of the page under "In plain words".
        One string: paragraphs are separated by a blank line (\n\n) and each
        opens with one emoji. Replace the whole string to change the text. */
@@ -57,19 +40,19 @@
       "🖼️ AI image generators learn by looking at millions of pictures, each with a short description. Today most of those descriptions are written by another AI, not by people.\n\n" +
       "🤔 But are those AI-written descriptions any good? Until now, finding out meant training a whole image generator, like baking an entire cake just to check whether the flour is fresh.\n\n" +
       "🔍 We built a simple check-up instead. Part of it is as easy as a teacher flipping through a stack of essays and noticing that they all begin with the same sentence: we count how often descriptions repeat themselves. Then we read the first 64 words of each description and ask: does it sound like what people actually type when they ask for an image? How many concrete things does it say about the picture, and is each one really there? Two different AI judges answer that last question, and we compared them with human raters.\n\n" +
-      "✅ Our descriptions say more true things about each picture, and fewer wrong things, than existing long descriptions of the same pictures.\n\n" +
+      "✅ Our descriptions say more true things about each picture, and fewer wrong things, than existing long descriptions of the same pictures. The instructions make the difference: the same AI, simply told to “describe this picture in detail”, says about a quarter fewer true things.\n\n" +
       "🎁 We are sharing descriptions for about 490 million images, plus the check-up tool, so anyone can test their own.",
 
     /* Stated ranges and totals, quoted as written.
        Abstract; Section 1 (Introduction, paragraph 3 and contribution list);
        Section 5 intro; Section 5.1; Section 6; Appendix A; Appendix Table 16. */
     summary: {
-      supGain:       { lo: "+3.40", hi: "+6.35" },   // Abstract, Sec. 1: supported CBU per caption, 4 pairs x 2 judges
+      supGain:       { lo: "+3.39", hi: "+6.36" },   // Abstract, Sec. 1: supported CBU per caption, 4 pairs x 2 judges
       claimedGain:   { lo: "+2.91", hi: "+6.14" },   // Sec. 1: claimed CBU per caption
       riskDrop:      { lo: "−0.046", hi: "−0.159" }, // Sec. 1: unsupported risk
       supGainShort:  "+3.4 to +6.4",                 // Sec. 5.1
       riskDropShort: "0.05 to 0.16",                 // Sec. 5.1
-      exclCountRelationGain: "+2.67 to +5.21",       // Sec. 5.1 / App. Table 16 (w/o count and relation claims)
+      exclCountRelationGain: "+2.66 to +5.22",       // Sec. 5.1 / App. Table 16 (w/o count and relation claims)
       poolWins:      "5–7",                      // Sec. 5.1: prompt pools (of seven) where Ours raises support
       lengthMultiple: "3–5×",               // Sec. 5.1: Ours length vs. each reference except LAION-pop
       identities:    "≈490M",                    // Sec. 1, App. A: image identities, unique within each family
@@ -134,21 +117,28 @@
     crossCorpus: [
       { id: "datacomp", pair: "DataComp", ref: "Recap-DataComp",
         lex: [50.9, 175.5], cbu: [10.44, 14.45], poolWins: 6,
-        qwen:  { sup: [8.50, 13.84], risk: [0.177, 0.035] },
-        gemma: { sup: [PENDING.dataCompGemma.refSup, PENDING.dataCompGemma.oursSup],
-                 risk: [PENDING.dataCompGemma.refRisk, PENDING.dataCompGemma.oursRisk] } },
+        qwen:  { sup: [{ m: 8.493488, sd: 0.047549 }, { m: 13.726472, sd: 0.053975 }],
+                 risk: [{ m: 0.177117, sd: 0.002584 }, { m: 0.034918, sd: 0.001015 }] },
+        gemma: { sup: [{ m: 8.003053, sd: 0.047748 }, { m: 12.936701, sd: 0.053373 }],
+                 risk: [{ m: 0.218942, sd: 0.002811 }, { m: 0.081108, sd: 0.00144 }] } },
       { id: "laionpop", pair: "LAION-pop", ref: "LAION-pop-Llama",
         lex: [180.3, 182.9], cbu: [11.91, 14.82], poolWins: 5,
-        qwen:  { sup: [10.80, 14.22], risk: [0.077, 0.031] },
-        gemma: { sup: [10.22, 13.62], risk: [0.113, 0.060] } },
+        qwen:  { sup: [{ m: 10.799434, sd: 0.043858 }, { m: 14.222491, sd: 0.050725 }],
+                 risk: [{ m: 0.077178, sd: 0.00148 }, { m: 0.030698, sd: 0.000809 }] },
+        gemma: { sup: [{ m: 10.220582, sd: 0.043118 }, { m: 13.613059, sd: 0.050663 }],
+                 risk: [{ m: 0.113135, sd: 0.001799 }, { m: 0.060131, sd: 0.001174 }] } },
       { id: "pd12m", pair: "PD12M", ref: "PD12M released",
         lex: [39.7, 189.1], cbu: [9.78, 15.02], poolWins: 7,
-        qwen:  { sup: [8.61, 14.29], risk: [0.103, 0.034] },
-        gemma: { sup: [8.23, 13.54], risk: [0.131, 0.066] } },
+        qwen:  { sup: [{ m: 8.605532, sd: 0.046062 }, { m: 14.294854, sd: 0.053252 }],
+                 risk: [{ m: 0.103082, sd: 0.001942 }, { m: 0.033619, sd: 0.000827 }] },
+        gemma: { sup: [{ m: 8.225095, sd: 0.046505 }, { m: 13.530373, sd: 0.05353 }],
+                 risk: [{ m: 0.130814, sd: 0.002229 }, { m: 0.065961, sd: 0.001223 }] } },
       { id: "danbooru", pair: "Danbooru", ref: "Danbooru-Florence",
         lex: [43.6, 164.5], cbu: [8.18, 14.33], poolWins: 7,
-        qwen:  { sup: [6.38, 12.73], risk: [0.217, 0.058] },
-        gemma: { sup: [6.15, 11.86], risk: [0.235, 0.094] } }
+        qwen:  { sup: [{ m: 6.379956, sd: 0.042837 }, { m: 12.736926, sd: 0.046415 }],
+                 risk: [{ m: 0.217421, sd: 0.003051 }, { m: 0.058273, sd: 0.001412 }] },
+        gemma: { sup: [{ m: 6.146508, sd: 0.040419 }, { m: 11.853937, sd: 0.044073 }],
+                 risk: [{ m: 0.234523, sd: 0.003205 }, { m: 0.09383, sd: 0.001469 }] } }
     ],
 
     /* Table 8: CC12M frontier at B = 64, four surfaces, both judges.
@@ -158,15 +148,19 @@
     cc12m: {
       surfaces: [
         { name: "Ours", ours: true,  cbu: 15.21, per100: 23.16,
-          qwen: { sup: 14.60, risk: 0.030 }, gemma: { sup: 13.82, risk: 0.066 } },
+          qwen: { sup: { m: 14.595926, sd: 0.056766 }, risk: { m: 0.030462, sd: 0.000899 } },
+          gemma: { sup: { m: 13.823371, sd: 0.055083 }, risk: { m: 0.066408, sd: 0.001255 } } },
         { name: "CC12M-LLaVA-NeXT",  cbu: 10.78, per100: 21.77,
-          qwen: { sup: 9.84,  risk: 0.069 }, gemma: { sup: 9.44,  risk: 0.097 } },
+          qwen: { sup: { m: 9.842129, sd: 0.048002 }, risk: { m: 0.06891, sd: 0.001528 } },
+          gemma: { sup: { m: 9.43903, sd: 0.045467 }, risk: { m: 0.09669, sd: 0.001749 } } },
         { name: "PixelProse",        cbu: 12.57, per100: 20.44,
-          qwen: { sup: 10.73, risk: 0.129 }, gemma: { sup: 10.20, risk: 0.161 } },
+          qwen: { sup: { m: 10.730052, sd: 0.049993 }, risk: { m: 0.128865, sd: 0.002082 } },
+          gemma: { sup: { m: 10.195999, sd: 0.047582 }, risk: { m: 0.16052, sd: 0.00214 } } },
         // CC12M-Qwen3-VL-8B captions: shown by role ("Short tag surface") in tables;
         // the page names the model once, in the "Length is not density" passage.
         { name: "Short tag surface", dagger: true, cbu: 6.44, per100: 55.84,
-          qwen: { sup: 6.31,  risk: 0.014 }, gemma: { sup: 6.19,  risk: 0.028 } }
+          qwen: { sup: { m: 6.312249, sd: 0.026174 }, risk: { m: 0.013628, sd: 0.000846 } },
+          gemma: { sup: { m: 6.194432, sd: 0.025576 }, risk: { m: 0.028294, sd: 0.001294 } } }
       ],
       pixelProseLex: "≈89",
       qwen3vlLex:    "≈12",
@@ -198,43 +192,59 @@
       ]
     },
 
-    /* Table 6: Captioner control, same captioner, different policy.
-       CC12M Naive: 4,494 captions. DataComp Naive: 4,645 captions
-       (130 text-CBU extraction failures excluded). Gemma cells of the Naive
-       rows and of DataComp / Ours come from PENDING. */
+    /* Table 6: Captioner control, one captioner (Qwen3.5-35B-A3B), two
+       policies, same decoding, same images: CC12M 4,494 images, DataComp
+       4,775 images. Ours and Naive only (the greedy-decoding Naive rows stay
+       in the result files). Claimed CBU/cap and CBU/100 lex: CC12M Ours is
+       Table 8; the others come from claimed_cbu_summary.json of
+       naive_qwen35_sampled_cc12m, policy_control_ours_datacomp and
+       naive_qwen35_sampled_datacomp. Support and risk: cells "CC12M" /
+       "CC12M-control" and "DataComp-control" of cbu_vqa_by_category_b64.json. */
     captionerControl: [
       { source: "CC12M", rows: [
         { surface: "Ours", ours: true, cbu: 15.21, per100: 23.16,
-          qwen: { sup: 14.60, risk: 0.030 }, gemma: { sup: 13.82, risk: 0.066 } },
-        { surface: "Naive Qwen3.5-35B-A3B", cbu: 11.43, per100: 17.45,
-          qwen: { sup: 11.10, risk: 0.022 }, gemma: PENDING.naiveGemma.cc12m }
+          qwen: { sup: { m: 14.595926, sd: 0.056766 }, risk: { m: 0.030462, sd: 0.000899 } },
+          gemma: { sup: { m: 13.823371, sd: 0.055083 }, risk: { m: 0.066408, sd: 0.001255 } } },
+        { surface: "Naive", cbu: 11.32, per100: 17.26,
+          qwen: { sup: { m: 11.026154, sd: 0.046975 }, risk: { m: 0.022042, sd: 0.000782 } },
+          gemma: { sup: { m: 10.607687, sd: 0.045696 }, risk: { m: 0.045491, sd: 0.001115 } } }
       ]},
       { source: "DataComp", rows: [
-        { surface: "Ours", ours: true, cbu: 14.45, per100: 21.84,
-          qwen: { sup: 13.84, risk: 0.035 },
-          gemma: { sup: PENDING.dataCompGemma.oursSup, risk: PENDING.dataCompGemma.oursRisk } },
-        { surface: "Naive Qwen3.5-35B-A3B", cbu: 10.84, per100: 16.53,
-          qwen: { sup: 10.53, risk: 0.021 }, gemma: PENDING.naiveGemma.datacomp }
+        { surface: "Ours", ours: true, cbu: 14.60, per100: 22.23,
+          qwen: { sup: { m: 13.899957, sd: 0.055691 }, risk: { m: 0.036496, sd: 0.000968 } },
+          gemma: { sup: { m: 13.073379, sd: 0.053641 }, risk: { m: 0.079535, sd: 0.001441 } } },
+        { surface: "Naive", cbu: 10.95, per100: 16.66,
+          qwen: { sup: { m: 10.56388, sd: 0.043591 }, risk: { m: 0.026114, sd: 0.000818 } },
+          gemma: { sup: { m: 10.072109, sd: 0.04205 }, risk: { m: 0.057302, sd: 0.001241 } } }
       ]}
     ],
     captionerControlMeta: {
-      cc12mNaiveN: "4,494", datacompNaiveN: "4,645", datacompFailures: "130",
-      naiveLonger: "1.7×",                 // Sec. 5.2
-      prefixA: { text: "… richly detailed", count: "185/4,494" },   // Sec. 5.2
-      prefixB: { text: "… beautifully composed", count: "109" },   // Sec. 5.2
-      contentMassNaive: "0.37", contentMassRefs: "0.07–0.16"        // Sec. 5.2
+      captioner: "Qwen3.5-35B-A3B",
+      cc12mImages: "4,494", datacompImages: "4,775",
+      // one-sentence reading, over both sources and both judges
+      claimedGain: "+3.7 to +3.9",   // 15.21 - 11.32, 14.60 - 10.95
+      supGain:     "+3.0 to +3.6",   // supported CBU per caption, Ours - Naive
+      riskWithin:  "0.03",           // |risk(Ours) - risk(Naive)| stays within this
+      // CC12M surface concentration (Table 7)
+      meanLexOurs: "186.6", meanLexNaive: "328.1",
+      contentMassOurs: "0.09", contentMassNaive: "0.33", contentMassRefs: "0.13–0.16"
     },
 
-    /* Table 7: Surface concentration on the CC12M Naive surface
-       (same 4,494-image subset). "CC12M refs." is the range over the three
-       released CC12M surfaces on the same images. */
+    /* Table 7: Surface concentration on the CC12M naive surface, same
+       4,494 images. "Long-form refs." is the range over CC12M-LLaVA-NeXT and
+       PixelProse on the same images. */
     surfaceControl: [
-      { metric: "Mean lex",                       ours: "186.6", naive: "324.6", diff: "+138.0",   refs: "11.5–91.4" },
-      { metric: "Lex overflow<sub>248</sub>",      ours: "6.9%",  naive: "89.5%", diff: "+82.6 pp", refs: "0.0–0.8%" },
-      { metric: "Top-100 raw prefix mass ↓",  ours: "0.14",  naive: "0.65",  diff: "+0.51",    refs: "0.11–0.71" },
-      { metric: "Top-100 content prefix mass ↓", ours: "0.09", naive: "0.37", diff: "+0.28",   refs: "0.07–0.16" },
-      { metric: "Distinct-3-gram rate ↑",     ours: "0.59",  naive: "0.54",  diff: "−0.05", refs: "0.40–0.72" }
+      { metric: "Mean lex",                         ours: "186.6", naive: "328.1", refs: "67.5–91.4" },
+      { metric: "Top-100 raw prefix mass ↓",       ours: "0.14",  naive: "0.60",  refs: "0.29–0.71" },
+      { metric: "Top-100 content prefix mass ↓",   ours: "0.09",  naive: "0.33",  refs: "0.13–0.16" },
+      { metric: "Distinct-3-gram rate ↑",          ours: "0.59",  naive: "0.57",  refs: "0.40–0.49" }
     ],
+
+    /* Per-type reading (appendix per-type table): Ours has lower risk than the
+       pooled references in every claim type under both judges. Qwen–Gemma
+       exact answer agreement on the identical CC12M question set, from
+       cc12m_judge_agreement.<type>.exact_rate in cbu_vqa_by_category_b64.json. */
+    judgeAgreement: { overall: "92.4%", count: "85.1%", textRendering: "87.6%" },
 
     /* Table 9 and Section 5.4: Human evaluation of image support.
        (a) design-weighted nominal exact agreement on 43 resolved claims, as

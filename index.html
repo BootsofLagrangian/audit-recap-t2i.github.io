@@ -293,7 +293,7 @@ Is the rendered text claim '&lt;UNIT&gt;' visibly supported by the image?</code>
     </figure>
 
     <figure class="tfig wide" aria-labelledby="t5-cap">
-      <figcaption id="t5-cap"><span class="fig-no">Table 5.</span> <strong>Cross-corpus headline at <span class="m"><i>B</i> = 64</span> lexical units.</strong> Cells <span class="m"><i>a</i> → <i>b</i></span> report Ref → Ours. Pool-wins counts the seven prompt pools where Ours raises prompt-mass support; both judges re-ask the same CBUs on <span data-bind="protocol.vqaRows"></span> paired captions per surface; Risk is unsupported / claimed CBU.</figcaption>
+      <figcaption id="t5-cap"><span class="fig-no">Table 5.</span> <strong>Cross-corpus headline at <span class="m"><i>B</i> = 64</span> lexical units.</strong> Cells <span class="m"><i>a</i> → <i>b</i></span> report Ref → Ours. Pool-wins counts the seven prompt pools where Ours raises prompt-mass support; both judges re-ask the same CBUs on <span data-bind="protocol.vqaRows"></span> paired captions per surface; Risk is unsupported / claimed CBU. The second line of each judge cell gives the bootstrap std of Ref and Ours.</figcaption>
       <div class="table-wrap" tabindex="0" role="region" aria-labelledby="t5-cap" data-render="crossTable"></div>
     </figure>
 
@@ -304,7 +304,7 @@ Is the rendered text claim '&lt;UNIT&gt;' visibly supported by the image?</code>
       </div>
       <div class="note-card">
         <h4>Not carried by the hardest claim types</h4>
-        <p>Without count and relation claims, the types VLM judges verify least reliably, Ours still raises supported CBU per caption by <span data-bind="summary.exclCountRelationGain"></span> and lowers risk in all eight (pair, judge) cells.</p>
+        <p>Without count and relation claims, the types VLM judges verify least reliably, Ours still raises supported CBU per caption by <span data-bind="summary.exclCountRelationGain"></span> and lowers risk in all eight (pair, judge) cells. Ours has lower risk than the pooled references in every claim type under both judges; the two judges agree exactly on <span data-bind="judgeAgreement.overall"></span> of CC12M answers, least on count (<span data-bind="judgeAgreement.count"></span>) and text-rendering (<span data-bind="judgeAgreement.textRendering"></span>).</p>
       </div>
       <div class="note-card">
         <h4>Prompt pools</h4>
@@ -333,7 +333,7 @@ Is the rendered text claim '&lt;UNIT&gt;' visibly supported by the image?</code>
     </div>
 
     <figure class="tfig wide" aria-labelledby="t8-cap">
-      <figcaption id="t8-cap"><span class="fig-no">Table 8.</span> <strong>CC12M frontier at <span class="m"><i>B</i> = 64</span>, four surfaces under both judges.</strong> CBU per caption and per 100 lex come from the Qwen-Judge claim extractor; support and risk are computed under each judge separately. All columns use the same <span data-bind="protocol.cc12mAligned"></span> aligned images.</figcaption>
+      <figcaption id="t8-cap"><span class="fig-no">Table 8.</span> <strong>CC12M frontier at <span class="m"><i>B</i> = 64</span>, four surfaces under both judges.</strong> CBU per caption and per 100 lex come from the Qwen-Judge claim extractor; support and risk are mean ± bootstrap std under each judge. All columns use the same <span data-bind="protocol.cc12mAligned"></span> aligned images.</figcaption>
       <div class="table-wrap" tabindex="0" role="region" aria-labelledby="t8-cap" data-render="cc12mTable"></div>
       <p class="tnote"><sup>†</sup> Short tag surface (<span data-bind="cc12m.qwen3vlLex"></span> lex), the short-caption special case; see “Length is not density”.</p>
     </figure>
@@ -374,20 +374,20 @@ Is the rendered text claim '&lt;UNIT&gt;' visibly supported by the image?</code>
   <!-- policy control -->
   <article class="sub" id="policy" aria-labelledby="h-policy">
     <div class="col">
-      <p class="kicker">Policy control</p>
-      <h3 id="h-policy">Same captioner, different policy: the gap follows the policy</h3>
-      <p>Cross-corpus pairs compare surfaces written by different captioners, so the gain could be read as a property of the captioner family rather than of the policy <span class="m"><i>π</i></span>. The control holds <span class="m"><i>V</i><sub><i>c</i></sub></span> fixed and swaps only <span class="m"><i>π</i></span>: a naive surface from the same captioner on the same <span data-bind="protocol.cc12mAligned"></span>-image CC12M subset and a parallel DataComp subset, under a single user message that inherits the Recap-DataComp prompt body.</p>
+      <p class="kicker">Captioner control</p>
+      <h3 id="h-policy">One captioner, two policies</h3>
+      <p>Cross-corpus pairs compare surfaces written by different captioners, so the gain could be read as a property of the captioner family rather than of the policy <span class="m"><i>π</i></span>. The control keeps one captioner (<span data-bind="captionerControlMeta.captioner"></span>), the same decoding and the same images, and swaps only the policy: the naive surface comes from the single instruction</p>
       <blockquote class="prompt"><p>Please generate a detailed caption of this image. Please be as descriptive as possible.</p></blockquote>
-      <p>On both source families the naive policy under-yields the released one under each judge; measured risk drops alongside, the expected denominator effect on a lower-claim surface rather than a faithfulness gain. The naive surface is also <span data-bind="captionerControlMeta.naiveLonger"></span> longer than Ours yet mass-concentrated: frequent 5-token prefixes such as <q><span data-bind="captionerControlMeta.prefixA.text"></span></q> (<span data-bind="captionerControlMeta.prefixA.count"></span> captions) and <q><span data-bind="captionerControlMeta.prefixB.text"></span></q> (<span data-bind="captionerControlMeta.prefixB.count"></span>) escape the opener regex but are caught by top-100 prefix mass. After opener stripping, its content-prefix mass (<span data-bind="captionerControlMeta.contentMassNaive"></span>) exceeds every released CC12M surface on the same images (<span data-bind="captionerControlMeta.contentMassRefs"></span>). Captioner family alone does not explain the cross-corpus gap.</p>
+      <p>The released policy raises claimed CBU per caption by <span data-bind="captionerControlMeta.claimedGain"></span> and supported CBU per caption by <span data-bind="captionerControlMeta.supGain"></span> under both judges, with risk within <span data-bind="captionerControlMeta.riskWithin"></span> of the naive surface. The naive surface is longer than Ours (<span data-bind="captionerControlMeta.meanLexNaive"></span> against <span data-bind="captionerControlMeta.meanLexOurs"></span> mean lex) and more concentrated: its top-100 content prefix mass is <span data-bind="captionerControlMeta.contentMassNaive"></span>, against <span data-bind="captionerControlMeta.contentMassOurs"></span> for Ours and <span data-bind="captionerControlMeta.contentMassRefs"></span> for the long-form CC12M references. Captioner family alone does not explain the cross-corpus gap.</p>
     </div>
 
     <figure class="tfig wide" aria-labelledby="t6-cap">
-      <figcaption id="t6-cap"><span class="fig-no">Table 6.</span> <strong>Captioner control: same <span class="m"><i>V</i><sub><i>c</i></sub></span>, different <span class="m"><i>π</i></span>.</strong> Claimed CBU per caption comes from the Qwen-Judge claim extractor; support and risk are computed under each judge on the same extracted claims. CC12M Naive: <span data-bind="captionerControlMeta.cc12mNaiveN"></span> captions. DataComp Naive: <span data-bind="captionerControlMeta.datacompNaiveN"></span> captions (<span data-bind="captionerControlMeta.datacompFailures"></span> text-CBU extraction failures excluded).</figcaption>
+      <figcaption id="t6-cap"><span class="fig-no">Table 6.</span> <strong>Captioner control: one captioner, two policies.</strong> CC12M: <span data-bind="captionerControlMeta.cc12mImages"></span> images; DataComp: <span data-bind="captionerControlMeta.datacompImages"></span> images. Claimed CBU per caption comes from the Qwen-Judge claim extractor; support and risk are mean ± std under each judge on the same extracted claims.</figcaption>
       <div class="table-wrap" tabindex="0" role="region" aria-labelledby="t6-cap" data-render="controlTable"></div>
     </figure>
 
     <figure class="tfig col" aria-labelledby="t7-cap">
-      <figcaption id="t7-cap"><span class="fig-no">Table 7.</span> <strong>Surface concentration on the CC12M naive surface</strong>, same <span data-bind="protocol.cc12mAligned"></span>-image subset. Lex overflow<sub>248</sub> is the share of captions longer than 248 lexical units. <em>CC12M refs.</em> is the range over the three released CC12M surfaces on the same images.</figcaption>
+      <figcaption id="t7-cap"><span class="fig-no">Table 7.</span> <strong>Surface concentration on CC12M</strong>, same <span data-bind="protocol.cc12mAligned"></span> images. <em>Long-form refs.</em> is the range over CC12M-LLaVA-NeXT and PixelProse.</figcaption>
       <div class="table-wrap" tabindex="0" role="region" aria-labelledby="t7-cap" data-render="surfaceTable"></div>
     </figure>
   </article>

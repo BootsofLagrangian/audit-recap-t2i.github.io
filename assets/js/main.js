@@ -37,8 +37,12 @@
   function dagger(name, flag) { return esc(name) + (flag ? '<span class="dag">†</span>' : ""); }
   /* "a -> b" cell: reference in grey, Ours in accent (or plain for context columns) */
   function pair(a, b, d, plain) {
-    return '<span class="pr"><span class="a">' + fmtV(a, d) + '</span><span class="ar" aria-hidden="true">→</span>' +
-      '<span class="sr-only"> to </span><span class="b' + (plain ? " plain" : "") + '">' + fmtV(b, d) + "</span></span>";
+    var h = '<span class="pr"><span class="a">' + fmt(mean(a), d) + '</span><span class="ar" aria-hidden="true">→</span>' +
+      '<span class="sr-only"> to </span><span class="b' + (plain ? " plain" : "") + '">' + fmt(mean(b), d) + "</span></span>";
+    if (sdOf(a) != null || sdOf(b) != null) {
+      h += '<span class="pr-sd"><span class="sr-only">standard deviations: </span>±' + fmt(sdOf(a) || 0, d) + '<span class="pr-sep" aria-hidden="true">·</span>±' + fmt(sdOf(b) || 0, d) + "</span>";
+    }
+    return h;
   }
   function th(label, cls, attrs) {
     return "<th" + (cls ? ' class="' + cls + '"' : "") + (attrs ? " " + attrs : "") + ">" + label + "</th>";
@@ -169,7 +173,7 @@
 
   /* Table 6 (bold in the paper: Ours on CBU/cap and both supported columns) */
   renderers.controlTable = function () {
-    var h = '<table><caption class="sr-only">Captioner control: same captioner, different policy</caption>' +
+    var h = '<table><caption class="sr-only">Captioner control: one captioner, two policies</caption>' +
       judgeHead(th("", "blank")) + judgeCols("Source", "Surface") + "<tbody>";
     D.captionerControl.forEach(function (g, gi) {
       g.rows.forEach(function (s, i) {
@@ -186,10 +190,10 @@
   renderers.surfaceTable = function () {
     var h = '<table><caption class="sr-only">Surface concentration on the CC12M naive surface</caption><thead><tr>' +
       th("Metric", "stick", 'scope="col"') + th("Ours", "n", 'scope="col"') + th("Naive", "n", 'scope="col"') +
-      th("Naive − Ours", "n", 'scope="col"') + th("CC12M refs.", "n", 'scope="col"') + "</tr></thead><tbody>";
+      th("Long-form refs.", "n", 'scope="col"') + "</tr></thead><tbody>";
     D.surfaceControl.forEach(function (r) {
       h += '<tr><th scope="row">' + r.metric + '</th><td class="n">' + esc(r.ours) + '</td><td class="n">' + esc(r.naive) +
-        '</td><td class="n">' + esc(r.diff) + '</td><td class="n sm-c">' + esc(r.refs) + "</td></tr>";
+        '</td><td class="n">' + esc(r.refs) + "</td></tr>";
     });
     return h + "</tbody></table>";
   };
@@ -337,6 +341,7 @@
       [[a, sdOf(r.v[0])], [b, sdOf(r.v[1])]].forEach(function (p) {
         if (p[1] == null) return;
         var l = sx(p[0] - p[1]), rr = sx(p[0] + p[1]);
+        if (rr - l < 12) return;                 // hidden under the marker at this scale
         svg.appendChild(el("path", { d: "M" + l + " " + (cy - 4) + "v8M" + l + " " + cy + "H" + rr + "M" + rr + " " + (cy - 4) + "v8", "class": "c-sd" }));
       });
       svg.appendChild(el("circle", { cx: xa, cy: cy, r: 4.6, "class": "c-ref" }));
