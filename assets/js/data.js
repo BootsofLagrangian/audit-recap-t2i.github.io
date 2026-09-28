@@ -157,7 +157,7 @@
           qwen: { sup: { m: 10.730052, sd: 0.049993 }, risk: { m: 0.128865, sd: 0.002082 } },
           gemma: { sup: { m: 10.195999, sd: 0.047582 }, risk: { m: 0.16052, sd: 0.00214 } } },
         // CC12M-Qwen3-VL-8B captions: shown by role ("Short tag surface") in tables;
-        // the page names the model once, in the "Length is not density" passage.
+        // the page names the model once, in the "Efficiency and yield read jointly" passage.
         { name: "Short tag surface", dagger: true, cbu: 6.44, per100: 55.84,
           qwen: { sup: { m: 6.312249, sd: 0.026174 }, risk: { m: 0.013628, sd: 0.000846 } },
           gemma: { sup: { m: 6.194432, sd: 0.025576 }, risk: { m: 0.028294, sd: 0.001294 } } }
@@ -165,7 +165,7 @@
       pixelProseLex: "≈89",
       qwen3vlLex:    "≈12",
       tagSurfaceModel: "Qwen3-VL-8B",
-      // Sec. 5.3 "Length is not density": one 64-word window of Ours vs. a whole CC12M-Qwen3-VL caption
+      // Sec. 5.3 "Length is not density" paragraph: one 64-word window of Ours vs. a whole CC12M-Qwen3-VL caption
       windowMultiple: "2.4×",
       // Sec. 5.3 "Budget sweep": Ours from B = 16 to B = 64
       sweepOursCbu:    "5.59 → 15.21",

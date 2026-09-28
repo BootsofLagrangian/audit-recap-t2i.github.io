@@ -163,7 +163,7 @@
   <div class="col">
     <h2 id="h-audit">What the audit measures</h2>
     <p class="lede">The framework is a reusable audit operator over recaptioned supervision distributions. Its target is a documented operating point <span class="m"><i>D</i><sub><i>π</i>,<i>V<sub>c</sub></i>,<i>C</i></sub></span>: the joint over caption <span class="m"><i>c</i></span> and source image <span class="m"><i>x</i></span> induced by captioner <span class="m"><i>V</i><sub><i>c</i></sub></span> under policy <span class="m"><i>π</i></span> on source corpus <span class="m"><i>C</i></span>. Each caption set over the same source rows is a <em>surface</em>.</p>
-    <p>The audit asks what supervision signal a text-to-image model would consume, without training or ranking a particular generator. It runs four passes over source-aligned rows and returns a five-axis profile; each axis states the boundary of what it certifies.</p>
+    <p>The audit reads the supervision signal a text-to-image model would consume, before any generator is trained. It runs four passes over source-aligned rows and returns a five-axis profile; each axis states the boundary of what it certifies.</p>
   </div>
 
   <figure class="diagram wide" aria-labelledby="dg-cap">
@@ -173,7 +173,7 @@
         <span class="dg-node" aria-hidden="true">1</span>
         <h3 class="dg-title"><span class="sr-only">Pass 1: </span>Window</h3>
         <p class="dg-lead">Cut every caption to the same <span class="m"><i>B</i></span>-word window.</p>
-        <p class="dg-detail">The claim passes read the first <span class="m"><i>B</i></span> whitespace-delimited words; text statistics count the budget in lexical units, regex word units after Unicode normalization rather than BPE or text-encoder subwords.</p>
+        <p class="dg-detail">The claim passes read the first <span class="m"><i>B</i></span> whitespace-delimited words; text statistics count the budget in lexical units, regex word units after Unicode normalization, independent of BPE and text-encoder tokenizers.</p>
         <p class="dg-reads">Reads caption <span class="m"><i>c</i></span></p>
       </li>
       <li class="dg-pass">
@@ -299,12 +299,12 @@ Is the rendered text claim '&lt;UNIT&gt;' visibly supported by the image?</code>
 
     <div class="notes wide">
       <div class="note-card">
-        <h4>Length is not the headline</h4>
-        <p>Ours is <span data-bind="summary.lengthMultiple"></span> longer than each reference except LAION-pop, where the two surfaces are length-matched (<span data-bind="crossCorpus.1.lex.0" data-fmt="1"></span> vs. <span data-bind="crossCorpus.1.lex.1" data-fmt="1"></span> lex) and Ours still wins on yield, risk and pool-mass support.</p>
+        <h4>The gain holds at matched length</h4>
+        <p>Ours is <span data-bind="summary.lengthMultiple"></span> longer than each reference except LAION-pop, where the two surfaces are length-matched (<span data-bind="crossCorpus.1.lex.0" data-fmt="1"></span> vs. <span data-bind="crossCorpus.1.lex.1" data-fmt="1"></span> lex) and Ours leads on yield, risk and pool-mass support.</p>
       </div>
       <div class="note-card">
-        <h4>Not carried by the hardest claim types</h4>
-        <p>Without count and relation claims, the types VLM judges verify least reliably, Ours still raises supported CBU per caption by <span data-bind="summary.exclCountRelationGain"></span> and lowers risk in all eight (pair, judge) cells. Ours has lower risk than the pooled references in every claim type under both judges; the two judges agree exactly on <span data-bind="judgeAgreement.overall"></span> of CC12M answers, least on count (<span data-bind="judgeAgreement.count"></span>) and text-rendering (<span data-bind="judgeAgreement.textRendering"></span>).</p>
+        <h4>The gain holds without count and relation claims</h4>
+        <p>Without count and relation claims, the types VLM judges verify least reliably, Ours raises supported CBU per caption by <span data-bind="summary.exclCountRelationGain"></span> and lowers risk in all eight (pair, judge) cells. Ours has lower risk than the pooled references in every claim type under both judges; the two judges agree exactly on <span data-bind="judgeAgreement.overall"></span> of CC12M answers, least on count (<span data-bind="judgeAgreement.count"></span>) and text-rendering (<span data-bind="judgeAgreement.textRendering"></span>).</p>
       </div>
       <div class="note-card">
         <h4>Prompt pools</h4>
@@ -329,17 +329,17 @@ Is the rendered text claim '&lt;UNIT&gt;' visibly supported by the image?</code>
     <div class="col">
       <p class="kicker">CC12M case study</p>
       <h3 id="h-cc12m">A long-vs-dense frontier, stable across two judges and four budgets</h3>
-      <p>CC12M carries three released comparison surfaces with distinct policies. Among the long-form ones, PixelProse hard-codes openers and descriptive-narrator personas, and CC12M-LLaVA-NeXT carries no explicit opener hard-coding. At <span class="m"><i>B</i> = 64</span>, Ours occupies the high-yield, low-risk corner; PixelProse reads as the highest-risk surface despite long captions (<span class="m"><i>ρ</i></span> = <span data-bind="cc12m.surfaces.2.qwen.risk" data-fmt="3"></span>/<span data-bind="cc12m.surfaces.2.gemma.risk" data-fmt="3"></span> under Qwen/Gemma at <span data-bind="cc12m.pixelProseLex"></span> lex), and CC12M-LLaVA-NeXT sits between.</p>
+      <p>CC12M carries three released comparison surfaces with distinct policies. Among the long-form ones, PixelProse hard-codes openers and descriptive-narrator personas, and CC12M-LLaVA-NeXT carries no explicit opener hard-coding. At <span class="m"><i>B</i> = 64</span>, Ours occupies the high-yield, low-risk corner; PixelProse, with long captions, reads as the highest-risk surface (<span class="m"><i>ρ</i></span> = <span data-bind="cc12m.surfaces.2.qwen.risk" data-fmt="3"></span>/<span data-bind="cc12m.surfaces.2.gemma.risk" data-fmt="3"></span> under Qwen/Gemma at <span data-bind="cc12m.pixelProseLex"></span> lex), and CC12M-LLaVA-NeXT sits between.</p>
     </div>
 
     <figure class="tfig wide" aria-labelledby="t8-cap">
       <figcaption id="t8-cap"><span class="fig-no">Table 8.</span> <strong>CC12M frontier at <span class="m"><i>B</i> = 64</span>, four surfaces under both judges.</strong> CBU per caption and per 100 lex come from the Qwen-Judge claim extractor; support and risk are mean ± bootstrap std under each judge. All columns use the same <span data-bind="protocol.cc12mAligned"></span> aligned images.</figcaption>
       <div class="table-wrap" tabindex="0" role="region" aria-labelledby="t8-cap" data-render="cc12mTable"></div>
-      <p class="tnote"><sup>†</sup> Short tag surface (<span data-bind="cc12m.qwen3vlLex"></span> lex), the short-caption special case; see “Length is not density”.</p>
+      <p class="tnote"><sup>†</sup> Short tag surface (<span data-bind="cc12m.qwen3vlLex"></span> lex), the short-caption special case; see “Efficiency and yield read jointly”.</p>
     </figure>
 
     <div class="col">
-      <h4 class="h-run">Length is not density</h4>
+      <h4 class="h-run">Efficiency and yield read jointly</h4>
       <p>The short tag surface<sup>†</sup> (<span data-bind="cc12m.tagSurfaceModel"></span> captions) is the short-caption operating point: its <span data-bind="cc12m.qwen3vlLex"></span>-lex tag captions reach the highest CBU per 100 lex (<span data-bind="cc12m.surfaces.3.per100" data-fmt="2"></span> against <span data-bind="cc12m.surfaces.0.per100" data-fmt="2"></span> for Ours) and the lowest risk (<span class="m"><i>ρ</i></span> = <span data-bind="cc12m.surfaces.3.qwen.risk" data-fmt="3"></span>/<span data-bind="cc12m.surfaces.3.gemma.risk" data-fmt="3"></span>) while stating <span data-bind="cc12m.surfaces.3.cbu" data-fmt="2"></span> claims per caption. Efficiency and yield therefore read jointly (Eq. 1): one 64-word window of Ours carries <span data-bind="cc12m.surfaces.0.cbu" data-fmt="2"></span> claims, <span data-bind="cc12m.windowMultiple"></span> a complete tag caption.</p>
       <h4 class="h-run">Budget sweep</h4>
       <p>Across <span class="m"><i>B</i> ∈ {16, 32, 48, 64}</span> on all <span data-bind="protocol.cc12mAligned"></span> aligned images, claimed CBU per caption grows and CBU per 100 lex declines on every long-form surface, and Ours leads the long-form surfaces on both readings at every budget (<span data-bind="cc12m.sweepOursCbu"></span> CBU per caption, <span data-bind="cc12m.sweepOursPer100"></span> per 100 lex).</p>
@@ -376,7 +376,7 @@ Is the rendered text claim '&lt;UNIT&gt;' visibly supported by the image?</code>
     <div class="col">
       <p class="kicker">Captioner control</p>
       <h3 id="h-policy">One captioner, two policies</h3>
-      <p>Cross-corpus pairs compare surfaces written by different captioners, so the gain could be read as a property of the captioner family rather than of the policy <span class="m"><i>π</i></span>. The control keeps one captioner (<span data-bind="captionerControlMeta.captioner"></span>), the same decoding and the same images, and swaps only the policy: the naive surface comes from the single instruction</p>
+      <p>Cross-corpus pairs compare surfaces written by different captioners. The control fixes the captioner (<span data-bind="captionerControlMeta.captioner"></span>), its decoding and the images, and swaps only the policy <span class="m"><i>π</i></span>: the naive surface comes from the single instruction</p>
       <blockquote class="prompt"><p>Please generate a detailed caption of this image. Please be as descriptive as possible.</p></blockquote>
       <p>The released policy raises claimed CBU per caption by <span data-bind="captionerControlMeta.claimedGain"></span> and supported CBU per caption by <span data-bind="captionerControlMeta.supGain"></span> under both judges, with risk within <span data-bind="captionerControlMeta.riskWithin"></span> of the naive surface. The naive surface is <span data-bind="captionerControlMeta.naiveLonger"></span> longer than Ours (<span data-bind="captionerControlMeta.meanLexNaive"></span> against <span data-bind="captionerControlMeta.meanLexOurs"></span> mean lex) and more concentrated: its most frequent openings include <q><span data-bind="captionerControlMeta.openingA.text"></span></q> (<span data-bind="captionerControlMeta.openingA.count"></span> captions) and <q><span data-bind="captionerControlMeta.openingB.text"></span></q> (<span data-bind="captionerControlMeta.openingB.count"></span>), and its top-100 content prefix mass is <span data-bind="captionerControlMeta.contentMassNaive"></span>, against <span data-bind="captionerControlMeta.contentMassOurs"></span> for Ours and <span data-bind="captionerControlMeta.contentMassRefs"></span> for the long-form CC12M references. With the captioner and its decoding fixed, the policy alone carries the gap.</p>
     </div>
@@ -424,7 +424,7 @@ Is the rendered text claim '&lt;UNIT&gt;' visibly supported by the image?</code>
   <div class="col">
     <h2 id="h-release">Released captions</h2>
     <p class="lede">The release is a Hugging Face collection with one caption-only dataset per source family: nine families, five of them with the paired audits above and four released without paired audits.</p>
-    <p>Each dataset carries a Croissant 1.1 record. Source images and third-party reference captions are not redistributed; they are reached through their public releases and row-level join keys. The code repository carries the audit pipeline and the result summaries behind every table. Caption generation cost <span data-bind="summary.gpuHours"></span> H200 GPU-hours.</p>
+    <p>Each dataset carries a Croissant 1.1 record. Source images and third-party reference captions stay with their public releases, reached through row-level join keys. The code repository carries the audit pipeline and the result summaries behind every table. Caption generation cost <span data-bind="summary.gpuHours"></span> H200 GPU-hours.</p>
   </div>
 
   <figure class="tfig wide stack" aria-labelledby="t2-cap">
