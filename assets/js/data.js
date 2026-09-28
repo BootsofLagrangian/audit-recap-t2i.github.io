@@ -225,8 +225,12 @@
       claimedGain: "+3.7 to +3.9",   // 15.21 - 11.32, 14.60 - 10.95
       supGain:     "+3.0 to +3.6",   // supported CBU per caption, Ours - Naive
       riskWithin:  "0.03",           // |risk(Ours) - risk(Naive)| stays within this
-      // CC12M surface concentration (Table 7)
+      // CC12M surface concentration (Table 7) and the naive surface's openings
+      naiveLonger: "1.8×",
       meanLexOurs: "186.6", meanLexNaive: "328.1",
+      // two of the five most frequent five-word openings of the naive surface
+      openingA: { text: "this is a close up",        count: "238 of 4,494" },
+      openingB: { text: "this is a richly detailed", count: "157" },
       contentMassOurs: "0.09", contentMassNaive: "0.33", contentMassRefs: "0.13–0.16"
     },
 
@@ -235,6 +239,7 @@
        PixelProse on the same images. */
     surfaceControl: [
       { metric: "Mean lex",                         ours: "186.6", naive: "328.1", refs: "67.5–91.4" },
+      { metric: "Lex overflow (&gt;248 lex)",       ours: "6.9%",  naive: "91.2%", refs: "0.1–0.8%" },
       { metric: "Top-100 raw prefix mass ↓",       ours: "0.14",  naive: "0.60",  refs: "0.29–0.71" },
       { metric: "Top-100 content prefix mass ↓",   ours: "0.09",  naive: "0.33",  refs: "0.13–0.16" },
       { metric: "Distinct-3-gram rate ↑",          ours: "0.59",  naive: "0.57",  refs: "0.40–0.49" }
