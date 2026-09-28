@@ -18,6 +18,14 @@
     var s = Math.abs(v).toFixed(d == null ? 2 : d);
     return (v < 0 ? MINUS : "") + s;
   }
+  /* a value is a number, a string, or { m: mean, sd: std } */
+  function mean(v) { return v && typeof v === "object" ? v.m : v; }
+  function sdOf(v) { return v && typeof v === "object" && typeof v.sd === "number" ? v.sd : null; }
+  function fmtV(v, d, unit) {
+    var s = fmt(mean(v), d), sd = sdOf(v);
+    if (sd != null) s += '<span class="pm"> ± ' + fmt(sd, d) + "</span>";
+    return s + (unit || "");
+  }
   function get(path) {
     return path.split(".").reduce(function (o, k) { return o == null ? undefined : o[k]; }, D);
   }
@@ -29,8 +37,8 @@
   function dagger(name, flag) { return esc(name) + (flag ? '<span class="dag">†</span>' : ""); }
   /* "a -> b" cell: reference in grey, Ours in accent (or plain for context columns) */
   function pair(a, b, d, plain) {
-    return '<span class="pr"><span class="a">' + fmt(a, d) + '</span><span class="ar" aria-hidden="true">→</span>' +
-      '<span class="sr-only"> to </span><span class="b' + (plain ? " plain" : "") + '">' + fmt(b, d) + "</span></span>";
+    return '<span class="pr"><span class="a">' + fmtV(a, d) + '</span><span class="ar" aria-hidden="true">→</span>' +
+      '<span class="sr-only"> to </span><span class="b' + (plain ? " plain" : "") + '">' + fmtV(b, d) + "</span></span>";
   }
   function th(label, cls, attrs) {
     return "<th" + (cls ? ' class="' + cls + '"' : "") + (attrs ? " " + attrs : "") + ">" + label + "</th>";
@@ -44,7 +52,7 @@
       var v = get(el.getAttribute("data-bind"));
       if (v === undefined) continue;
       var d = el.getAttribute("data-fmt");
-      el.textContent = d != null ? fmt(v, +d) : String(v);
+      el.textContent = d != null ? fmt(mean(v), +d) : String(mean(v));
     }
     var links = document.querySelectorAll("[data-href]");
     for (var j = 0; j < links.length; j++) {
@@ -63,6 +71,49 @@
       if (!m) return "<p><span></span><span>" + esc(para) + "</span></p>";
       return '<p><span class="lay-emoji" aria-hidden="true">' + esc(m[1]) + "</span><span>" + esc(m[2]) + "</span></p>";
     }).join("");
+  };
+
+  /* Table 1: check matrix, grouped; marks only */
+  renderers.relatedTable = function () {
+    var cols = D.relatedColumns;
+    var h = '<table class="t-matrix"><caption class="sr-only">Closest prior audits and caption metrics: which properties each covers</caption><thead><tr>' +
+      th("Work", "stick", 'scope="col"') + th("Target", "", 'scope="col"');
+    cols.forEach(function (c) { h += th(esc(c), "c", 'scope="col"'); });
+    h += "</tr></thead>";
+    var last = null;
+    D.relatedWork.forEach(function (r) {
+      if (r.group !== last) {
+        if (last !== null) h += "</tbody>";
+        // a one-row group named after its only row (Ours) gets the rule but no label row
+        var solo = D.relatedWork.filter(function (x) { return x.group === r.group; }).length === 1 && r.group === r.work;
+        h += solo ? '<tbody class="solo">' : '<tbody><tr class="group-row"><th colspan="' + (cols.length + 2) + '" scope="colgroup">' + esc(r.group) + "</th></tr>";
+        last = r.group;
+      }
+      h += "<tr" + (r.ours ? ' class="ours"' : "") + '><th scope="row">' + esc(r.work) + '<span class="tgt-sub" aria-hidden="true">' + esc(r.target) + '</span></th><td class="tgt">' + esc(r.target) + "</td>";
+      r.marks.forEach(function (m, i) {
+        var yes = m === "✓";
+        h += '<td class="c mk' + (yes ? " yes" : "") + '"><span aria-hidden="true">' + (yes ? "✓" : "–") + '</span><span class="sr-only">' + esc(cols[i]) + ": " + (yes ? "yes" : "no") + "</span></td>";
+      });
+      h += "</tr>";
+    });
+    return h + "</tbody></table>";
+  };
+  renderers.relatedLegend = function () {
+    return D.relatedLegend.map(function (x) { return "<span><b>" + esc(x[0]) + "</b> " + esc(x[1]) + "</span>"; }).join("");
+  };
+
+  /* Table 4: audit axes, noun phrases only */
+  renderers.axesTable = function () {
+    var h = '<table class="t-axes"><caption class="sr-only">Audit axes: reads, failure mode, metric, boundary and rows</caption><thead><tr>' +
+      th("Axis", "stick", 'scope="col"') + th("Reads", "", 'scope="col"') + th("Failure mode", "", 'scope="col"') +
+      th("Metric", "", 'scope="col"') + th("Boundary", "", 'scope="col"') + th("Rows", "n", 'scope="col"') + "</tr></thead><tbody>";
+    D.axes.forEach(function (r) {
+      h += '<tr><th scope="row">' + esc(r.axis) + ' <span class="des">' + esc(r.des) + "</span></th>" +
+        '<td data-label="Reads">' + r.reads + '</td><td data-label="Failure mode">' + esc(r.failure) + "</td>" +
+        '<td data-label="Metric">' + r.metric + '</td><td data-label="Boundary">' + esc(r.boundary) + "</td>" +
+        '<td class="n" data-label="Rows">' + esc(D.protocol[r.rows]) + "</td></tr>";
+    });
+    return h + "</tbody></table>";
   };
 
   /* Table 5 */
@@ -101,7 +152,7 @@
       th("Sup. CBU/cap ↑", "n", 'scope="col"') + th("Risk ↓", "n", 'scope="col"') + "</tr></thead>";
   }
   function judgeCells(s, best) {
-    function c(v, d, key) { return '<td class="n' + (best && best[key] ? " best" : "") + '">' + fmt(v, d) + "</td>"; }
+    function c(v, d, key) { return '<td class="n' + (best && best[key] ? " best" : "") + '">' + fmtV(v, d) + "</td>"; }
     return c(s.cbu, 2, "cbu") + c(s.per100, 2) + c(s.qwen.sup, 2, "sup") + c(s.qwen.risk, 3, "risk") + c(s.gemma.sup, 2, "sup") + c(s.gemma.risk, 3, "risk");
   }
 
@@ -168,8 +219,8 @@
       th("Judge", "stick", 'scope="col"') + th("<i>n</i>", "n", 'scope="col"') + th("Overall", "n", 'scope="col"') +
       th("Ours", "n", 'scope="col"') + th("Pooled refs.", "n", 'scope="col"') + "</tr></thead><tbody>";
     D.human.agreement.forEach(function (r) {
-      h += '<tr><th scope="row">' + esc(r.judge) + '</th><td class="n">' + r.n + '</td><td class="n">' + esc(r.overall) +
-        '</td><td class="n">' + esc(r.ours) + '</td><td class="n">' + esc(r.refs) + "</td></tr>";
+      h += '<tr><th scope="row">' + esc(r.judge) + '</th><td class="n">' + r.n + '</td><td class="n">' + fmtV(r.overall, 1, "%") +
+        '</td><td class="n">' + fmtV(r.ours, 1, "%") + '</td><td class="n">' + fmtV(r.refs, 1, "%") + "</td></tr>";
     });
     return h + "</tbody></table>";
   };
@@ -188,7 +239,7 @@
         var w = (x[0] / r.n) * 100;
         return w > 0 ? '<i class="' + cls + '" style="width:' + w.toFixed(2) + '%"></i>' : "";
       }
-      h += "<tr" + (r.ours ? ' class="ours"' : "") + '><th scope="row">' + esc(r.surface) + "</th>" +
+      h += "<tr" + (r.ours ? ' class="ours"' : "") + '><th scope="row">' + dagger(r.surface, r.dagger) + "</th>" +
         '<td class="n">' + r.n + "</td>" + cell(r.yes, r.ours) + cell(r.uncertain) + cell(r.no, r.ours) + cell(r.other) +
         '<td class="distc"><span class="dist" aria-hidden="true">' + seg("yes", r.yes) + seg("unc", r.uncertain) + seg("no", r.no) + seg("oth", r.other) + "</span></td></tr>";
     });
@@ -280,9 +331,14 @@
         return;
       }
       svg.appendChild(el("text", { x: L - 12, y: cy + 3.5, "class": "c-judge", "text-anchor": "end" }, r.judge));
-      var a = r.v[0], b = r.v[1];               // a = reference, b = Ours
+      var a = mean(r.v[0]), b = mean(r.v[1]);   // a = reference, b = Ours
       var xa = sx(a), xb = sx(b);
       svg.appendChild(el("line", { x1: xa, x2: xb, y1: cy, y2: cy, "class": "c-link" }));
+      [[a, sdOf(r.v[0])], [b, sdOf(r.v[1])]].forEach(function (p) {
+        if (p[1] == null) return;
+        var l = sx(p[0] - p[1]), rr = sx(p[0] + p[1]);
+        svg.appendChild(el("path", { d: "M" + l + " " + (cy - 4) + "v8M" + l + " " + cy + "H" + rr + "M" + rr + " " + (cy - 4) + "v8", "class": "c-sd" }));
+      });
       svg.appendChild(el("circle", { cx: xa, cy: cy, r: 4.6, "class": "c-ref" }));
       svg.appendChild(el("circle", { cx: xb, cy: cy, r: 5.2, "class": "c-ours" }));
       // labels on the outer side of each end

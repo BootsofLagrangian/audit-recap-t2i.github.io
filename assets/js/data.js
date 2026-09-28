@@ -15,6 +15,11 @@
    Display rules: counts and ranges the manuscript states as text are stored
    as strings and shown verbatim; table cells are stored as numbers and shown
    with the manuscript's decimals (sup. CBU and CBU/cap: 2, risk: 3, lex: 1).
+
+   Uncertainty: any numeric cell may be written as { m: <mean>, sd: <std> }
+   instead of a bare number. Tables then print "mean ± std" and the Table 5
+   chart draws a ±std whisker; plain numbers print as they are. Example:
+     qwen: { sup: { m: 13.84, sd: 0.08 }, risk: { m: 0.035, sd: 0.002 } }
    ========================================================================== */
 (function () {
   "use strict";
@@ -76,8 +81,53 @@
       captionOnlyRows: "50,000",   // paired rows per slice: text statistics and prompt-pool support
       vqaRows:         "≈5,000",   // of those rows per surface: claim extraction and both judges
       cc12mAligned:    "4,494",    // CC12M images shared by all four surfaces
-      poolRecords:     "250,000"   // prompts per prompt-reference pool (App. B, Fig. 3)
+      poolRecords:     "250,000",  // prompts per prompt-reference pool (App. B, Fig. 3)
+      // short forms for table cells (Table 4 caption: 50k paired rows; ≈5k rows per surface)
+      captionOnlyShort: "50k",
+      vqaShort:         "5k"
     },
+
+    /* Table 1: closest prior audits and caption metrics, as a check matrix.
+       One row per work; `group` starts a new block (rules between blocks).
+       marks follow `relatedColumns` after Work and Target: "✓" or "–". */
+    relatedColumns: ["Bias", "T2I", "Corpus", "Unit", "Image", "Budget", "Prompt"],
+    relatedLegend: [
+      ["Bias", "social bias or harmful content"],
+      ["T2I", "images from T2I generators"],
+      ["Corpus", "dataset-level reading"],
+      ["Unit", "text scored per claim or object mention"],
+      ["Image", "text verified against the image"],
+      ["Budget", "fixed text window"],
+      ["Prompt", "register of user prompts"]
+    ],
+    relatedWork: [
+      { group: "Dataset and caption studies",      work: "REVISE",         target: "visual datasets",      marks: ["✓", "–", "✓", "–", "–", "–", "–"] },
+      { group: "Dataset and caption studies",      work: "LAION's Den",    target: "image–alt-text pairs", marks: ["✓", "–", "✓", "–", "–", "–", "–"] },
+      { group: "Dataset and caption studies",      work: "Hirota et al.",  target: "caption enrichment",   marks: ["✓", "–", "✓", "✓", "✓", "–", "–"] },
+      { group: "Dataset and caption studies",      work: "Brack et al.",   target: "training captions",    marks: ["✓", "✓", "✓", "–", "–", "–", "–"] },
+      { group: "Claim-level metrics", work: "TIFA / DSG",     target: "generated images",     marks: ["–", "✓", "–", "✓", "✓", "–", "–"] },
+      { group: "Claim-level metrics", work: "FAITHSCORE",     target: "VLM answers",          marks: ["–", "–", "–", "✓", "✓", "–", "–"] },
+      { group: "Claim-level metrics", work: "DCScore",        target: "detailed captions",    marks: ["–", "–", "–", "✓", "✓", "–", "–"] },
+      { group: "Ours",                work: "Ours",           target: "recaptioned corpora",  marks: ["–", "–", "✓", "✓", "✓", "✓", "✓"], ours: true }
+    ],
+
+    /* Table 4: audit axes. Noun phrases only; `rows` names the protocol
+       field that gives the row count (50k paired rows per slice for text
+       statistics and prompt-pool support; ≈5k rows per surface for claim
+       extraction and verification). Metric strings may carry <i>, <sub> and
+       the math class "m". */
+    axes: [
+      { axis: "Text budget",           des: "coverage",     reads: '<span class="m"><i>D<sub>c</sub></i></span>',
+        failure: "too little text",    metric: 'avg. lex, <span class="m"><i>B</i></span>-eligibility',          boundary: "length prerequisite",   rows: "captionOnlyShort" },
+      { axis: "Prompt-pool support",   des: "coverage",     reads: '<span class="m"><i>D<sub>c</sub></i></span> vs. pools',
+        failure: "missing prompt phrasing", metric: "prompt-mass support ↑, <i>n</i>-gram JSD ↓",               boundary: "pool-conditioned",      rows: "captionOnlyShort" },
+      { axis: "Claimed density",       des: "coverage",     reads: '<span class="m"><i>D<sub>c</sub></i></span>',
+        failure: "few claims",         metric: "CBU/cap ↑, CBU/100 lex",                                          boundary: "caption-only count",    rows: "vqaShort" },
+      { axis: "Surface concentration", des: "health",       reads: '<span class="m"><i>D<sub>c</sub></i></span>',
+        failure: "repeated form",      metric: "top-100 prefix mass ↓, distinct-3 ↑, rep-4 ↓",                   boundary: "surface artifact",      rows: "captionOnlyShort" },
+      { axis: "Support and risk",      des: "faithfulness", reads: '<span class="m"><i>D<sub>cx</sub></i></span>',
+        failure: "unsupported claims", metric: '<span class="m">𝔼[<i>s</i>]</span> ↑, <span class="m">𝔼[<i>u</i>]</span> ↓, <span class="m"><i>ρ</i></span> ↓', boundary: "judge-conditional proxy", rows: "vqaShort" }
+    ],
 
     /* Table 5: Cross-corpus headline at B = 64 lexical units.
        Cells are Ref -> Ours. Risk is unsupported / claimed CBU. */
@@ -113,11 +163,14 @@
           qwen: { sup: 9.84,  risk: 0.069 }, gemma: { sup: 9.44,  risk: 0.097 } },
         { name: "PixelProse",        cbu: 12.57, per100: 20.44,
           qwen: { sup: 10.73, risk: 0.129 }, gemma: { sup: 10.20, risk: 0.161 } },
-        { name: "CC12M-Qwen3-VL", dagger: true, cbu: 6.44, per100: 55.84,
+        // CC12M-Qwen3-VL-8B captions: shown by role ("Short tag surface") in tables;
+        // the page names the model once, in the "Length is not density" passage.
+        { name: "Short tag surface", dagger: true, cbu: 6.44, per100: 55.84,
           qwen: { sup: 6.31,  risk: 0.014 }, gemma: { sup: 6.19,  risk: 0.028 } }
       ],
       pixelProseLex: "≈89",
       qwen3vlLex:    "≈12",
+      tagSurfaceModel: "Qwen3-VL-8B",
       // Sec. 5.3 "Length is not density": one 64-word window of Ours vs. a whole CC12M-Qwen3-VL caption
       windowMultiple: "2.4×",
       // Sec. 5.3 "Budget sweep": Ours from B = 16 to B = 64
@@ -193,15 +246,16 @@
       annotators: "Seven", judgments: "217", claims: "137", repeated: "80", perCell: "five", cells: "16",
       resolved: "43", resamples: "10,000", oursN: "111",
       agreement: [
-        { judge: "Qwen",  n: 43, overall: "84.8 ± 9.7%", ours: "87.9 ± 10.9%", refs: "82.5 ± 14.6%" },
-        { judge: "Gemma", n: 43, overall: "84.2 ± 9.7%", ours: "89.0 ± 10.8%", refs: "80.7 ± 14.7%" }
+        // percent; { m: mean, sd: bootstrap standard deviation }
+        { judge: "Qwen",  n: 43, overall: { m: 84.8, sd: 9.7 }, ours: { m: 87.9, sd: 10.9 }, refs: { m: 82.5, sd: 14.6 } },
+        { judge: "Gemma", n: 43, overall: { m: 84.2, sd: 9.7 }, ours: { m: 89.0, sd: 10.8 }, refs: { m: 80.7, sd: 14.7 } }
       ],
       direct: [
         { surface: "Ours", ours: true, n: 111,
           yes: [87, "78.4%"], uncertain: [22, "19.8%"], no: [0, "0.0%"],  other: [2, "1.8%"] },
         { surface: "LLaVA-NeXT",  n: 47,
           yes: [33, "70.2%"], uncertain: [10, "21.3%"], no: [2, "4.3%"],  other: [2, "4.3%"] },
-        { surface: "Qwen3-VL-8B", n: 20,
+        { surface: "Short tag surface", dagger: true, n: 20,   // Qwen3-VL-8B captions
           yes: [14, "70.0%"], uncertain: [5, "25.0%"],  no: [1, "5.0%"],  other: [0, "0.0%"] },
         { surface: "PixelProse",  n: 39,
           yes: [23, "59.0%"], uncertain: [9, "23.1%"],  no: [6, "15.4%"], other: [1, "2.6%"] }
