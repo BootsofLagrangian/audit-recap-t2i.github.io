@@ -56,6 +56,15 @@
   /* ---------- tables ---------- */
   var renderers = {};
 
+  /* Lay summary: paragraphs separated by a blank line, each opening with an emoji */
+  renderers.laySummary = function () {
+    return String(D.laySummary || "").split(/\n\s*\n/).map(function (para) {
+      var m = para.trim().match(/^(\S+)\s+([\s\S]*)$/);
+      if (!m) return "<p><span></span><span>" + esc(para) + "</span></p>";
+      return '<p><span class="lay-emoji" aria-hidden="true">' + esc(m[1]) + "</span><span>" + esc(m[2]) + "</span></p>";
+    }).join("");
+  };
+
   /* Table 5 */
   renderers.crossTable = function () {
     var h = '<table><caption class="sr-only">Cross-corpus headline at B = 64 lexical units, reference to Ours</caption><thead>' +
@@ -139,7 +148,7 @@
     var S = D.sweep;
     var h = '<table><caption class="sr-only">Budget sweep on CC12M: claimed CBU per caption and CBU per 100 lex</caption><thead><tr class="grp">' +
       th("", "blank stick", 'scope="col"');
-    S.surfaces.forEach(function (s) { h += th(esc(s.name), "span", 'colspan="2" scope="colgroup"'); });
+    S.surfaces.forEach(function (s) { h += th(dagger(s.name, s.dagger), "span", 'colspan="2" scope="colgroup"'); });
     h += "</tr><tr>" + th("Budget", "stick", 'scope="col"');
     S.surfaces.forEach(function () { h += th("CBU/cap", "n", 'scope="col"') + th("per 100 lex", "n", 'scope="col"'); });
     h += "</tr></thead><tbody>";
@@ -157,10 +166,10 @@
   renderers.agreementTable = function () {
     var h = '<table><caption class="sr-only">Judge-human nominal exact agreement</caption><thead><tr>' +
       th("Judge", "stick", 'scope="col"') + th("<i>n</i>", "n", 'scope="col"') + th("Overall", "n", 'scope="col"') +
-      th("95% interval", "n", 'scope="col"') + th("Ours", "n", 'scope="col"') + th("Pooled refs.", "n", 'scope="col"') + "</tr></thead><tbody>";
+      th("Ours", "n", 'scope="col"') + th("Pooled refs.", "n", 'scope="col"') + "</tr></thead><tbody>";
     D.human.agreement.forEach(function (r) {
       h += '<tr><th scope="row">' + esc(r.judge) + '</th><td class="n">' + r.n + '</td><td class="n">' + esc(r.overall) +
-        '</td><td class="n">' + esc(r.ci) + '</td><td class="n">' + esc(r.ours) + '</td><td class="n">' + esc(r.refs) + "</td></tr>";
+        '</td><td class="n">' + esc(r.ours) + '</td><td class="n">' + esc(r.refs) + "</td></tr>";
     });
     return h + "</tbody></table>";
   };

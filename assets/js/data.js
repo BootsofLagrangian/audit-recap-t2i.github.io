@@ -45,6 +45,16 @@
   window.PAGE_DATA = {
     PENDING: PENDING,
 
+    /* Lay summary shown at the top of the page under "In plain words".
+       One string: paragraphs are separated by a blank line (\n\n) and each
+       opens with one emoji. Replace the whole string to change the text. */
+    laySummary:
+      "🖼️ AI image generators learn by looking at millions of pictures, each with a short description. Today most of those descriptions are written by another AI, not by people.\n\n" +
+      "🤔 But are those AI-written descriptions any good? Until now, finding out meant training a whole image generator, like baking an entire cake just to check whether the flour is fresh.\n\n" +
+      "🔍 We built a simple check-up instead. Part of it is as easy as a teacher flipping through a stack of essays and noticing that they all begin with the same sentence: we count how often descriptions repeat themselves. Then we read the first 64 words of each description and ask: does it sound like what people actually type when they ask for an image? How many concrete things does it say about the picture, and is each one really there? Two different AI judges answer that last question, and we compared them with human raters.\n\n" +
+      "✅ Our descriptions say more true things about each picture, and fewer wrong things, than existing long descriptions of the same pictures.\n\n" +
+      "🎁 We are sharing descriptions for about 490 million images, plus the check-up tool, so anyone can test their own.",
+
     /* Stated ranges and totals, quoted as written.
        Abstract; Section 1 (Introduction, paragraph 3 and contribution list);
        Section 5 intro; Section 5.1; Section 6; Appendix A; Appendix Table 16. */
@@ -63,8 +73,8 @@
 
     /* Sample sizes. Section 5 intro; Table 4 caption; Section 5.2; App. B. */
     protocol: {
-      captionOnlyRows: "50,000",   // paired rows per slice, caption-only metrics
-      vqaRows:         "≈5,000", // sampled rows per surface, both judges
+      captionOnlyRows: "50,000",   // paired rows per slice: text statistics and prompt-pool support
+      vqaRows:         "≈5,000",   // of those rows per surface: claim extraction and both judges
       cc12mAligned:    "4,494",    // CC12M images shared by all four surfaces
       poolRecords:     "250,000"   // prompts per prompt-reference pool (App. B, Fig. 3)
     },
@@ -107,14 +117,24 @@
           qwen: { sup: 6.31,  risk: 0.014 }, gemma: { sup: 6.19,  risk: 0.028 } }
       ],
       pixelProseLex: "≈89",
-      qwen3vlLex:    "≈12"
+      qwen3vlLex:    "≈12",
+      // Sec. 5.3 "Length is not density": one 64-word window of Ours vs. a whole CC12M-Qwen3-VL caption
+      windowMultiple: "2.4×",
+      // Sec. 5.3 "Budget sweep": Ours from B = 16 to B = 64; CC12M-Qwen3-VL at every budget
+      sweepOursCbu:    "5.59 → 15.21",
+      sweepOursPer100: "33.9 → 23.2",
+      sweepQwen3vlCbu: "6.4"
     },
+
+    /* Figure 1 (right) caption: JSD gap on the length-matched LAION-pop pair. */
+    figure1: { laionPopJsdGap: "0.01" },
 
     /* Budget sweep behind Figure 2 (right): claimed CBU per caption and
        CBU per 100 lex at B in {16, 32, 48, 64}, all 4,494 aligned images.
        Source: released result file cc12m_budget_frontier_plot.csv
        (columns cbu_per_cap, cbu_per_100tok), rounded to two decimals.
-       B = 64 equals Table 8. CC12M-Qwen3-VL is omitted, as in the paper. */
+       B = 64 equals Table 8. Figure 2 omits CC12M-Qwen3-VL; its row is listed
+       here because Section 5.3 reports its value at every budget. */
     sweep: {
       budgets: [16, 32, 48, 64],
       surfaces: [
@@ -123,7 +143,9 @@
         { name: "CC12M-LLaVA-NeXT",
           cbu: [4.96, 8.02, 9.64, 10.78],  per100: [30.68, 26.70, 23.75, 21.77] },
         { name: "PixelProse",
-          cbu: [4.17, 7.63, 10.34, 12.57], per100: [25.78, 23.71, 21.66, 20.44] }
+          cbu: [4.17, 7.63, 10.34, 12.57], per100: [25.78, 23.71, 21.66, 20.44] },
+        { name: "CC12M-Qwen3-VL", dagger: true,
+          cbu: [6.41, 6.43, 6.43, 6.44],   per100: [55.77, 55.76, 55.75, 55.84] }
       ]
     },
 
@@ -166,16 +188,17 @@
     ],
 
     /* Table 9 and Section 5.4: Human evaluation of image support.
-       (a) design-weighted nominal exact agreement, 95% image-cluster
-           sensitivity intervals, 43 resolved claims.
+       (a) design-weighted nominal exact agreement on 43 resolved claims, as
+           mean ± standard deviation over 10,000 image-cluster bootstrap
+           resamples (result file human_cbu/judge_human_agreement_bootstrap.json).
        (b) unweighted observed-sample distribution of all 217 primary image
            ratings; "other" is "not visual" or "prefer not to answer". */
     human: {
-      annotators: "Seven", judgments: "217", claims: "137", repeated: "80", perCell: "five",
-      resolved: "43", oursN: "111",
+      annotators: "Seven", judgments: "217", claims: "137", repeated: "80", perCell: "five", cells: "16",
+      resolved: "43", resamples: "10,000", oursN: "111",
       agreement: [
-        { judge: "Qwen",  n: 43, overall: "84.8%", ci: "[63.8, 99.5]%", ours: "87.9%", refs: "82.5%" },
-        { judge: "Gemma", n: 43, overall: "84.2%", ci: "[63.1, 99.7]%", ours: "89.0%", refs: "80.7%" }
+        { judge: "Qwen",  n: 43, overall: "84.8 ± 9.7%", ours: "87.9 ± 10.9%", refs: "82.5 ± 14.6%" },
+        { judge: "Gemma", n: 43, overall: "84.2 ± 9.7%", ours: "89.0 ± 10.8%", refs: "80.7 ± 14.7%" }
       ],
       direct: [
         { surface: "Ours", ours: true, n: 111,

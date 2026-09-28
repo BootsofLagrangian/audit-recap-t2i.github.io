@@ -2,13 +2,13 @@ Fonts in this folder are distributed under the SIL Open Font License, Version 1.
 Files are unmodified latin/greek/symbol subsets served by Google Fonts.
 
 ==================================================================
-instrumentserif
+sourceserif4
 ==================================================================
-Copyright 2022 The Instrument Serif Project Authors (https://github.com/Instrument/instrument-serif)
+Copyright 2014 The Source Serif 4 Project Authors (https://github.com/adobe-fonts/source-serif)
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.
 This license is copied below, and is also available with a FAQ at:
-https://scripts.sil.org/OFL
+https://openfontlicense.org
 
 
 -----------------------------------------------------------
