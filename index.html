@@ -331,7 +331,7 @@ Is the rendered text claim '&lt;UNIT&gt;' visibly supported by the image?</code>
     <div class="col">
       <p class="kicker">CC12M case study</p>
       <h3 id="h-cc12m">A long-vs-dense frontier, stable across two judges and four budgets</h3>
-      <p>CC12M carries three released comparison surfaces with distinct policies. PixelProse hard-codes openers and descriptive-narrator personas; CC12M-LLaVA-NeXT is a long-form release without explicit opener hard-coding; CC12M-Qwen3-VL<sup>†</sup> is a short tag-style release (<span data-bind="cc12m.qwen3vlLex"></span> lex). At <span class="m"><i>B</i> = 64</span>, Ours occupies the high-yield, low-risk corner; PixelProse reads as the highest-risk surface despite long captions (<span class="m"><i>ρ</i></span> = <span data-bind="cc12m.surfaces.2.qwen.risk" data-fmt="3"></span>/<span data-bind="cc12m.surfaces.2.gemma.risk" data-fmt="3"></span> under Qwen/Gemma at <span data-bind="cc12m.pixelProseLex"></span> lex), and CC12M-LLaVA-NeXT sits between.</p>
+      <p>CC12M carries three released comparison surfaces with distinct policies. Among the long-form ones, PixelProse hard-codes openers and descriptive-narrator personas, and CC12M-LLaVA-NeXT carries no explicit opener hard-coding. At <span class="m"><i>B</i> = 64</span>, Ours occupies the high-yield, low-risk corner; PixelProse reads as the highest-risk surface despite long captions (<span class="m"><i>ρ</i></span> = <span data-bind="cc12m.surfaces.2.qwen.risk" data-fmt="3"></span>/<span data-bind="cc12m.surfaces.2.gemma.risk" data-fmt="3"></span> under Qwen/Gemma at <span data-bind="cc12m.pixelProseLex"></span> lex), and CC12M-LLaVA-NeXT sits between.</p>
     </div>
 
     <figure class="tfig wide" aria-labelledby="t8-cap">
@@ -344,7 +344,7 @@ Is the rendered text claim '&lt;UNIT&gt;' visibly supported by the image?</code>
       <h4 class="h-run">Length is not density</h4>
       <p>CC12M-Qwen3-VL<sup>†</sup> is the short-caption operating point: its <span data-bind="cc12m.qwen3vlLex"></span>-lex tag captions reach the highest CBU per 100 lex (<span data-bind="cc12m.surfaces.3.per100" data-fmt="2"></span> against <span data-bind="cc12m.surfaces.0.per100" data-fmt="2"></span> for Ours) and the lowest risk (<span class="m"><i>ρ</i></span> = <span data-bind="cc12m.surfaces.3.qwen.risk" data-fmt="3"></span>/<span data-bind="cc12m.surfaces.3.gemma.risk" data-fmt="3"></span>) while stating <span data-bind="cc12m.surfaces.3.cbu" data-fmt="2"></span> claims per caption. Efficiency and yield therefore read jointly (Eq. 1): one 64-word window of Ours carries <span data-bind="cc12m.surfaces.0.cbu" data-fmt="2"></span> claims, <span data-bind="cc12m.windowMultiple"></span> a complete CC12M-Qwen3-VL<sup>†</sup> caption.</p>
       <h4 class="h-run">Budget sweep</h4>
-      <p>Across <span class="m"><i>B</i> ∈ {16, 32, 48, 64}</span> on all <span data-bind="protocol.cc12mAligned"></span> aligned images, claimed CBU per caption grows and CBU per 100 lex declines on every long-form surface, and Ours leads the long-form surfaces on both readings at every budget (<span data-bind="cc12m.sweepOursCbu"></span> CBU per caption, <span data-bind="cc12m.sweepOursPer100"></span> per 100 lex). CC12M-Qwen3-VL<sup>†</sup>, whose tag captions average <span data-bind="cc12m.qwen3vlLex"></span> lex, holds <span data-bind="cc12m.sweepQwen3vlCbu"></span> CBU per caption at every budget.</p>
+      <p>Across <span class="m"><i>B</i> ∈ {16, 32, 48, 64}</span> on all <span data-bind="protocol.cc12mAligned"></span> aligned images, claimed CBU per caption grows and CBU per 100 lex declines on every long-form surface, and Ours leads the long-form surfaces on both readings at every budget (<span data-bind="cc12m.sweepOursCbu"></span> CBU per caption, <span data-bind="cc12m.sweepOursPer100"></span> per 100 lex).</p>
     </div>
 
     <figure class="plate wide" aria-labelledby="fig2-cap">
@@ -369,7 +369,7 @@ Is the rendered text claim '&lt;UNIT&gt;' visibly supported by the image?</code>
     <details class="values wide">
       <summary>Budget-sweep values behind Figure 2 (right)</summary>
       <div class="table-wrap" tabindex="0" role="region" aria-label="Budget-sweep values" data-render="sweepTable"></div>
-      <p class="tnote">Claimed CBU per caption and CBU per 100 lex from the released result file behind Figure 2 (right), rounded to two decimals; the <span class="m"><i>B</i> = 64</span> row equals Table 8. <sup>†</sup> Short tag-style surface, not drawn in Figure 2.</p>
+      <p class="tnote">Claimed CBU per caption and CBU per 100 lex from the released result file behind Figure 2 (right), rounded to two decimals; the <span class="m"><i>B</i> = 64</span> row equals Table 8. The three long-form surfaces, as in Figure 2.</p>
     </details>
   </article>
 
@@ -389,7 +389,7 @@ Is the rendered text claim '&lt;UNIT&gt;' visibly supported by the image?</code>
     </figure>
 
     <figure class="tfig col" aria-labelledby="t7-cap">
-      <figcaption id="t7-cap"><span class="fig-no">Table 7.</span> <strong>Surface concentration on the CC12M naive surface</strong>, same <span data-bind="protocol.cc12mAligned"></span>-image subset. Lex overflow<sub>248</sub> is the share of captions longer than 248 lexical units. <em>CC12M refs.</em> is the range over the three released CC12M surfaces on the same images; the tag-style CC12M-Qwen3-VL<sup>†</sup> sets the lower mean-lex and upper distinct-3 ends.</figcaption>
+      <figcaption id="t7-cap"><span class="fig-no">Table 7.</span> <strong>Surface concentration on the CC12M naive surface</strong>, same <span data-bind="protocol.cc12mAligned"></span>-image subset. Lex overflow<sub>248</sub> is the share of captions longer than 248 lexical units. <em>CC12M refs.</em> is the range over the three released CC12M surfaces on the same images.</figcaption>
       <div class="table-wrap" tabindex="0" role="region" aria-labelledby="t7-cap" data-render="surfaceTable"></div>
     </figure>
   </article>
@@ -400,7 +400,7 @@ Is the rendered text claim '&lt;UNIT&gt;' visibly supported by the image?</code>
       <p class="kicker">Human study</p>
       <h3 id="h-human">Human ratings favor Ours on image support</h3>
       <p><span data-bind="human.annotators"></span> annotators, blind to surface identity and machine labels, judged sampled CC12M claims first against the caption window and then against the image. The study holds <span data-bind="human.judgments"></span> primary judgments on <span data-bind="human.claims"></span> claims; <span data-bind="human.repeated"></span> claims carry two independent labels, <span data-bind="human.perCell"></span> in each of the <span data-bind="human.cells"></span> cells spanned by surface group and claim type.</p>
-      <p>The Qwen and Gemma Judges agree with humans at nearly identical rates. Human raters assign Ours the highest support rate among LLaVA-NeXT, Qwen3-VL-8B and PixelProse; none of its <span data-bind="human.oursN"></span> judgments is an explicit <em>no</em>, and uncertainty remains separate from support. Human explicit-<em>no</em> rates order the long-form surfaces as both judges' risk does: Ours (<span data-bind="human.direct.0.no.1"></span>), LLaVA-NeXT (<span data-bind="human.direct.1.no.1"></span>), PixelProse (<span data-bind="human.direct.3.no.1"></span>).</p>
+      <p>The Qwen and Gemma Judges agree with humans at nearly identical rates. Human raters assign Ours the highest support rate of the four CC12M surfaces; none of its <span data-bind="human.oursN"></span> judgments is an explicit <em>no</em>, and uncertainty remains separate from support. Human explicit-<em>no</em> rates order the long-form surfaces as both judges' risk does: Ours (<span data-bind="human.direct.0.no.1"></span>), LLaVA-NeXT (<span data-bind="human.direct.1.no.1"></span>), PixelProse (<span data-bind="human.direct.3.no.1"></span>).</p>
     </div>
 
     <figure class="tfig col" aria-labelledby="t9a-cap">
@@ -432,7 +432,6 @@ Is the rendered text claim '&lt;UNIT&gt;' visibly supported by the image?</code>
   <figure class="tfig wide stack" aria-labelledby="t2-cap">
     <figcaption id="t2-cap"><span class="fig-no">Table 2.</span> <strong>Released caption surfaces by source family.</strong> <em>Ours scale</em> counts the unique image identities of each released family; the three LAION subsets draw on overlapping source images. Families without a paired reference are released without paired audits.</figcaption>
     <div class="table-wrap" tabindex="0" role="region" aria-labelledby="t2-cap" data-render="releaseTable"></div>
-    <p class="tnote"><sup>†</sup> Short tag-style reference surface (mean caption length under 20 lexical units).</p>
   </figure>
 
   <div class="release-foot wide">
@@ -524,7 +523,7 @@ uv run python scripts/build_caption_cbu_requests.py --input &lt;surface&gt;.json
     <div class="foot-grid">
       <div>
         <h2 class="foot-h">Contact</h2>
-        <p>Questions about the code or the audit: <a href="https://github.com/BootsofLagrangian/audit-recap-t2i/issues">open an issue</a>.<br>Giyeong Oh · <a href="mailto:hard2251@snu.ac.kr">hard2251@snu.ac.kr</a></p>
+        <p>Questions about the code or the audit: <a href="https://github.com/BootsofLagrangian/audit-recap-t2i/issues">open an issue</a> on the code repository.</p>
       </div>
       <div>
         <h2 class="foot-h">Licenses</h2>

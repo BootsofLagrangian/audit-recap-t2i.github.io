@@ -120,10 +120,9 @@
       qwen3vlLex:    "≈12",
       // Sec. 5.3 "Length is not density": one 64-word window of Ours vs. a whole CC12M-Qwen3-VL caption
       windowMultiple: "2.4×",
-      // Sec. 5.3 "Budget sweep": Ours from B = 16 to B = 64; CC12M-Qwen3-VL at every budget
+      // Sec. 5.3 "Budget sweep": Ours from B = 16 to B = 64
       sweepOursCbu:    "5.59 → 15.21",
-      sweepOursPer100: "33.9 → 23.2",
-      sweepQwen3vlCbu: "6.4"
+      sweepOursPer100: "33.9 → 23.2"
     },
 
     /* Figure 1 (right) caption: JSD gap on the length-matched LAION-pop pair. */
@@ -133,8 +132,7 @@
        CBU per 100 lex at B in {16, 32, 48, 64}, all 4,494 aligned images.
        Source: released result file cc12m_budget_frontier_plot.csv
        (columns cbu_per_cap, cbu_per_100tok), rounded to two decimals.
-       B = 64 equals Table 8. Figure 2 omits CC12M-Qwen3-VL; its row is listed
-       here because Section 5.3 reports its value at every budget. */
+       B = 64 equals Table 8. The three long-form surfaces only, as in Figure 2. */
     sweep: {
       budgets: [16, 32, 48, 64],
       surfaces: [
@@ -143,9 +141,7 @@
         { name: "CC12M-LLaVA-NeXT",
           cbu: [4.96, 8.02, 9.64, 10.78],  per100: [30.68, 26.70, 23.75, 21.77] },
         { name: "PixelProse",
-          cbu: [4.17, 7.63, 10.34, 12.57], per100: [25.78, 23.71, 21.66, 20.44] },
-        { name: "CC12M-Qwen3-VL", dagger: true,
-          cbu: [6.41, 6.43, 6.43, 6.44],   per100: [55.77, 55.76, 55.75, 55.84] }
+          cbu: [4.17, 7.63, 10.34, 12.57], per100: [25.78, 23.71, 21.66, 20.44] }
       ]
     },
 
@@ -224,7 +220,7 @@
           { family: "DataComp",      original: "web image–text pairs",        scale: "≈325.5M",
             refs: ["Recap-DataComp"], repo: "datacomp-recap-qwen3p5-35b-a3b" },
           { family: "CC12M",         original: "web alt-text",                     scale: "≈11.5M",
-            refs: ["CC12M-LLaVA-NeXT", "PixelProse", "CC12M-Qwen3-VL†"], repo: "cc12m-recap-qwen3p5-35b-a3b" },
+            refs: ["CC12M-LLaVA-NeXT", "PixelProse"], repo: "cc12m-recap-qwen3p5-35b-a3b" },
           { family: "LAION-pop",     original: "web alt-text",                     scale: "≈0.4M",
             refs: ["LAION-pop-Llama"], repo: "laion-pop-recap-qwen3p5-35b-a3b" },
           { family: "PD12M",         original: "Florence-2 captions + metadata",   scale: "≈12.4M",
