@@ -61,12 +61,14 @@
 
     /* Sample sizes. Section 5 intro; Table 4 caption; Section 5.2; App. B. */
     protocol: {
-      captionOnlyRows: "50,000",   // paired rows per slice: text statistics and prompt-pool support
-      vqaRows:         "≈5,000",   // of those rows per surface: claim extraction and both judges
+      textRows:        "1M",       // cap on paired rows per slice for text statistics
+      poolRows:        "250,000",  // cap on paired rows per slice for prompt-pool support
+      poolRowsTag:     "114,621",  // caption pairs on the short tag-surface comparison (App. B, Fig. 3)
+      vqaRows:         "≈5,000",   // of those rows per surface: claim extraction and both Judges
       cc12mAligned:    "4,494",    // CC12M images shared by all four surfaces
-      poolRecords:     "250,000",  // prompts per prompt-reference pool (App. B, Fig. 3)
-      // short forms for table cells (Table 4 caption: 50k paired rows; ≈5k rows per surface)
-      captionOnlyShort: "50k",
+      // short forms for Table 4 cells ("Rows is the cap on paired rows per slice")
+      textShort:        "1M",
+      poolShort:        "250k",
       vqaShort:         "5k"
     },
 
@@ -98,13 +100,13 @@
        input strings may carry <i>, <sub> and the math class "m". */
     axes: [
       { axis: "Text budget",           des: "Coverage",     input: '<span class="m"><i>D<sub>c</sub></i></span>',
-        metric: 'Avg. lex, <span class="m"><i>B</i></span>-eligibility',                       rows: "captionOnlyShort" },
+        metric: 'Avg. lex, <span class="m"><i>B</i></span>-eligibility',                       rows: "textShort" },
       { axis: "Prompt-pool support",   des: "Coverage",     input: '<span class="m"><i>D<sub>c</sub></i></span>, pools',
-        metric: "prompt-mass support ↑, <i>n</i>-gram JSD ↓",                                rows: "captionOnlyShort" },
+        metric: "prompt-mass support ↑, <i>n</i>-gram JSD ↓",                                rows: "poolShort" },
       { axis: "Claimed density",       des: "Coverage",     input: '<span class="m"><i>D<sub>c</sub></i></span>',
         metric: "CBU/cap ↑, CBU/100 lex",                                                     rows: "vqaShort" },
       { axis: "Surface concentration", des: "Health",       input: '<span class="m"><i>D<sub>c</sub></i></span>',
-        metric: "top-100 prefix mass ↓, distinct-3 ↑",                                        rows: "captionOnlyShort" },
+        metric: "top-100 prefix mass ↓, distinct-3 ↑",                                        rows: "textShort" },
       { axis: "Support and risk",      des: "Faithfulness", input: '<span class="m"><i>D<sub>cx</sub></i></span>',
         metric: '<span class="m">𝔼[<i>s</i>]</span> ↑, <span class="m"><i>ρ</i></span> ↓', rows: "vqaShort" }
     ],
@@ -138,13 +140,15 @@
                  risk: [{ m: 0.234523, sd: 0.003205 }, { m: 0.09383, sd: 0.001469 }] } }
     ],
 
-    /* Table 8: CC12M frontier at B = 64, four surfaces, both judges.
+    /* Table 8: CC12M frontier at B = 64, four surfaces, both Judges.
+       `best` marks the column optimum, bold in the paper: Ours on CBU/cap and
+       supported CBU/cap, the short tag surface on both risk columns.
        All columns use the same 4,494 aligned images. The dagger marks the
        short tag-style surface, read against Eq. (1) for window
        density. Section 5.3 text: PixelProse at ~89 lex; Qwen3-VL at ~12 lex. */
     cc12m: {
       surfaces: [
-        { name: "Ours", ours: true,  cbu: 15.21, per100: 23.16,
+        { name: "Ours", ours: true,  best: { cbu: 1, sup: 1 }, cbu: 15.21, per100: 23.16,
           qwen: { sup: { m: 14.595926, sd: 0.056766 }, risk: { m: 0.030462, sd: 0.000899 } },
           gemma: { sup: { m: 13.823371, sd: 0.055083 }, risk: { m: 0.066408, sd: 0.001255 } } },
         { name: "CC12M-LLaVA-NeXT",  cbu: 10.78, per100: 21.77,
@@ -155,7 +159,7 @@
           gemma: { sup: { m: 10.195999, sd: 0.047582 }, risk: { m: 0.16052, sd: 0.00214 } } },
         // CC12M-Qwen3-VL-8B captions: shown by role ("Short tag surface") in tables;
         // the page names the model once, in the "Efficiency and yield read jointly" passage.
-        { name: "Short tag surface", dagger: true, cbu: 6.44, per100: 55.84,
+        { name: "Short tag surface", dagger: true, best: { risk: 1 }, cbu: 6.44, per100: 55.84,
           qwen: { sup: { m: 6.312249, sd: 0.026174 }, risk: { m: 0.013628, sd: 0.000846 } },
           gemma: { sup: { m: 6.194432, sd: 0.025576 }, risk: { m: 0.028294, sd: 0.001294 } } }
       ],
@@ -254,7 +258,7 @@
 
     /* Table 9 and Section 5.4: Human evaluation of image support.
        (a) design-weighted nominal exact agreement on 43 resolved claims, as
-           mean ± standard deviation over 10,000 image-cluster bootstrap
+           estimate ± standard deviation over 10,000 image-cluster bootstrap
            resamples (result file human_cbu/judge_human_agreement_bootstrap.json).
        (b) unweighted distribution of all 217 primary image
            judgments; "other" is "not visual" or "prefer not to answer". */

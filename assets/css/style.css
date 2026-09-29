@@ -512,6 +512,7 @@ td.n .sm { color: var(--faint); }
 .of { color: var(--faint); }
 tr.ours th, tr.ours td.surf { color: var(--accent); }
 tr.ours td.n { color: var(--ink); }
+td.n.best { color: var(--ink); font-weight: 600; }
 tr.ours td.n.best { color: var(--accent); font-weight: 600; }
 tr.ours th.src { color: var(--ink); }
 td.surf { padding-left: 12px !important; white-space: nowrap; }
