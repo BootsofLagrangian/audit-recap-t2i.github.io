@@ -38,12 +38,14 @@
 
   /* Colors sampled from Figure 1 (left); the comparison block keeps them in both themes. */
   --hl-longform: #dcd4e8;
-  --hl-template: #d0dcec;
-  --hl-subject: #fcc0bc;
-  --hl-objects: #fce8b4;
-  --hl-scene: #d0ecd4;
-  --hl-surface: #c8e0f8;
-  --hl-camera: #fcc8a8;
+  --hl-template: #ccdcec;
+  --hl-red: #f8c0c0;     /* dominant subject */
+  --hl-green: #d0ecd4;   /* scene structure / spatial relation */
+  --hl-yellow: #fce8b4;  /* object and attribute */
+  --hl-blue: #c8e0f8;    /* lighting */
+  --hl-orange: #fcc8a4;  /* camera framing */
+  --plate-muted: #57606a;
+  --plate-link: #0b5cad;
   --card-longform: #b9a3dc;
   --card-template: #9fbbe0;
   --card-ours: #80a094;
@@ -191,6 +193,9 @@ figcaption b, .caption b { color: var(--ink); }
   border: 1px solid var(--rule);
 }
 .cmp-photo img { width: 100%; border-radius: 8px; }
+.credit { margin: 8px 0 0; font-size: 0.8rem; line-height: 1.45; color: var(--muted); }
+.cmp .credit { color: var(--plate-muted); }
+.cmp .credit a { color: var(--plate-link); }
 .cmp-col { display: grid; gap: 12px; }
 .cap-card { border: 2px solid; border-radius: 12px; padding: 12px 14px; background: #ffffff; }
 .cap-card h3 { margin: 0 0 6px; font-size: 1.05rem; text-align: center; }
@@ -206,11 +211,11 @@ figcaption b, .caption b { color: var(--ink); }
 .cap-card mark { color: inherit; padding: 0.06em 0.1em; border-radius: 3px; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
 .cap-card mark.fr-longform { background: var(--hl-longform); font-weight: 600; }
 .cap-card mark.fr-template { background: var(--hl-template); font-weight: 600; }
-.cap-card mark.c-subject { background: var(--hl-subject); }
-.cap-card mark.c-objects { background: var(--hl-objects); }
-.cap-card mark.c-scene { background: var(--hl-scene); }
-.cap-card mark.c-surface { background: var(--hl-surface); }
-.cap-card mark.c-camera { background: var(--hl-camera); }
+.cap-card mark.c-red { background: var(--hl-red); }
+.cap-card mark.c-green { background: var(--hl-green); }
+.cap-card mark.c-yellow { background: var(--hl-yellow); }
+.cap-card mark.c-blue { background: var(--hl-blue); }
+.cap-card mark.c-orange { background: var(--hl-orange); }
 .frame-legend { margin: 0; font-size: 0.92rem; color: var(--plate-text); text-align: center; }
 .swatch { display: inline-block; width: 1.8em; height: 0.95em; border-radius: 4px; vertical-align: -0.1em; }
 .swatch.longform { background: var(--hl-longform); }
