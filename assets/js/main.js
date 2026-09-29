@@ -108,12 +108,12 @@
 
   /* Table 4: audit axes */
   renderers.axesTable = function () {
-    var h = '<table class="t-axes"><caption class="sr-only">Audit axes: desideratum, input, metric and rows</caption><thead><tr>' +
-      th("Axis", "stick", 'scope="col"') + th("Desideratum", "", 'scope="col"') + th("Input", "", 'scope="col"') +
+    var h = '<table class="t-axes"><caption class="sr-only">Audit axes: property, input, metric and rows</caption><thead><tr>' +
+      th("Axis", "stick", 'scope="col"') + th("Property", "", 'scope="col"') + th("Input", "", 'scope="col"') +
       th("Metric", "", 'scope="col"') + th("Rows", "n", 'scope="col"') + "</tr></thead><tbody>";
     D.axes.forEach(function (r) {
       h += '<tr><th scope="row">' + esc(r.axis) + "</th>" +
-        '<td data-label="Desideratum">' + esc(r.des) + '</td><td data-label="Input">' + r.input + "</td>" +
+        '<td data-label="Property">' + esc(r.des) + '</td><td data-label="Input">' + r.input + "</td>" +
         '<td data-label="Metric">' + r.metric + '</td><td class="n" data-label="Rows">' + esc(D.protocol[r.rows]) + "</td></tr>";
     });
     return h + "</tbody></table>";

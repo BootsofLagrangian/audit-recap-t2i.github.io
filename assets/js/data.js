@@ -93,7 +93,7 @@
       { group: "Ours",                        work: "Ours",          target: "recaptioned corpora",  marks: ["✓", "✓", "✓", "✓", "✓", "✓"], ours: true }
     ],
 
-    /* Table 4: audit axes (Axis | Desideratum | Input | Metric | Rows).
+    /* Table 4: audit axes (Axis | Property | Input | Metric | Rows).
        `rows` names the protocol field that gives the row count. Metric and
        input strings may carry <i>, <sub> and the math class "m". */
     axes: [
@@ -163,8 +163,8 @@
       qwen3vlLex:    "≈12",
       tagSurfaceModel: "Qwen3-VL-8B",
       // Sec. 5.3: dual-judge gap on supported CBU per caption (Qwen minus Gemma),
-      // as stated from the rounded Table 8 cells
-      dualGap: { tag: "0.12", llava: "0.40", pixelprose: "0.53", ours: "0.78" },
+      // from the unrounded judge means (14.596 - 13.823 = 0.77 for Ours)
+      dualGap: { tag: "0.12", llava: "0.40", pixelprose: "0.53", ours: "0.77" },
       // Sec. 5.3 "Length is not density" paragraph: one 64-word window of Ours vs. a whole CC12M-Qwen3-VL caption
       windowMultiple: "2.4×",
       // Sec. 5.3 "Budget sweep": Ours from B = 16 to B = 64
@@ -221,22 +221,22 @@
     captionerControlMeta: {
       captioner: "Qwen3.5-35B-A3B",
       cc12mImages: "4,494", datacompImages: "4,775",
+      imagesPerSource: "≈4.5–4.8k",   // Table 6 caption: 4,494 CC12M, 4,775 DataComp
       // one-sentence reading, over both sources and both judges
       claimedGain: "+3.7 to +3.9",   // 15.21 - 11.32, 14.60 - 10.95
       supGain:     "+3.0 to +3.6",   // supported CBU per caption, Ours - Naive
       riskAbove:   "0.01 to 0.02",   // risk(Ours) - risk(Naive)
-      // CC12M surface concentration (Table 7) and the naive surface's openings
+      // CC12M surface concentration (Table 7) and one frequent naive-surface prefix
       naiveLonger: "1.8×",
       meanLexOurs: "186.6", meanLexNaive: "328.1",
-      // two frequent 5-token prefixes of the naive surface (Sec. 5.2)
-      openingA: { text: "… richly detailed",     count: "157/4,494" },
-      openingB: { text: "… beautifully composed", count: "121" },
+      // a frequent prefix of the naive surface outside the opener regex (Sec. 5.2)
+      frequentPrefix: { text: "… richly detailed", count: "157/4,494" },
       contentMassOurs: "0.09", contentMassNaive: "0.33",
       contentMassReleased: "0.07–0.16"   // every released CC12M surface on the same images
     },
 
-    /* Table 7: Surface concentration on the CC12M naive surface, same
-       4,494 images. "Long-form refs." is the range over CC12M-LLaVA-NeXT and
+    /* Table 7: Surface concentration on the CC12M naive surface, on the
+       CC12M images of Table 6. "Long-form refs." is the range over CC12M-LLaVA-NeXT and
        PixelProse on the same images. */
     surfaceControl: [
       { metric: "Mean lex",                         ours: "186.6", naive: "328.1", refs: "67.5–91.4" },
@@ -256,7 +256,7 @@
        (a) design-weighted nominal exact agreement on 43 resolved claims, as
            mean ± standard deviation over 10,000 image-cluster bootstrap
            resamples (result file human_cbu/judge_human_agreement_bootstrap.json).
-       (b) unweighted observed-sample distribution of all 217 primary image
+       (b) unweighted distribution of all 217 primary image
            judgments; "other" is "not visual" or "prefer not to answer". */
     human: {
       annotators: "Seven", judgments: "217", claims: "137", repeated: "80", perCell: "five", cells: "16",
