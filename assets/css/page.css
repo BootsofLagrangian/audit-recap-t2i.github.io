@@ -34,6 +34,10 @@
   --plate: #ffffff;
   --plate-text: #1b1f24;
   --ours: #0b5cad;
+  --primary-bg: #0b5cad;
+  --primary-bg-hover: #084a8c;
+  --primary-text: #ffffff;
+  --chip-text: #1b1f24;
   --focus: #0b5cad;
 
   /* Colors sampled from Figure 1 (left); the comparison block keeps them in both themes. */
@@ -79,6 +83,9 @@
     --btn-bg-hover: #ffffff;
     --btn-text: #15171a;
     --ours: #79b8ff;
+    --primary-bg: #79b8ff;
+    --primary-bg-hover: #a5d0ff;
+    --primary-text: #0d1117;
     --focus: #79b8ff;
   }
 }
@@ -139,6 +146,9 @@ i.m { font-family: var(--math); font-size: 1.1em; line-height: 1; }
   transition: background-color 0.15s ease;
 }
 .button:hover { background: var(--btn-bg-hover); }
+.button.primary { background: var(--primary-bg); color: var(--primary-text); font-size: 1.06rem; padding: 10px 24px; }
+.button.primary:hover { background: var(--primary-bg-hover); }
+.get { margin: 14px auto 0; max-width: 720px; font-size: 0.98rem; color: var(--muted); }
 .button svg { width: 1.15em; height: 1.15em; flex: none; }
 .button svg.stroke { fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linejoin: round; stroke-linecap: round; }
 
@@ -236,6 +246,30 @@ figcaption b, .caption b { color: var(--ink); }
 }
 .statement u { text-decoration-thickness: 1.5px; text-underline-offset: 3px; }
 
+/* ---------- the answer, with Figure 1 ---------- */
+.answer { margin: 24px auto 0; max-width: 820px; text-align: center; }
+.answer p { margin: 0 0 10px; }
+.answer-thesis { font-weight: 600; color: var(--ink); }
+.answer-claim { font-size: 1.3rem; font-weight: 700; color: var(--ink); }
+.chips { list-style: none; margin: 6px 0 14px; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 8px 0; }
+.chip { padding: 4px 12px; border-radius: 999px; color: var(--chip-text); font-weight: 600; font-size: 0.95rem; white-space: nowrap; }
+.chip { position: relative; }
+.chip + .chip { margin-left: 30px; }
+.chip + .chip::before { content: "→"; position: absolute; left: -24px; top: 50%; transform: translateY(-52%); color: var(--muted); font-weight: 400; }
+.chip.c-red { background: var(--hl-red); }
+.chip.c-green { background: var(--hl-green); }
+.chip.c-yellow { background: var(--hl-yellow); }
+.chip.c-blue { background: var(--hl-blue); }
+.chip.c-orange { background: var(--hl-orange); }
+.answer-result { font-weight: 600; color: var(--ink); }
+.answer-note { font-size: 0.9rem; color: var(--muted); }
+
+/* ---------- headline numbers in plain words ---------- */
+.numbers { margin: 0 0 8px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.numbers div { padding: 14px 16px; background: var(--surface); border-radius: 12px; }
+.numbers dt { font-size: 1.35rem; font-weight: 700; color: var(--ink); font-variant-numeric: tabular-nums; }
+.numbers dd { margin: 2px 0 0; font-size: 0.95rem; }
+
 /* ---------- tables ---------- */
 .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 0 0 4px; }
 table {
@@ -324,6 +358,7 @@ footer { padding-block: 26px 40px; margin-top: 20px; border-top: 1px solid var(-
   .tldr-list li { grid-template-columns: 2.4rem minmax(0, 1fr); gap: 10px; padding: 12px 14px; }
   .tldr-list .ico { font-size: 1.7rem; }
   h2 { font-size: 1.5rem; }
+  .numbers { grid-template-columns: 1fr; }
 
   /* Dataset table as stacked cards: family and scale on one line, the other fields labelled below. */
   .t-families { min-width: 0; }
