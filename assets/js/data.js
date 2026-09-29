@@ -75,9 +75,9 @@
     /* Table 1: closest prior audits and caption metrics, as a check matrix.
        One row per work; `group` starts a new block (rules between blocks).
        marks follow `relatedColumns` after Work and Target: "✓" or "–". */
-    relatedColumns: ["Real", "Corpus", "Unit", "Image", "Budget", "Prompt"],
+    relatedColumns: ["Natural", "Corpus", "Unit", "Image", "Budget", "Prompt"],
     relatedLegend: [
-      ["Real", "text paired with non-generated images"],
+      ["Natural", "text on non-generated images"],
       ["Corpus", "dataset-level analysis"],
       ["Unit", "text scored per claim or object mention"],
       ["Image", "text verified against the image"],
@@ -141,14 +141,12 @@
     ],
 
     /* Table 8: CC12M frontier at B = 64, four surfaces, both Judges.
-       `best` marks the column optimum, bold in the paper: Ours on CBU/cap and
-       supported CBU/cap, the short tag surface on both risk columns.
        All columns use the same 4,494 aligned images. The dagger marks the
        short tag-style surface, read against Eq. (1) for window
        density. Section 5.3 text: PixelProse at ~89 lex; Qwen3-VL at ~12 lex. */
     cc12m: {
       surfaces: [
-        { name: "Ours", ours: true,  best: { cbu: 1, sup: 1 }, cbu: 15.21, per100: 23.16,
+        { name: "Ours", ours: true,  cbu: 15.21, per100: 23.16,
           qwen: { sup: { m: 14.595926, sd: 0.056766 }, risk: { m: 0.030462, sd: 0.000899 } },
           gemma: { sup: { m: 13.823371, sd: 0.055083 }, risk: { m: 0.066408, sd: 0.001255 } } },
         { name: "CC12M-LLaVA-NeXT",  cbu: 10.78, per100: 21.77,
@@ -159,7 +157,7 @@
           gemma: { sup: { m: 10.195999, sd: 0.047582 }, risk: { m: 0.16052, sd: 0.00214 } } },
         // CC12M-Qwen3-VL-8B captions: shown by role ("Short tag surface") in tables;
         // the page names the model once, in the "Efficiency and yield read jointly" passage.
-        { name: "Short tag surface", dagger: true, best: { risk: 1 }, cbu: 6.44, per100: 55.84,
+        { name: "Short tag surface", dagger: true, cbu: 6.44, per100: 55.84,
           qwen: { sup: { m: 6.312249, sd: 0.026174 }, risk: { m: 0.013628, sd: 0.000846 } },
           gemma: { sup: { m: 6.194432, sd: 0.025576 }, risk: { m: 0.028294, sd: 0.001294 } } }
       ],

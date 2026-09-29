@@ -159,13 +159,13 @@
     return c(s.cbu, 2, "cbu") + c(s.per100, 2) + c(s.qwen.sup, 2, "sup") + c(s.qwen.risk, 3, "risk") + c(s.gemma.sup, 2, "sup") + c(s.gemma.risk, 3, "risk");
   }
 
-  /* Table 8 (bold marks the column optimum, from each surface's `best` field) */
+  /* Table 8 (bold in the paper: Ours on CBU/cap and both supported columns) */
   renderers.cc12mTable = function () {
     var h = '<table><caption class="sr-only">CC12M frontier at B = 64, four surfaces under both Judges</caption>' +
       judgeHead() + judgeCols("Surface") + "<tbody>";
     D.cc12m.surfaces.forEach(function (s) {
       h += "<tr" + (s.ours ? ' class="ours"' : "") + '><th scope="row">' + dagger(s.name, s.dagger) + "</th>" +
-        judgeCells(s, s.best || null) + "</tr>";
+        judgeCells(s, s.ours ? { cbu: 1, sup: 1 } : null) + "</tr>";
     });
     return h + "</tbody></table>";
   };
