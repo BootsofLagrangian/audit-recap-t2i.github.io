@@ -4,536 +4,298 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>A Matched-Budget Audit Framework for Recaptioned Image-Text Supervision Distributions</title>
-<meta name="description" content="Project page for a NeurIPS 2026 Evaluations &amp; Datasets paper: a matched-budget audit framework for recaptioned image-text supervision distributions, with the released multi-source recaption corpus.">
+<meta name="description" content="Project page for the NeurIPS 2026 Evaluations &amp; Datasets Track paper A Matched-Budget Audit Framework for Recaptioned Image-Text Supervision Distributions, with the released recaption corpus for nine source families.">
 <meta name="author" content="Giyeong Oh, Junghun Park, Yuhan Bae, Youngjae Yu">
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#121212" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#15171a" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="assets/img/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
-<!-- Social cards need absolute URLs; every asset the page itself loads is relative. -->
+<!-- Social cards need absolute URLs; every asset the page loads is relative. -->
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="NeurIPS 2026 project page">
 <meta property="og:title" content="A Matched-Budget Audit Framework for Recaptioned Image-Text Supervision Distributions">
-<meta property="og:description" content="A five-axis, matched-budget audit of recaptioned text-to-image supervision, and the released multi-source recaption corpus. NeurIPS 2026, Evaluations &amp; Datasets.">
+<meta property="og:description" content="NeurIPS 2026 Evaluations &amp; Datasets Track. A matched-budget audit of recaptioned image-text supervision and a released recaption corpus for about 490 million images.">
 <meta property="og:url" content="https://bootsoflagrangian.github.io/audit-recap-t2i.github.io/">
 <meta property="og:image" content="https://bootsoflagrangian.github.io/audit-recap-t2i.github.io/assets/img/og-card.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Title card: A Matched-Budget Audit Framework for Recaptioned Image-Text Supervision Distributions, NeurIPS 2026, Evaluations and Datasets.">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="preload" href="assets/fonts/sourceserif4-normal-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/instrumentsans-var.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/css/style.css">
-<script>
-  /* Apply a saved theme before first paint; with nothing saved, CSS follows prefers-color-scheme. */
-  (function () { try { var t = localStorage.getItem("theme"); if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t); } catch (e) {} })();
-</script>
-<script src="assets/js/data.js" defer></script>
-<script src="assets/js/main.js" defer></script>
+<link rel="stylesheet" href="assets/css/page.css">
 </head>
 <body>
-<a class="skip-link" href="#main">Skip to content</a>
 
-<header class="topbar" id="topbar">
-  <nav class="topnav" aria-label="Page sections">
-    <a class="brand" href="#top" aria-label="Back to top">
-      <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect x="1" y="1" width="30" height="30" rx="7" class="bm-bg"/><rect x="6" y="7.5" width="14" height="10.5" rx="1.5" class="bm-win"/><path d="M6 23.5h20M6 21v5M11 22v3M16 21v5M21 22v3M26 21v5" class="bm-rule"/></svg>
-      <span class="brand-text">Matched-Budget Audit</span>
-    </a>
-    <ul class="navlinks">
-      <li><a href="#abstract">Abstract</a></li>
-      <li><a href="#audit">Method</a></li>
-      <li><a href="#results">Results</a></li>
-      <li><a href="#release">Release</a></li>
-      <li><a href="#reproduce">Reproduce</a></li>
-      <li><a href="#bibtex">BibTeX</a></li>
-    </ul>
-    <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch color theme">
-      <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg>
-      <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 14.6A8.2 8.2 0 0 1 9.4 4a8.2 8.2 0 1 0 10.6 10.6z"/></svg>
-    </button>
-  </nav>
+<header class="hero">
+  <div class="container">
+    <h1>A Matched-Budget Audit Framework for Recaptioned Image-Text Supervision Distributions</h1>
+    <p class="authors">
+      <span>Giyeong Oh<sup>♦</sup></span>
+      <span>Junghun Park<sup>♥</sup></span>
+      <span>Yuhan Bae<sup>♠</sup></span>
+      <span>Youngjae Yu<sup>♠</sup></span>
+    </p>
+    <p class="affil">Seoul National University</p>
+    <p class="depts">
+      <span><sup>♦</sup>Interdisciplinary Program in Artificial Intelligence</span>
+      <span><sup>♥</sup>Department of Computer Science and Engineering</span>
+      <span><sup>♠</sup>School of Transdisciplinary Innovations</span>
+    </p>
+    <p class="venue">NeurIPS 2026 Evaluations &amp; Datasets Track</p>
+    <nav class="buttons" aria-label="Paper, code and dataset">
+      <a class="button" href="https://openreview.net/forum?id=JobgYHJvPo">
+        <svg class="stroke" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 2.8h8.2L19 7.6v13.6H6z"/><path d="M14 2.8v5h5M9 12.5h7M9 16h7"/></svg>
+        <span>Paper</span></a>
+      <!-- arXiv: once the ID exists, uncomment and set it.
+      <a class="button" href="https://arxiv.org/abs/ARXIV_ID"><svg class="stroke" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 2.8h8.2L19 7.6v13.6H6z"/><path d="M14 2.8v5h5M9 12.5h7M9 16h7"/></svg><span>arXiv</span></a>
+      -->
+      <a class="button" href="https://github.com/BootsofLagrangian/audit-recap-t2i">
+        <svg class="logo logo-gh" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path fill="currentColor" d="M 5.07 8.5 C 3.53 8.31 2.44 7.2 2.44 5.75 C 2.44 5.17 2.65 4.54 3 4.11 C 2.85 3.73 2.87 2.91 3.05 2.57 C 3.52 2.51 4.15 2.75 4.52 3.09 C 4.97 2.95 5.44 2.88 6.01 2.88 C 6.59 2.88 7.05 2.95 7.48 3.08 C 7.84 2.75 8.48 2.51 8.95 2.57 C 9.12 2.88 9.14 3.7 8.99 4.1 C 9.36 4.55 9.56 5.14 9.56 5.75 C 9.56 7.2 8.47 8.29 6.9 8.48 C 7.3 8.74 7.57 9.3 7.57 9.95 L 7.57 11.17 C 7.57 11.52 7.86 11.72 8.21 11.58 C 10.34 10.77 12 8.65 12 6.02 C 12 2.71 9.3 0 5.99 0 C 2.67 0 0 2.71 0 6.02 C -0.01 8.51 1.54 10.73 3.88 11.59 C 4.2 11.71 4.5 11.5 4.5 11.18 L 4.5 10.24 C 4.34 10.31 4.12 10.36 3.94 10.36 C 3.16 10.36 2.71 9.94 2.38 9.15 C 2.25 8.84 2.11 8.65 1.84 8.61 C 1.7 8.6 1.65 8.54 1.65 8.47 C 1.65 8.33 1.89 8.23 2.12 8.23 C 2.46 8.23 2.75 8.44 3.06 8.87 C 3.29 9.21 3.54 9.36 3.83 9.36 C 4.12 9.36 4.31 9.26 4.58 8.99 C 4.78 8.79 4.93 8.61 5.07 8.5"/></svg>
+        <span>Code</span></a>
+      <a class="button" href="https://huggingface.co/collections/BootsofLagrangian/recaptioned-image-text-6ab5bf978e69805c3e33d5ce">
+        <svg class="logo logo-hf" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path fill="#ff9d0b" d="M 1.12 5.77 C 1.12 4.06 2.05 2.49 3.55 1.64 C 5.05 0.79 6.89 0.79 8.39 1.64 C 9.89 2.49 10.81 4.06 10.81 5.77 C 10.81 8.4 8.64 10.53 5.97 10.53 C 3.29 10.54 1.12 8.4 1.12 5.77 Z M 1.12 5.77"/><path fill="#ffd21e" d="M 5.97 10.04 C 8.37 10.04 10.31 8.13 10.31 5.77 C 10.31 3.41 8.37 1.49 5.97 1.49 C 3.57 1.49 1.62 3.41 1.62 5.77 C 1.62 8.12 3.57 10.04 5.97 10.04 Z M 5.97 10.04"/><path fill="#ff323d" d="M 5.94 7.55 C 7.16 7.55 7.56 6.48 7.56 5.92 C 7.56 5.63 7.37 5.73 7.05 5.88 C 6.76 6.02 6.37 6.21 5.94 6.21 C 5.04 6.21 4.31 5.37 4.31 5.92 C 4.31 6.48 4.71 7.55 5.94 7.55 Z M 5.94 7.55"/><path fill="#3a3b45" d="M 7.38 4.61 C 7.54 4.66 7.6 4.98 7.76 4.9 C 7.98 4.78 8.11 4.54 8.09 4.3 L 8.09 4.3 C 8.07 4.05 7.89 3.84 7.65 3.77 C 7.41 3.69 7.15 3.77 6.99 3.96 C 6.83 4.16 6.8 4.43 6.92 4.64 C 7 4.79 7.24 4.55 7.38 4.61 Z M 4.43 4.61 C 4.27 4.66 4.21 4.98 4.05 4.9 C 3.83 4.78 3.7 4.54 3.72 4.3 C 3.75 4.05 3.92 3.84 4.16 3.77 L 4.16 3.77 C 4.4 3.69 4.66 3.77 4.83 3.96 C 4.99 4.16 5.02 4.43 4.9 4.64 C 4.82 4.79 4.58 4.55 4.44 4.61 Z M 4.99 7.28 L 5 7.27 C 5.13 7.01 5.37 6.8 5.66 6.72 C 5.7 6.71 5.73 6.75 5.77 6.81 L 5.87 6.96 C 5.9 7.01 5.94 7.05 5.97 7.05 C 6.01 7.05 6.05 7.01 6.09 6.96 L 6.19 6.81 C 6.23 6.75 6.27 6.71 6.3 6.73 C 6.57 6.81 6.8 7 6.93 7.24 C 7.39 6.88 7.57 6.29 7.57 5.92 C 7.57 5.67 7.41 5.71 7.16 5.83 L 6.85 5.98 C 6.59 6.1 6.28 6.21 5.94 6.21 C 5.6 6.21 5.29 6.09 5.03 5.98 L 4.74 5.84 C 4.48 5.71 4.32 5.66 4.32 5.93 C 4.32 6.28 4.48 6.84 4.91 7.21 L 5 7.28 Z M 4.99 7.28"/><path fill="#ff9d0b" d="M 8.91 5.18 C 9.01 5.18 9.12 5.14 9.19 5.07 C 9.27 4.99 9.31 4.89 9.31 4.78 C 9.31 4.56 9.13 4.38 8.91 4.38 C 8.8 4.38 8.7 4.43 8.62 4.5 C 8.54 4.57 8.5 4.68 8.5 4.78 C 8.5 5 8.68 5.18 8.91 5.18 Z M 3.09 5.18 C 3.2 5.18 3.3 5.14 3.38 5.07 C 3.46 4.99 3.5 4.89 3.5 4.78 C 3.5 4.56 3.32 4.38 3.09 4.38 C 2.99 4.38 2.88 4.42 2.81 4.5 C 2.73 4.57 2.69 4.68 2.69 4.78 C 2.69 5 2.87 5.18 3.09 5.18 Z M 2.26 6.54 C 2.05 6.54 1.88 6.62 1.75 6.77 C 1.64 6.9 1.58 7.06 1.58 7.23 C 1.5 7.21 1.42 7.19 1.34 7.19 C 1.14 7.19 0.97 7.27 0.85 7.39 L 0.85 7.4 C 0.62 7.62 0.58 7.98 0.75 8.26 C 0.64 8.35 0.56 8.47 0.52 8.61 C 0.49 8.71 0.46 8.95 0.62 9.19 C 0.5 9.37 0.48 9.61 0.58 9.8 C 0.7 10.07 0.98 10.29 1.52 10.51 L 1.64 10.55 C 2.03 10.7 2.38 10.8 2.38 10.8 C 2.83 10.92 3.29 10.99 3.75 11 C 4.48 11 5.01 10.77 5.31 10.34 C 5.77 9.67 5.73 9.05 5.17 8.46 L 5.1 8.38 C 4.75 8.04 4.52 7.54 4.47 7.42 C 4.38 7.09 4.12 6.73 3.69 6.73 C 3.46 6.73 3.25 6.85 3.12 7.03 C 2.99 6.88 2.87 6.75 2.76 6.68 L 2.75 6.69 C 2.61 6.59 2.43 6.54 2.26 6.54 Z M 9.74 6.54 C 9.95 6.54 10.12 6.62 10.25 6.77 C 10.36 6.9 10.42 7.06 10.42 7.23 C 10.5 7.2 10.58 7.19 10.66 7.19 C 10.86 7.19 11.03 7.27 11.15 7.39 L 11.15 7.4 C 11.38 7.62 11.42 7.98 11.25 8.26 C 11.36 8.35 11.44 8.47 11.48 8.61 C 11.51 8.71 11.54 8.95 11.38 9.19 C 11.5 9.37 11.52 9.61 11.42 9.8 C 11.3 10.07 11.02 10.29 10.48 10.51 L 10.36 10.55 C 9.97 10.7 9.62 10.8 9.62 10.8 C 9.17 10.92 8.71 10.99 8.25 11 C 7.52 11 6.99 10.77 6.69 10.34 C 6.23 9.67 6.27 9.05 6.83 8.46 L 6.9 8.38 C 7.25 8.04 7.48 7.54 7.53 7.42 C 7.62 7.09 7.88 6.73 8.31 6.73 C 8.54 6.73 8.75 6.85 8.88 7.03 C 9.01 6.88 9.13 6.75 9.24 6.68 C 9.36 6.6 9.5 6.55 9.65 6.54 L 9.74 6.53 Z M 9.74 6.54"/><path fill="#ffd21e" d="M 4.89 10.07 C 5.23 9.57 5.21 9.2 4.74 8.73 C 4.27 8.27 3.99 7.59 3.99 7.59 C 3.99 7.59 3.89 7.2 3.66 7.23 C 3.42 7.27 3.25 7.86 3.74 8.22 C 4.23 8.58 3.64 8.82 3.46 8.48 C 3.27 8.14 2.75 7.28 2.49 7.11 C 2.22 6.95 2.04 7.04 2.1 7.38 C 2.16 7.72 3.28 8.55 3.17 8.73 C 3.06 8.91 2.68 8.52 2.68 8.52 C 2.67 8.52 1.48 7.45 1.21 7.73 C 0.95 8.01 1.41 8.24 2.07 8.63 C 2.72 9.02 2.77 9.12 2.68 9.27 C 2.59 9.42 1.14 8.22 1.01 8.73 C 0.87 9.23 2.48 9.38 2.38 9.73 C 2.28 10.09 1.25 9.07 1.04 9.46 C 0.82 9.86 2.49 10.32 2.5 10.33 C 3.04 10.46 4.41 10.76 4.89 10.07 Z M 7.11 10.07 C 6.76 9.57 6.79 9.2 7.26 8.73 C 7.73 8.27 8 7.59 8 7.59 C 8 7.59 8.11 7.2 8.34 7.23 C 8.57 7.27 8.74 7.86 8.25 8.22 C 7.77 8.58 8.35 8.82 8.54 8.48 C 8.73 8.14 9.24 7.28 9.51 7.11 C 9.77 6.95 9.96 7.04 9.9 7.38 C 9.84 7.72 8.72 8.55 8.83 8.73 C 8.94 8.91 9.32 8.52 9.32 8.52 C 9.33 8.52 10.52 7.45 10.79 7.73 C 11.05 8.01 10.59 8.24 9.93 8.63 C 9.28 9.02 9.23 9.12 9.32 9.27 C 9.41 9.42 10.86 8.22 10.99 8.73 C 11.13 9.23 9.52 9.38 9.62 9.73 C 9.72 10.09 10.75 9.07 10.96 9.46 C 11.18 9.86 9.51 10.32 9.5 10.33 C 8.96 10.46 7.59 10.76 7.11 10.07 Z M 7.11 10.07"/></svg>
+        <span>Dataset</span></a>
+    </nav>
+  </div>
 </header>
 
-<main id="main">
+<main>
 
-<!-- ===================================================== HERO -->
-<section class="hero" id="top" aria-labelledby="paper-title">
-  <div class="hero-head">
-    <p class="venue"><span class="venue-dot" aria-hidden="true"></span>NeurIPS 2026<span class="dot-sep" aria-hidden="true">·</span>Evaluations &amp; Datasets<span class="dot-sep" aria-hidden="true">·</span>Poster</p>
-    <h1 id="paper-title">A Matched-Budget Audit Framework for Recaptioned <span class="nw">Image-Text</span> Supervision Distributions</h1>
-    <ul class="authors" aria-label="Authors">
-      <li>Giyeong Oh<sup>1</sup></li>
-      <li>Junghun Park<sup>2</sup></li>
-      <li>Yuhan Bae<sup>3</sup></li>
-      <li>Youngjae Yu<sup>3</sup></li>
+<section class="tldr" id="tldr" aria-labelledby="h-tldr">
+  <div class="container">
+    <h2 id="h-tldr">TL;DR</h2>
+    <p class="subtitle">In plain words</p>
+    <ul class="tldr-list">
+      <li><span class="ico" aria-hidden="true">🖼️</span><span class="txt">AI image generators learn by looking at millions of pictures, each with a short description. Today most of those descriptions are written by another AI, not by people.</span></li>
+      <li><span class="ico" aria-hidden="true">🤔</span><span class="txt">But are those AI-written descriptions any good? Until now, finding out meant training a whole image generator, like baking an entire cake just to check whether the flour is fresh.</span></li>
+      <li><span class="ico" aria-hidden="true">🔍</span><span class="txt">We built a simple check-up instead. One part works like a teacher noticing that a stack of essays all begin with the same sentence: we count how often descriptions repeat themselves.</span></li>
+      <li><span class="ico" aria-hidden="true">⚖️</span><span class="txt">Then we read the first 64 words of each description. Does it sound like what people type when they ask for an image? How many concrete things does it say, and is each one really in the picture? Two AI judges check that last part, and we compared them with human annotators.</span></li>
+      <li><span class="ico" aria-hidden="true">✅</span><span class="txt">Our descriptions say more true things about each picture, and fewer wrong things, than existing long descriptions of the same pictures. The instructions make the difference: the same AI, simply told to “describe this picture in detail”, says about a quarter fewer true things.</span></li>
+      <li><span class="ico" aria-hidden="true">🎁</span><span class="txt">We are sharing descriptions for about 490 million images, plus the check-up tool, so anyone can test their own.</span></li>
     </ul>
-    <p class="affil">Seoul National University</p>
-    <p class="depts"><span><sup>1</sup>Interdisciplinary Program in Artificial Intelligence</span> <span><sup>2</sup>Department of Computer Science and Engineering</span> <span><sup>3</sup>School of Transdisciplinary Innovations</span></p>
-    <div class="actions">
-      <a class="btn btn-primary" href="https://openreview.net/forum?id=JobgYHJvPo">
-        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 2.8h8.2L19 7.6v13.6H6z"/><path d="M14 2.8v5h5M9 12.5h7M9 16h7"/></svg>
-        Paper</a>
-      <a class="btn" href="https://github.com/BootsofLagrangian/audit-recap-t2i">
-        <svg class="logo logo-gh" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path fill="currentColor" d="M 5.07 8.5 C 3.53 8.31 2.44 7.2 2.44 5.75 C 2.44 5.17 2.65 4.54 3 4.11 C 2.85 3.73 2.87 2.91 3.05 2.57 C 3.52 2.51 4.15 2.75 4.52 3.09 C 4.97 2.95 5.44 2.88 6.01 2.88 C 6.59 2.88 7.05 2.95 7.48 3.08 C 7.84 2.75 8.48 2.51 8.95 2.57 C 9.12 2.88 9.14 3.7 8.99 4.1 C 9.36 4.55 9.56 5.14 9.56 5.75 C 9.56 7.2 8.47 8.29 6.9 8.48 C 7.3 8.74 7.57 9.3 7.57 9.95 L 7.57 11.17 C 7.57 11.52 7.86 11.72 8.21 11.58 C 10.34 10.77 12 8.65 12 6.02 C 12 2.71 9.3 0 5.99 0 C 2.67 0 0 2.71 0 6.02 C -0.01 8.51 1.54 10.73 3.88 11.59 C 4.2 11.71 4.5 11.5 4.5 11.18 L 4.5 10.24 C 4.34 10.31 4.12 10.36 3.94 10.36 C 3.16 10.36 2.71 9.94 2.38 9.15 C 2.25 8.84 2.11 8.65 1.84 8.61 C 1.7 8.6 1.65 8.54 1.65 8.47 C 1.65 8.33 1.89 8.23 2.12 8.23 C 2.46 8.23 2.75 8.44 3.06 8.87 C 3.29 9.21 3.54 9.36 3.83 9.36 C 4.12 9.36 4.31 9.26 4.58 8.99 C 4.78 8.79 4.93 8.61 5.07 8.5"/></svg>
-        GitHub</a>
-      <a class="btn" href="https://huggingface.co/collections/BootsofLagrangian/recaptioned-image-text-6ab5bf978e69805c3e33d5ce">
-        <svg class="logo logo-hf" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path fill="#ff9d0b" d="M 1.12 5.77 C 1.12 4.06 2.05 2.49 3.55 1.64 C 5.05 0.79 6.89 0.79 8.39 1.64 C 9.89 2.49 10.81 4.06 10.81 5.77 C 10.81 8.4 8.64 10.53 5.97 10.53 C 3.29 10.54 1.12 8.4 1.12 5.77 Z M 1.12 5.77"/><path fill="#ffd21e" d="M 5.97 10.04 C 8.37 10.04 10.31 8.13 10.31 5.77 C 10.31 3.41 8.37 1.49 5.97 1.49 C 3.57 1.49 1.62 3.41 1.62 5.77 C 1.62 8.12 3.57 10.04 5.97 10.04 Z M 5.97 10.04"/><path fill="#ff323d" d="M 5.94 7.55 C 7.16 7.55 7.56 6.48 7.56 5.92 C 7.56 5.63 7.37 5.73 7.05 5.88 C 6.76 6.02 6.37 6.21 5.94 6.21 C 5.04 6.21 4.31 5.37 4.31 5.92 C 4.31 6.48 4.71 7.55 5.94 7.55 Z M 5.94 7.55"/><path fill="#3a3b45" d="M 7.38 4.61 C 7.54 4.66 7.6 4.98 7.76 4.9 C 7.98 4.78 8.11 4.54 8.09 4.3 L 8.09 4.3 C 8.07 4.05 7.89 3.84 7.65 3.77 C 7.41 3.69 7.15 3.77 6.99 3.96 C 6.83 4.16 6.8 4.43 6.92 4.64 C 7 4.79 7.24 4.55 7.38 4.61 Z M 4.43 4.61 C 4.27 4.66 4.21 4.98 4.05 4.9 C 3.83 4.78 3.7 4.54 3.72 4.3 C 3.75 4.05 3.92 3.84 4.16 3.77 L 4.16 3.77 C 4.4 3.69 4.66 3.77 4.83 3.96 C 4.99 4.16 5.02 4.43 4.9 4.64 C 4.82 4.79 4.58 4.55 4.44 4.61 Z M 4.99 7.28 L 5 7.27 C 5.13 7.01 5.37 6.8 5.66 6.72 C 5.7 6.71 5.73 6.75 5.77 6.81 L 5.87 6.96 C 5.9 7.01 5.94 7.05 5.97 7.05 C 6.01 7.05 6.05 7.01 6.09 6.96 L 6.19 6.81 C 6.23 6.75 6.27 6.71 6.3 6.73 C 6.57 6.81 6.8 7 6.93 7.24 C 7.39 6.88 7.57 6.29 7.57 5.92 C 7.57 5.67 7.41 5.71 7.16 5.83 L 6.85 5.98 C 6.59 6.1 6.28 6.21 5.94 6.21 C 5.6 6.21 5.29 6.09 5.03 5.98 L 4.74 5.84 C 4.48 5.71 4.32 5.66 4.32 5.93 C 4.32 6.28 4.48 6.84 4.91 7.21 L 5 7.28 Z M 4.99 7.28"/><path fill="#ff9d0b" d="M 8.91 5.18 C 9.01 5.18 9.12 5.14 9.19 5.07 C 9.27 4.99 9.31 4.89 9.31 4.78 C 9.31 4.56 9.13 4.38 8.91 4.38 C 8.8 4.38 8.7 4.43 8.62 4.5 C 8.54 4.57 8.5 4.68 8.5 4.78 C 8.5 5 8.68 5.18 8.91 5.18 Z M 3.09 5.18 C 3.2 5.18 3.3 5.14 3.38 5.07 C 3.46 4.99 3.5 4.89 3.5 4.78 C 3.5 4.56 3.32 4.38 3.09 4.38 C 2.99 4.38 2.88 4.42 2.81 4.5 C 2.73 4.57 2.69 4.68 2.69 4.78 C 2.69 5 2.87 5.18 3.09 5.18 Z M 2.26 6.54 C 2.05 6.54 1.88 6.62 1.75 6.77 C 1.64 6.9 1.58 7.06 1.58 7.23 C 1.5 7.21 1.42 7.19 1.34 7.19 C 1.14 7.19 0.97 7.27 0.85 7.39 L 0.85 7.4 C 0.62 7.62 0.58 7.98 0.75 8.26 C 0.64 8.35 0.56 8.47 0.52 8.61 C 0.49 8.71 0.46 8.95 0.62 9.19 C 0.5 9.37 0.48 9.61 0.58 9.8 C 0.7 10.07 0.98 10.29 1.52 10.51 L 1.64 10.55 C 2.03 10.7 2.38 10.8 2.38 10.8 C 2.83 10.92 3.29 10.99 3.75 11 C 4.48 11 5.01 10.77 5.31 10.34 C 5.77 9.67 5.73 9.05 5.17 8.46 L 5.1 8.38 C 4.75 8.04 4.52 7.54 4.47 7.42 C 4.38 7.09 4.12 6.73 3.69 6.73 C 3.46 6.73 3.25 6.85 3.12 7.03 C 2.99 6.88 2.87 6.75 2.76 6.68 L 2.75 6.69 C 2.61 6.59 2.43 6.54 2.26 6.54 Z M 9.74 6.54 C 9.95 6.54 10.12 6.62 10.25 6.77 C 10.36 6.9 10.42 7.06 10.42 7.23 C 10.5 7.2 10.58 7.19 10.66 7.19 C 10.86 7.19 11.03 7.27 11.15 7.39 L 11.15 7.4 C 11.38 7.62 11.42 7.98 11.25 8.26 C 11.36 8.35 11.44 8.47 11.48 8.61 C 11.51 8.71 11.54 8.95 11.38 9.19 C 11.5 9.37 11.52 9.61 11.42 9.8 C 11.3 10.07 11.02 10.29 10.48 10.51 L 10.36 10.55 C 9.97 10.7 9.62 10.8 9.62 10.8 C 9.17 10.92 8.71 10.99 8.25 11 C 7.52 11 6.99 10.77 6.69 10.34 C 6.23 9.67 6.27 9.05 6.83 8.46 L 6.9 8.38 C 7.25 8.04 7.48 7.54 7.53 7.42 C 7.62 7.09 7.88 6.73 8.31 6.73 C 8.54 6.73 8.75 6.85 8.88 7.03 C 9.01 6.88 9.13 6.75 9.24 6.68 C 9.36 6.6 9.5 6.55 9.65 6.54 L 9.74 6.53 Z M 9.74 6.54"/><path fill="#ffd21e" d="M 4.89 10.07 C 5.23 9.57 5.21 9.2 4.74 8.73 C 4.27 8.27 3.99 7.59 3.99 7.59 C 3.99 7.59 3.89 7.2 3.66 7.23 C 3.42 7.27 3.25 7.86 3.74 8.22 C 4.23 8.58 3.64 8.82 3.46 8.48 C 3.27 8.14 2.75 7.28 2.49 7.11 C 2.22 6.95 2.04 7.04 2.1 7.38 C 2.16 7.72 3.28 8.55 3.17 8.73 C 3.06 8.91 2.68 8.52 2.68 8.52 C 2.67 8.52 1.48 7.45 1.21 7.73 C 0.95 8.01 1.41 8.24 2.07 8.63 C 2.72 9.02 2.77 9.12 2.68 9.27 C 2.59 9.42 1.14 8.22 1.01 8.73 C 0.87 9.23 2.48 9.38 2.38 9.73 C 2.28 10.09 1.25 9.07 1.04 9.46 C 0.82 9.86 2.49 10.32 2.5 10.33 C 3.04 10.46 4.41 10.76 4.89 10.07 Z M 7.11 10.07 C 6.76 9.57 6.79 9.2 7.26 8.73 C 7.73 8.27 8 7.59 8 7.59 C 8 7.59 8.11 7.2 8.34 7.23 C 8.57 7.27 8.74 7.86 8.25 8.22 C 7.77 8.58 8.35 8.82 8.54 8.48 C 8.73 8.14 9.24 7.28 9.51 7.11 C 9.77 6.95 9.96 7.04 9.9 7.38 C 9.84 7.72 8.72 8.55 8.83 8.73 C 8.94 8.91 9.32 8.52 9.32 8.52 C 9.33 8.52 10.52 7.45 10.79 7.73 C 11.05 8.01 10.59 8.24 9.93 8.63 C 9.28 9.02 9.23 9.12 9.32 9.27 C 9.41 9.42 10.86 8.22 10.99 8.73 C 11.13 9.23 9.52 9.38 9.62 9.73 C 9.72 10.09 10.75 9.07 10.96 9.46 C 11.18 9.86 9.51 10.32 9.5 10.33 C 8.96 10.46 7.59 10.76 7.11 10.07 Z M 7.11 10.07"/></svg>
-        Hugging Face</a>
-      <a class="btn" href="#bibtex">
-        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9.5 7H6v5h3.5v2.5L7.5 17M18 7h-3.5v5H18v2.5L16 17"/></svg>
-        BibTeX</a>
-    </div>
   </div>
-
-  <section class="lay" aria-labelledby="lay-title">
-    <h2 class="lay-label" id="lay-title">In plain words</h2>
-    <div class="lay-body" data-render="laySummary"></div>
-  </section>
 </section>
 
-<noscript>
-  <div class="col"><p class="noscript">The summary, tables and charts on this page are rendered with JavaScript. With scripting disabled, every number is available in the paper on OpenReview.</p></div>
-</noscript>
-
-<!-- ===================================================== AT A GLANCE -->
-<section class="glance" aria-label="Headline numbers">
-  <dl class="readouts">
-    <div class="readout">
-      <dt>Supported CBU per caption</dt>
-      <dd class="val"><span data-bind="summary.supGain.lo"></span><span class="val-to">to</span><span data-bind="summary.supGain.hi"></span></dd>
-      <dd class="note">Released surface over the reference, four cross-corpus pairs, under both judges</dd>
-    </div>
-    <div class="readout">
-      <dt>Unsupported risk</dt>
-      <dd class="val"><span data-bind="summary.riskDrop.lo"></span><span class="val-to">to</span><span data-bind="summary.riskDrop.hi"></span></dd>
-      <dd class="note">Same eight (pair, judge) cells</dd>
-    </div>
-    <div class="readout">
-      <dt>Released captions</dt>
-      <dd class="val" data-bind="summary.identities"></dd>
-      <dd class="note">Image identities across nine source families, counted within each family</dd>
-    </div>
-    <div class="readout">
-      <dt>Paired comparisons</dt>
-      <dd class="val">7</dd>
-      <dd class="note">Over five public source corpora, audited under two judges</dd>
-    </div>
-  </dl>
+<section class="teaser" id="teaser" aria-label="Teaser figure">
+  <div class="container">
+    <figure>
+      <div class="plate">
+        <div class="teaser-panels">
+          <div class="panel">
+            <picture>
+              <source srcset="assets/img/fig1-style-v3.webp" type="image/webp">
+              <img src="assets/img/fig1-style-v3.jpg" width="2400" height="1236" alt="A photo of chocolate tart slices beside three captions. Two public caption styles are shown with their describe-style frames highlighted: a long-form description (‘there are’, ‘but it seems to be’, ‘overall, the image captures’) and a broad-frame template (‘This image displays:’, ‘There is’, ‘The image is’). A box reads: Every captioning policy injects bias; the policy decides which biases enter the corpus. Below, the prompt-aligned Ours caption opens with the dominant subject and lists objects, layout, surface and camera framing without a describe-style frame.">
+            </picture>
+            <p class="sub">(a) Policy sets the caption register.</p>
+          </div>
+          <div class="panel">
+            <img src="assets/img/fig1-pools.png" width="1400" height="891" alt="Bar and line chart over four cross-corpus pairs: DataComp, LAION-pop, PD12M and Danbooru. Bars show prompt-mass support averaged over seven prompt pools; the Ours bar is higher than the reference bar on every pair. Markers on a second axis show n-gram Jensen–Shannon divergence against the pools; Ours is lower on DataComp, PD12M and Danbooru and within 0.01 of the reference on LAION-pop.">
+            <p class="sub">(b) Prompt-pool diagnostics.</p>
+          </div>
+        </div>
+      </div>
+      <figcaption><b>VLM bias is inevitable; policy decides which biases survive.</b> <i>Left:</i> describe-style frame prefix concentration drops on the released surface. <i>Right:</i> averaged across 7 prompt pools per cross-corpus pair, Ours raises prompt-mass support on every pair and lowers <i>n</i>-gram Jensen-Shannon Divergence (JSD) against the pool distribution on DataComp, PD12M, and Danbooru, with the length-matched LAION-pop pair within 0.01; bars on the left axis report support, markers on the right axis report JSD; definitions are in <a href="#audit">What the audit measures</a>.</figcaption>
+    </figure>
+  </div>
 </section>
 
-<!-- ===================================================== TEASER -->
-<figure class="plate wide teaser" aria-labelledby="fig1-cap">
-  <div class="plate-panels plate-panels--teaser">
-    <div class="panel">
-      <a class="zoom" href="assets/img/fig1-style-v3.jpg">
+<section class="compare" id="compare" aria-labelledby="h-compare">
+  <div class="container">
+    <h2 id="h-compare">Same image, different captions</h2>
+    <p class="lead">VLM captioners inherit <em>describe-style frames</em> such as third-person openers (e.g., <code>The image shows…</code>) and broad-frame templates (<code>This is a [adjective]…</code>), caption-only scaffolds that sit outside the register of user prompts. Our policy injects the register of user prompts by one simple rule: write the caption as a user writes a prompt, from the dominant subject through scene structure to camera framing.</p>
+    <div class="cmp">
+      <figure class="cmp-photo">
         <picture>
-          <source srcset="assets/img/fig1-style-v3.webp" type="image/webp">
-          <img src="assets/img/fig1-style-v3.jpg" width="2400" height="1236" loading="eager" decoding="async"
-               alt="A photo of chocolate tart slices beside three captions. Two public caption styles are shown with their describe-style frames highlighted: a long-form description (‘there are’, ‘but it seems to be’, ‘overall, the image captures’) and a broad-frame template (‘This image displays:’, ‘There is’, ‘The image is’). A box reads: Every captioning policy injects bias; the policy decides which biases enter the corpus. Below, the prompt-aligned Ours caption opens with the dominant subject and lists objects, layout, surface and camera framing without a describe-style frame.">
-        </picture><span class="sr-only"> (open the full-resolution image)</span>
-      </a>
-      <p class="panel-cap">(a) Policy sets the caption register.</p>
+          <source srcset="assets/img/tart-photo.webp" type="image/webp">
+          <img src="assets/img/tart-photo.jpg" width="512" height="768" alt="Top-down photo of two slices of chocolate tart on white plates with gold forks, a whole tart at the edge, a small bowl of pecans, and pecans and chocolate chips scattered on a white marble surface.">
+        </picture>
+      </figure>
+      <div class="cmp-col">
+        <div class="cap-card longform">
+          <h3>Long-form describe</h3>
+          <p><mark class="fr-longform">there are</mark> two white plates, each holding a slice of a rich, ...</p>
+          <p><mark class="fr-longform">but it seems to be</mark> a kitchen setting, ...</p>
+          <p><mark class="fr-longform">overall, the image captures</mark> a moment of indulgence, ...</p>
+        </div>
+        <div class="cap-card template">
+          <h3>Broad-frame template</h3>
+          <p><mark class="fr-template">This image displays:</mark> ...</p>
+          <p><mark class="fr-template">There is</mark> a small white bowl with pecan nuts to the left of the plates. ...</p>
+          <p><mark class="fr-template">The image is</mark> a photograph taken from ...</p>
+        </div>
+        <p class="frame-legend"><span class="swatch longform" aria-hidden="true"></span><span class="swatch template" aria-hidden="true"></span> = describe-style frame</p>
+      </div>
+      <div class="cmp-col">
+        <div class="cap-card ours">
+          <h3>Ours (prompt-aligned)</h3>
+          <p><mark class="c-subject">Two slices of chocolate tart</mark> on <mark class="c-objects">white plates with gold forks</mark>, one whole <mark class="c-scene">chocolate tart in the background</mark>, a small <mark class="c-scene">white bowl with pecan nuts to the left</mark>, <mark class="c-surface">pecan nuts and chocolate chips scattered on a white marble surface</mark>, <mark class="c-camera">top-down perspective, clean and simple.</mark></p>
+        </div>
+        <p class="statement">Every captioning policy injects bias; the policy decides <u>which biases enter the corpus</u>.</p>
+      </div>
     </div>
-    <div class="panel">
-      <a class="zoom" href="assets/img/fig1-pools.png">
-        <img src="assets/img/fig1-pools.png" width="1400" height="891" loading="eager" decoding="async"
-             alt="Bar and line chart over four cross-corpus pairs: DataComp, LAION-pop, PD12M and Danbooru. Bars show prompt-mass support averaged over seven prompt pools; the Ours bar is higher than the reference bar on every pair. Markers on a second axis show n-gram Jensen–Shannon divergence against the pools; Ours is lower on DataComp, PD12M and Danbooru and within 0.01 of the reference on LAION-pop."><span class="sr-only"> (open the full-resolution image)</span>
-      </a>
-      <p class="panel-cap">(b) Prompt-pool diagnostics.</p>
-    </div>
-  </div>
-  <p class="zoom-hint" aria-hidden="true">Tap a panel to open it at full resolution</p>
-  <figcaption id="fig1-cap"><span class="fig-no">Figure 1.</span> <strong>VLM bias is inevitable; policy decides which biases survive.</strong> <em>Left:</em> describe-style frame prefix concentration drops on the released surface. <em>Right:</em> averaged across the seven prompt pools of each cross-corpus pair, Ours raises prompt-mass support on every pair and lowers <i>n</i>-gram Jensen–Shannon divergence (JSD) against the pool distribution on DataComp, PD12M and Danbooru, with the length-matched LAION-pop pair within <span data-bind="figure1.laionPopJsdGap"></span>; bars on the left axis report support, markers on the right axis report JSD; definitions are in “What the audit measures”.</figcaption>
-</figure>
-
-<!-- ===================================================== ABSTRACT -->
-<section class="sec" id="abstract" aria-labelledby="h-abstract">
-  <div class="col">
-    <h2 id="h-abstract">Abstract</h2>
-    <p class="tldr"><span class="tldr-label">TL;DR</span> We treat a recaptioned corpus as a supervision distribution set by its captioning policy, captioner and source corpus, and audit it at a text budget of <span class="m"><i>B</i> = 64</span> with a five-axis profile whose common claim unit is the controllable basic unit (CBU), re-asked against the paired image by two judges from different model families and verified by human annotators on sampled claims.</p>
-    <p class="abstract">Recaptioned image-text corpora are now standard for text-to-image (T2I) training, with vision–language model (VLM) captioners replacing sparse alt-text by dense descriptions. A recaptioned corpus is a supervision distribution induced by a documented captioning policy (<span class="m"><i>π</i></span>), captioner (<span class="m"><i>V</i><sub><i>c</i></sub></span>), and source corpus (<span class="m"><i>C</i></span>). Length-correlated proxies miss caption-register artifacts and downstream T2I benchmarks entangle the corpus with training choices, so this distribution is hard to audit at corpus scale. We introduce a reusable matched-budget audit framework for recaptioned supervision distributions <span class="m"><i>D</i><sub><i>π</i>,<i>V<sub>c</sub></i>,<i>C</i></sub></span>: at a fixed text budget of <span class="m"><i>B</i> = 64</span> it reports a five-axis profile spanning prompt-side coverage, image-conditioned faithfulness, and caption-surface health, with claimed controllable basic units (CBU) as the common claim unit. We instantiate the framework on seven paired comparisons over five public source corpora. Across the four cross-corpus pairs, the released surface raises supported CBU per caption by <span data-bind="summary.supGain.lo"></span> to <span data-bind="summary.supGain.hi"></span> under both Qwen and Gemma Judges, and on CC12M the same framework exposes a long-vs-dense frontier that is consistent across both judges and four budgets. We release the audited multi-source recap corpus (<span data-bind="summary.identities"></span>) together with the audit-artifact bundle.</p>
   </div>
 </section>
 
-<!-- ===================================================== METHOD -->
-<section class="sec" id="audit" aria-labelledby="h-audit">
-  <div class="col">
+<section class="audit" id="audit" aria-labelledby="h-audit">
+  <div class="container">
     <h2 id="h-audit">What the audit measures</h2>
-    <p class="lede">The framework is a corpus-agnostic audit operator with a fixed text budget and five axes of prompt-side coverage, image-conditioned faithfulness, and caption-surface health. Its target is a documented operating point <span class="m"><i>D</i><sub><i>π</i>,<i>V<sub>c</sub></i>,<i>C</i></sub></span>: the joint over caption <span class="m"><i>c</i></span> and source image <span class="m"><i>x</i></span> induced by captioner <span class="m"><i>V</i><sub><i>c</i></sub></span> under policy <span class="m"><i>π</i></span> on source corpus <span class="m"><i>C</i></span>. Each caption set over the same source rows is a <em>surface</em>.</p>
-    <p>Our policy injects the register of user prompts by one simple rule: write the caption as a user writes a prompt, from the dominant subject through scene structure to camera framing. We release the resulting multi-source recap corpus as one such audit target and pair its caption set against public reference surfaces. With the captioner fixed, this policy alone raises supported CBU per caption by <span data-bind="captionerControlMeta.supGain"></span> over a plain detailed-caption instruction (<a href="#policy">captioner control</a>).</p>
-    <p>The audit reads the supervision signal a text-to-image model would consume, before any generator is trained. It runs four passes over source-aligned rows: it cuts every caption to the text budget <span class="m"><i>B</i></span>, computes deterministic text statistics on the resulting window, extracts the CBUs the window states, and re-asks each CBU against the paired image.</p>
+    <p>At a fixed text budget of <i class="m">B</i> = 64 the audit reports a five-axis profile spanning prompt-side coverage, image-conditioned faithfulness, and caption-surface health, with claimed controllable basic units (CBU) as the common claim unit. It runs four passes over source-aligned rows: it cuts every caption to the text budget <i class="m">B</i>, computes deterministic text statistics on the resulting window, extracts the CBUs the window states, and re-asks each CBU against the paired image. A CBU is a caption claim of one of eight semantic visual-claim types (object, attribute, relation, count, style, camera, lighting, text-rendering), and supported yield and risk read the same (claim, image) pairs: yield counts the claims the Judge finds supported by the image, and risk is the share it answers <em>no</em> for.</p>
+    <figure>
+      <div class="table-scroll" tabindex="0" role="region" aria-label="Audit axes">
+        <table class="t-axes">
+          <thead>
+            <tr><th scope="col">Axis</th><th scope="col">Property</th><th scope="col">Metric</th><th scope="col" class="n">Rows</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">Text budget</th><td>Coverage</td><td>Avg. lex, <i class="m">B</i>-eligibility</td><td class="n">1M</td></tr>
+            <tr><th scope="row">Prompt-pool support</th><td>Coverage</td><td>prompt-mass support ↑, <i>n</i>-gram JSD ↓</td><td class="n">250k</td></tr>
+            <tr><th scope="row">Claimed density</th><td>Coverage</td><td>CBU/cap ↑, CBU/100 lex</td><td class="n">5k</td></tr>
+            <tr><th scope="row">Surface concentration</th><td>Health</td><td>top-100 prefix mass ↓, distinct-3 ↑</td><td class="n">1M</td></tr>
+            <tr><th scope="row">Support and risk</th><td>Faithfulness</td><td>supported yield 𝔼[<i class="m">s</i>] ↑, risk <i class="m">ρ</i> ↓</td><td class="n">5k</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <figcaption><b>Audit axes.</b> Arrows mark the better direction; <i>Rows</i> is the cap on paired rows per slice.</figcaption>
+    </figure>
   </div>
-
-  <figure class="diagram wide" aria-labelledby="dg-cap">
-    <p class="dg-target"><span class="dg-kicker">Audit target</span> <span class="m dg-symbol"><i>D</i><sub><i>π</i>,<i>V<sub>c</sub></i>,<i>C</i></sub></span> <span class="dg-target-text">captioner <span class="m"><i>V</i><sub><i>c</i></sub></span> under policy <span class="m"><i>π</i></span> on source corpus <span class="m"><i>C</i></span><span class="dg-arrow" aria-hidden="true">→</span>source-aligned rows of caption <span class="m"><i>c</i></span> and source image <span class="m"><i>x</i></span></span></p>
-    <ol class="dg-passes">
-      <li class="dg-pass">
-        <span class="dg-node" aria-hidden="true">1</span>
-        <h3 class="dg-title"><span class="sr-only">Pass 1: </span>Window</h3>
-        <p class="dg-lead">Cut every caption to the text budget <span class="m"><i>B</i></span>.</p>
-        <p class="dg-detail">The claim passes read the first <span class="m"><i>B</i></span> whitespace-delimited words; text statistics count the budget in lexical units, regex word units after Unicode normalization, independent of BPE and text-encoder tokenizers.</p>
-        <p class="dg-reads">Reads caption <span class="m"><i>c</i></span></p>
-      </li>
-      <li class="dg-pass">
-        <span class="dg-node" aria-hidden="true">2</span>
-        <h3 class="dg-title"><span class="sr-only">Pass 2: </span>Text statistics</h3>
-        <p class="dg-lead">Compute deterministic text statistics on that window.</p>
-        <p class="dg-detail">Prompt-mass support and <i>n</i>-gram JSD against seven public prompt-reference pools; top-100 prefix mass, distinct-3 and rep-4 for surface form.</p>
-        <p class="dg-reads">Reads <span class="m"><i>c</i></span> and prompt pools</p>
-      </li>
-      <li class="dg-pass">
-        <span class="dg-node" aria-hidden="true">3</span>
-        <h3 class="dg-title"><span class="sr-only">Pass 3: </span>Claim extraction</h3>
-        <p class="dg-lead">Extract the CBUs the window states.</p>
-        <p class="dg-detail">The extractor <span class="m"><i>φ</i></span> reads the caption window only and returns atomic claims, each in one of eight types.</p>
-        <p class="dg-reads">Reads <span class="m"><i>c</i><sub>≤<i>B</i></sub></span></p>
-      </li>
-      <li class="dg-pass dg-pass--image">
-        <span class="dg-node" aria-hidden="true">4</span>
-        <h3 class="dg-title"><span class="sr-only">Pass 4: </span>Image-conditioned verification</h3>
-        <p class="dg-lead">Re-ask each CBU against the paired image.</p>
-        <p class="dg-detail">The Qwen Judge and the Gemma Judge answer <em>yes</em>, <em>no</em> or <em>uncertain</em> from visible image evidence, on one question set.</p>
-        <p class="dg-reads">Reads each CBU and image <span class="m"><i>x</i></span></p>
-      </li>
-    </ol>
-    <div class="dg-out">
-      <div class="dg-scope">
-        <p class="dg-scope-lab">Passes 1–2 <span class="dg-scope-n">up to <span data-bind="protocol.textRows"></span> paired rows per slice, <span data-bind="protocol.poolRows"></span> for prompt pools</span></p>
-        <ul class="dg-axes">
-          <li><b>Text budget</b> <span>coverage</span></li>
-          <li><b>Prompt-pool support</b> <span>coverage</span></li>
-          <li><b>Surface concentration</b> <span>surface health</span></li>
-        </ul>
-      </div>
-      <div class="dg-scope">
-        <p class="dg-scope-lab">Passes 3–4 <span class="dg-scope-n"><span data-bind="protocol.vqaRows"></span> of those rows per surface</span></p>
-        <ul class="dg-axes">
-          <li><b>Claimed density</b> <span>coverage</span></li>
-          <li class="img"><b>Support and risk</b> <span>faithfulness</span></li>
-        </ul>
-      </div>
-    </div>
-    <figcaption id="dg-cap"><span class="fig-no">Diagram.</span> The four passes of the audit and the five-axis profile they return. Text statistics and claim extraction run on captions alone; verification adds paired image access.</figcaption>
-  </figure>
-
-  <div class="col">
-    <h3 class="h-minor">Controllable basic units</h3>
-    <p>A CBU is a caption claim of one of eight semantic visual-claim types: <span class="types">object, attribute, relation, count, style, camera, lighting and text-rendering</span>. The extractor finds CBUs caption-only and the judge re-asks each one against the paired image; CBUs serve as the common claim set behind claimed density, supported yield and unsupported risk. With <span class="m"><i>c</i><sub>≤<i>B</i></sub></span> the <span class="m"><i>B</i></span>-word window of caption <span class="m"><i>c</i></span> and <span class="m"><i>ℓ</i>(·)</span> its length in lexical units:</p>
-
-    <div class="equations">
-      <div class="eq">
-        <span class="eq-lab">Claimed density</span>
-        <span class="m eq-body">CBU/cap(<i>D<sub>c</sub></i>, <i>B</i>) = 𝔼<sub><i>c</i>∼<i>D<sub>c</sub></i></sub>[ |<i>φ</i>(<i>c</i><sub>≤<i>B</i></sub>)| ]</span>
-        <span class="eq-num">(1)</span>
-      </div>
-      <div class="eq">
-        <span class="eq-lab">Lexical efficiency</span>
-        <span class="m eq-body">CBU/100 lex(<i>D<sub>c</sub></i>, <i>B</i>) = <span class="frac"><span>100 · 𝔼<sub><i>c</i></sub>[ |<i>φ</i>(<i>c</i><sub>≤<i>B</i></sub>)| ]</span><span>𝔼<sub><i>c</i></sub>[ <i>ℓ</i>(<i>c</i><sub>≤<i>B</i></sub>) ]</span></span></span>
-        <span class="eq-num">(1)</span>
-      </div>
-      <div class="eq">
-        <span class="eq-lab">Risk</span>
-        <span class="m eq-body"><i>ρ</i>(<i>D<sub>cx</sub></i>) = 𝔼[ <i>u</i>(<i>c</i>, <i>x</i>) ] / 𝔼[ |<i>φ</i>(<i>c</i>)| ]</span>
-      </div>
-    </div>
-    <p class="eq-note">Supported yield and risk read the same (claim, image) pairs: yield counts the claims the Judge finds supported by the image, and risk <span class="m"><i>ρ</i></span> is the share it answers <em>no</em> for, with <span class="m"><i>u</i>(<i>c</i>, <i>x</i>)</span> counting those claims. Risk aggregates captioner, extractor, and Judge errors.</p>
-
-    <h3 class="h-minor">Two judges, one question schema</h3>
-    <p>The captioner <span class="m"><i>V</i><sub><i>c</i></sub></span> is <code>Qwen3.5-35B-A3B-FP8</code>. The extractor <span class="m"><i>φ</i></span> and the Qwen Judge share <code>Qwen3.5-397B-A17B-FP8</code>; the Gemma Judge is <code>Gemma-4-31B-IT</code>. Both Judges are open-weight VLMs served locally with deterministic, schema-constrained answers across all eight claim types. The Qwen Judge is the 397B-parameter checkpoint of the captioner’s family and also serves as the extractor; the Gemma Judge comes from an independently trained family and re-asks the same extracted claims, so agreement between the two Judges is agreement across model families. Each CBU becomes one of three questions:</p>
-    <pre class="code qforms" aria-label="Question templates"><code>Is the visual claim '&lt;TARGET&gt;: &lt;UNIT&gt;' supported by the image?
-Is the visual claim '&lt;UNIT&gt;' supported by the image?
-Is the rendered text claim '&lt;UNIT&gt;' visibly supported by the image?</code></pre>
-  </div>
-
-  <figure class="tfig wide stack--wide" aria-labelledby="t4-cap">
-    <figcaption id="t4-cap"><span class="fig-no">Table 4.</span> <strong>Audit axes.</strong> Arrows mark the better direction; <em>Rows</em> is the cap on paired rows per slice.</figcaption>
-    <div class="table-wrap" tabindex="0" role="region" aria-labelledby="t4-cap" data-render="axesTable"></div>
-  </figure>
-
-  <div class="col">
-    <h3 class="h-minor">Where the audit sits</h3>
-    <p>Table 1 places the framework among the closest dataset and caption studies and claim-level metrics: it carries claim-level image verification to the corpus level and adds a matched text budget and the register of user prompts.</p>
-  </div>
-
-  <figure class="tfig wide" aria-labelledby="t1-cap">
-    <figcaption id="t1-cap"><span class="fig-no">Table 1.</span> <strong>Dataset and caption studies (top) and claim-level metrics (middle).</strong></figcaption>
-    <div class="table-wrap" tabindex="0" role="region" aria-labelledby="t1-cap" data-render="relatedTable"></div>
-    <p class="legend-line" data-render="relatedLegend"></p>
-  </figure>
 </section>
 
-<!-- ===================================================== RESULTS -->
-<section class="sec" id="results" aria-labelledby="h-results">
-  <div class="col">
+<section class="results" id="results" aria-labelledby="h-results">
+  <div class="container">
     <h2 id="h-results">Key results</h2>
-    <p class="lede">Seven paired comparisons hold source rows fixed and vary the caption surface: four cross-corpus pairs and three CC12M references. A captioner control fixes the captioner and varies the policy, and human annotators verify image support on CC12M. Text statistics use up to <span data-bind="protocol.textRows"></span> paired rows per slice and prompt-pool support up to <span data-bind="protocol.poolRows"></span>; the claim extractor and both Judges read <span data-bind="protocol.vqaRows"></span> of those rows per surface (<span data-bind="protocol.cc12mAligned"></span> on CC12M), and the two Judges answer one question set.</p>
-  </div>
 
-  <!-- cross-corpus -->
-  <article class="sub" id="cross-corpus" aria-labelledby="h-cross">
-    <div class="col">
-      <p class="kicker">Four pairs, two judges</p>
-      <h3 id="h-cross">Cross-corpus results</h3>
-      <p>On every pair Ours raises supported CBU per caption and lowers unsupported risk under both Qwen and Gemma Judges; the supported-yield gain spans <span data-bind="summary.supGainShort"></span> CBU per caption and the risk drop spans <span data-bind="summary.riskDropShort"></span> across the eight (pair, judge) cells.</p>
-    </div>
-
-    <figure class="chart-fig wide" aria-labelledby="c1-cap">
-      <div class="legend" aria-hidden="true">
-        <span class="lg lg-ref"><svg viewBox="0 0 14 14"><circle cx="7" cy="7" r="4.5"/></svg>Reference release</span>
-        <span class="lg lg-ours"><svg viewBox="0 0 14 14"><circle cx="7" cy="7" r="5"/></svg>Ours</span>
-        <span class="lg lg-note">Rows per pair: Qwen Judge, then Gemma Judge</span>
-      </div>
-      <div class="chart-pair">
-        <div class="chart" data-chart="dumbbell" data-metric="sup" role="img" aria-label="Supported CBU per caption, reference versus Ours, for four pairs under two judges. Ours is higher in all eight cells; values are listed in Table 5 below."></div>
-        <div class="chart" data-chart="dumbbell" data-metric="risk" role="img" aria-label="Unsupported risk, reference versus Ours, for four pairs under two judges. Ours is lower in all eight cells; values are listed in Table 5 below."></div>
-      </div>
-      <figcaption id="c1-cap"><span class="fig-no">Chart.</span> Reference release → Ours for each (pair, judge) cell at <span class="m"><i>B</i> = 64</span>, drawn from Table 5.</figcaption>
-    </figure>
-
-    <figure class="tfig wide" aria-labelledby="t5-cap">
-      <figcaption id="t5-cap"><span class="fig-no">Table 5.</span> <strong>Cross-corpus results at <span class="m"><i>B</i> = 64</span>.</strong> Cells <span class="m"><i>a</i> → <i>b</i></span> report Ref → Ours. Pool-wins counts the seven prompt pools where Ours raises prompt-mass support; both judges re-ask the same CBUs on <span data-bind="protocol.vqaRows"></span> paired captions per surface; Risk is unsupported / claimed CBU. The second line of each judge cell gives the bootstrap std of Ref and Ours.</figcaption>
-      <div class="table-wrap" tabindex="0" role="region" aria-labelledby="t5-cap" data-render="crossTable"></div>
-    </figure>
-
-    <div class="notes wide">
-      <div class="note-card">
-        <h4>The gain holds at matched length</h4>
-        <p>Ours is <span data-bind="summary.lengthMultiple"></span> longer than each reference except LAION-pop, where the two surfaces are length-matched (<span data-bind="crossCorpus.1.lex.0" data-fmt="1"></span> vs. <span data-bind="crossCorpus.1.lex.1" data-fmt="1"></span> lex) and Ours leads on yield, risk and pool-mass support.</p>
-      </div>
-      <div class="note-card">
-        <h4>Six claim types reproduce the ordering</h4>
-        <p>The six claim types other than count and relation reproduce the ordering: Ours raises supported CBU per caption by <span data-bind="summary.exclCountRelationGain"></span> and lowers risk in all eight (pair, judge) cells. Ours has lower risk than the pooled references in every claim type under both judges; the two judges agree exactly on <span data-bind="judgeAgreement.overall"></span> of CC12M answers, least on count (<span data-bind="judgeAgreement.count"></span>) and text-rendering (<span data-bind="judgeAgreement.textRendering"></span>).</p>
-      </div>
-      <div class="note-card">
-        <h4>Prompt pools</h4>
-        <p>Per-pool prompt-mass deltas place Ours above the reference on <span data-bind="summary.poolWins"></span> of the seven prompt pools per pair; Figure 3 shows every pool.</p>
-      </div>
-    </div>
-
-    <figure class="plate wide" aria-labelledby="fig3-cap">
-      <div class="plate-panels">
-        <a class="zoom" href="assets/img/fig3-pools.png">
-          <img src="assets/img/fig3-pools.png" width="2600" height="954" loading="lazy" decoding="async"
-               alt="Two heatmaps, prompt pools by paired comparisons. Left: change in prompt-mass support, Ours minus reference; almost all cells are positive (red), with negatives mainly in the FLUX-regpeter row. Right: change in n-gram JSD, sign-flipped so positive favors Ours; wins are concentrated in the four FLUX-style pools and near zero or negative for Pick-a-Pic, SDXL-falah and FLUX-regpeter. Margins list wins out of seven and the mean change."><span class="sr-only"> (open the full-resolution image)</span>
-        </a>
-      </div>
-      <p class="zoom-hint" aria-hidden="true">Tap the figure to open it at full resolution</p>
-      <figcaption id="fig3-cap"><span class="fig-no">Figure 3.</span> <strong>Per-pool prompt-support direction across paired comparisons</strong> (appendix of the paper). Each cell is the mean Ours-minus-reference delta over <span data-bind="protocol.poolRows"></span> caption pairs per comparison (<span data-bind="protocol.poolRowsTag"></span> on the short tag surface) at <span class="m"><i>B</i> = 64</span>. <em>Left:</em> Δ prompt-mass support; positive means Ours covers more pool <i>n</i>-gram mass. <em>Right:</em> direction-aligned JSD, −ΔJSD, so positive means Ours is closer to the pool <i>n</i>-gram distribution; red is an Ours win in both panels. Margins give wins and mean Δ; the vertical separator splits the four cross-corpus pairs from the three CC12M references.</figcaption>
-    </figure>
-  </article>
-
-  <!-- cc12m -->
-  <article class="sub" id="cc12m" aria-labelledby="h-cc12m">
-    <div class="col">
-      <p class="kicker">CC12M frontier</p>
-      <h3 id="h-cc12m">A long-vs-dense frontier, stable across two judges and four budgets</h3>
-      <p>CC12M carries three released comparison surfaces with distinct policies. Among the long-form ones, PixelProse hard-codes openers and descriptive-narrator personas, and CC12M-LLaVA-NeXT is a long-form release without explicit opener hard-coding. At <span class="m"><i>B</i> = 64</span>, Ours holds the highest supported yield and the lowest risk of the long-form surfaces; PixelProse, at <span data-bind="cc12m.pixelProseLex"></span> lex, carries the highest risk (<span class="m"><i>ρ</i></span> = <span data-bind="cc12m.surfaces.2.qwen.risk" data-fmt="3"></span>/<span data-bind="cc12m.surfaces.2.gemma.risk" data-fmt="3"></span> under Qwen/Gemma), and CC12M-LLaVA-NeXT sits between. The dual-judge gap on supported CBU per caption grows with claim count: <span data-bind="cc12m.dualGap.tag"></span> on the short reference, <span data-bind="cc12m.dualGap.llava"></span> on CC12M-LLaVA-NeXT, <span data-bind="cc12m.dualGap.pixelprose"></span> on PixelProse, and <span data-bind="cc12m.dualGap.ours"></span> on Ours.</p>
-    </div>
-
-    <figure class="tfig wide" aria-labelledby="t8-cap">
-      <figcaption id="t8-cap"><span class="fig-no">Table 8.</span> <strong>CC12M frontier at <span class="m"><i>B</i> = 64</span>, four surfaces under both Judges.</strong> CBU per caption and per 100 lex come from the Qwen claim extractor <span class="m"><i>φ</i></span>; each Judge supplies VQA support and risk, as mean ± bootstrap std. All columns use the same <span data-bind="protocol.cc12mAligned"></span> aligned images.</figcaption>
-      <div class="table-wrap" tabindex="0" role="region" aria-labelledby="t8-cap" data-render="cc12mTable"></div>
-      <p class="tnote"><sup>†</sup> Short tag surface (<span data-bind="cc12m.qwen3vlLex"></span> lex), the short-caption operating point.</p>
-    </figure>
-
-    <div class="col">
-      <h4 class="h-run">Efficiency and yield read jointly</h4>
-      <p>The short tag surface<sup>†</sup> (<span data-bind="cc12m.tagSurfaceModel"></span> captions) is the short-caption operating point: its <span data-bind="cc12m.qwen3vlLex"></span>-lex tag captions reach the highest CBU per 100 lex (<span data-bind="cc12m.surfaces.3.per100" data-fmt="2"></span> against <span data-bind="cc12m.surfaces.0.per100" data-fmt="2"></span> for Ours) and the lowest risk (<span class="m"><i>ρ</i></span> = <span data-bind="cc12m.surfaces.3.qwen.risk" data-fmt="3"></span>/<span data-bind="cc12m.surfaces.3.gemma.risk" data-fmt="3"></span>) while stating <span data-bind="cc12m.surfaces.3.cbu" data-fmt="2"></span> claims per caption. One 64-word window of Ours carries <span data-bind="cc12m.surfaces.0.cbu" data-fmt="2"></span> claims, <span data-bind="cc12m.windowMultiple"></span> a complete tag caption (Eq. 1).</p>
-      <h4 class="h-run">Budget sweep</h4>
-      <p>Across <span class="m"><i>B</i> ∈ {16, 32, 48, 64}</span> on all <span data-bind="protocol.cc12mAligned"></span> aligned images, claimed CBU per caption grows and CBU per 100 lex declines on every long-form surface, and Ours leads them on both readings at every budget (<span data-bind="cc12m.sweepOursCbu"></span> CBU per caption, <span data-bind="cc12m.sweepOursPer100"></span> per 100 lex).</p>
-    </div>
-
-    <figure class="plate wide" aria-labelledby="fig2-cap">
-      <div class="plate-panels plate-panels--two">
-        <div class="panel">
-          <a class="zoom" href="assets/img/fig2-risk-v3.png">
-            <img src="assets/img/fig2-risk-v3.png" width="1500" height="909" loading="lazy" decoding="async"
-                 alt="Scatter plot of risk against supported CBU per caption at B = 64. Ours sits alone at the lower right, highest supported yield and lowest risk, under both judges. CC12M-LLaVA-NeXT sits at lower yield and moderate risk; PixelProse at lower yield and the highest risk. Filled markers are the Qwen Judge, hollow markers the Gemma Judge."><span class="sr-only"> (open the full-resolution image)</span>
-          </a>
+    <div class="result" id="cross">
+      <h3>Four cross-corpus pairs</h3>
+      <p>Across the four cross-corpus pairs, the released surface raises claimed controllable basic units (CBU) per caption by +2.91 to +6.14, and both Qwen and Gemma Judges report higher supported CBU per caption (+3.39 to +6.36) and lower unsupported risk (−0.046 to −0.159).</p>
+      <figure>
+        <div class="table-scroll" tabindex="0" role="region" aria-label="Cross-corpus results">
+          <table class="t-results">
+            <thead>
+              <tr><th scope="col" rowspan="2">Dataset</th><th scope="col" rowspan="2" class="n">CBU/cap ↑</th><th scope="colgroup" colspan="2" class="group">Qwen Judge</th><th scope="colgroup" colspan="2" class="group">Gemma Judge</th></tr>
+              <tr><th scope="col" class="n">Sup. CBU/cap ↑</th><th scope="col" class="n">Risk ↓</th><th scope="col" class="n">Sup. CBU/cap ↑</th><th scope="col" class="n">Risk ↓</th></tr>
+            </thead>
+            <tbody>
+              <tr><th scope="row">DataComp<span class="ref">vs. Recap-DataComp</span></th><td class="n">10.44<span class="arrow">→</span><b>14.45</b></td><td class="n">8.49<span class="arrow">→</span><b>13.73</b></td><td class="n">0.177<span class="arrow">→</span><b>0.035</b></td><td class="n">8.00<span class="arrow">→</span><b>12.94</b></td><td class="n">0.219<span class="arrow">→</span><b>0.081</b></td></tr>
+              <tr><th scope="row">LAION-pop<span class="ref">vs. LAION-pop-Llama</span></th><td class="n">11.91<span class="arrow">→</span><b>14.82</b></td><td class="n">10.80<span class="arrow">→</span><b>14.22</b></td><td class="n">0.077<span class="arrow">→</span><b>0.031</b></td><td class="n">10.22<span class="arrow">→</span><b>13.61</b></td><td class="n">0.113<span class="arrow">→</span><b>0.060</b></td></tr>
+              <tr><th scope="row">PD12M<span class="ref">vs. PD12M released</span></th><td class="n">9.78<span class="arrow">→</span><b>15.02</b></td><td class="n">8.61<span class="arrow">→</span><b>14.29</b></td><td class="n">0.103<span class="arrow">→</span><b>0.034</b></td><td class="n">8.23<span class="arrow">→</span><b>13.53</b></td><td class="n">0.131<span class="arrow">→</span><b>0.066</b></td></tr>
+              <tr><th scope="row">Danbooru<span class="ref">vs. Danbooru-Florence</span></th><td class="n">8.18<span class="arrow">→</span><b>14.33</b></td><td class="n">6.38<span class="arrow">→</span><b>12.74</b></td><td class="n">0.217<span class="arrow">→</span><b>0.058</b></td><td class="n">6.15<span class="arrow">→</span><b>11.85</b></td><td class="n">0.235<span class="arrow">→</span><b>0.094</b></td></tr>
+            </tbody>
+          </table>
         </div>
-        <div class="panel">
-          <a class="zoom" href="assets/img/fig2-budget.png">
-            <img src="assets/img/fig2-budget.png" width="1500" height="888" loading="lazy" decoding="async"
-                 alt="Budget frontier: CBU per 100 lex against claimed CBU per caption for B of 16, 32, 48 and 64, marker size growing with B. For each surface the points move right and down as B grows. The Ours trajectory lies above and to the right of CC12M-LLaVA-NeXT and PixelProse at every budget."><span class="sr-only"> (open the full-resolution image)</span>
-          </a>
+        <figcaption><b>Cross-corpus results at <i class="m">B</i> = 64.</b> Cells <i>a</i> → <i>b</i> report Ref → Ours (bold = Ours). Qwen and Gemma Judges re-ask the same CBUs on ≈5,000 paired captions per surface; Risk is unsupported / claimed CBU.</figcaption>
+      </figure>
+    </div>
+
+    <div class="result" id="control">
+      <h3>One captioner, two policies</h3>
+      <p>With the captioner fixed, this policy alone raises supported CBU per caption by +3.0 to +3.6 over a plain detailed-caption instruction. The control fixes the captioner <i class="m">V<sub>c</sub></i> = <code>Qwen3.5-35B-A3B-FP8</code> and its decoding and swaps only the policy <i class="m">π</i>: the same captioner writes a <em>naive surface</em> on the same 4,494 CC12M and 4,775 DataComp images under the single instruction of Recap-DataComp, <code>“Please generate a detailed caption of this image. Please be as descriptive as possible.”</code></p>
+      <figure>
+        <div class="table-scroll" tabindex="0" role="region" aria-label="Captioner control">
+          <table class="t-control">
+            <thead>
+              <tr><th scope="col" rowspan="2">Dataset</th><th scope="col" rowspan="2">Surface</th><th scope="colgroup" colspan="2" class="group">Surface stats</th><th scope="colgroup" colspan="2" class="group">Qwen Judge</th><th scope="colgroup" colspan="2" class="group">Gemma Judge</th></tr>
+              <tr><th scope="col" class="n">CBU/cap ↑</th><th scope="col" class="n">CBU/100lex</th><th scope="col" class="n">Sup. CBU/cap ↑</th><th scope="col" class="n">Risk ↓</th><th scope="col" class="n">Sup. CBU/cap ↑</th><th scope="col" class="n">Risk ↓</th></tr>
+            </thead>
+            <tbody>
+              <tr><th scope="row" rowspan="2">CC12M</th><td>Ours</td><td class="n"><b>15.21</b></td><td class="n">23.16</td><td class="n"><b>14.60</b></td><td class="n">0.030</td><td class="n"><b>13.82</b></td><td class="n">0.066</td></tr>
+              <tr><td>Naive Qwen3.5-35B-A3B</td><td class="n">11.32</td><td class="n">17.26</td><td class="n">11.03</td><td class="n">0.022</td><td class="n">10.61</td><td class="n">0.045</td></tr>
+              <tr class="split"><th scope="row" rowspan="2">DataComp</th><td>Ours</td><td class="n"><b>14.60</b></td><td class="n">22.23</td><td class="n"><b>13.90</b></td><td class="n">0.036</td><td class="n"><b>13.07</b></td><td class="n">0.080</td></tr>
+              <tr><td>Naive Qwen3.5-35B-A3B</td><td class="n">10.95</td><td class="n">16.66</td><td class="n">10.56</td><td class="n">0.026</td><td class="n">10.07</td><td class="n">0.057</td></tr>
+            </tbody>
+          </table>
         </div>
-      </div>
-      <p class="zoom-hint" aria-hidden="true">Tap a panel to open it at full resolution</p>
-      <figcaption id="fig2-cap"><span class="fig-no">Figure 2.</span> <strong>CC12M long-form surfaces at <span class="m"><i>B</i> = 64</span> and across the budget sweep.</strong> <em>Left:</em> supported yield against risk at <span class="m"><i>B</i> = 64</span>; marker shape encodes surface, fill (filled vs. hollow) encodes Judge. <em>Right:</em> claimed-CBU budget frontier over <span class="m"><i>B</i> ∈ {16, 32, 48, 64}</span> on all <span data-bind="protocol.cc12mAligned"></span> aligned images; marker size scales with <span class="m"><i>B</i></span>. Both panels show the three long-form surfaces.</figcaption>
-    </figure>
-
-    <details class="values wide">
-      <summary>Budget-sweep values behind Figure 2 (right)</summary>
-      <div class="table-wrap" tabindex="0" role="region" aria-label="Budget-sweep values" data-render="sweepTable"></div>
-      <p class="tnote">Claimed CBU per caption and CBU per 100 lex from the released result file behind Figure 2 (right), rounded to two decimals; the <span class="m"><i>B</i> = 64</span> row equals Table 8. The three long-form surfaces, as in Figure 2.</p>
-    </details>
-  </article>
-
-  <!-- policy control -->
-  <article class="sub" id="policy" aria-labelledby="h-policy">
-    <div class="col">
-      <p class="kicker">Policy ablation</p>
-      <h3 id="h-policy">Captioner control: one captioner, two policies</h3>
-      <p>Cross-corpus comparisons pair Ours against released surfaces produced by different captioners. The control fixes the captioner (<code>Qwen3.5-35B-A3B-FP8</code>) and its decoding and swaps only the policy <span class="m"><i>π</i></span>: the same captioner writes a naive surface on the same <span data-bind="captionerControlMeta.cc12mImages"></span> CC12M and <span data-bind="captionerControlMeta.datacompImages"></span> DataComp images under the single instruction of Recap-DataComp</p>
-      <blockquote class="prompt"><p>Please generate a detailed caption of this image. Please be as descriptive as possible.</p></blockquote>
-      <p>The released policy raises claimed CBU per caption by <span data-bind="captionerControlMeta.claimedGain"></span> and supported CBU per caption by <span data-bind="captionerControlMeta.supGain"></span> under both Judges, at a risk <span data-bind="captionerControlMeta.riskAbove"></span> above the naive surface. On CC12M the naive surface is <span data-bind="captionerControlMeta.naiveLonger"></span> as long as Ours and more concentrated: frequent prefixes such as <q><span data-bind="captionerControlMeta.frequentPrefix.text"></span></q> (<span data-bind="captionerControlMeta.frequentPrefix.count"></span> captions) lie outside the opener regex and lift its content-prefix mass to <span data-bind="captionerControlMeta.contentMassNaive"></span>, above every released CC12M surface on the same images (<span data-bind="captionerControlMeta.contentMassReleased"></span>). With the captioner and its decoding fixed, the prompt-ordered policy produces the yield gain on both source families.</p>
+        <figcaption><b>Captioner-control: same <i class="m">V<sub>c</sub></i>, different <i class="m">π</i>.</b> Both policies caption the same ≈4.5–4.8k images per source with the same decoding; the Qwen extractor <i class="m">φ</i> supplies the claims and both Judges answer the same questions.</figcaption>
+      </figure>
     </div>
 
-    <figure class="tfig wide" aria-labelledby="t6-cap">
-      <figcaption id="t6-cap"><span class="fig-no">Table 6.</span> <strong>Captioner control: same <span class="m"><i>V</i><sub><i>c</i></sub></span>, different <span class="m"><i>π</i></span>.</strong> Both policies caption the same <span data-bind="captionerControlMeta.imagesPerSource"></span> images per source with the same decoding; the Qwen extractor <span class="m"><i>φ</i></span> supplies the claims and both Judges answer the same questions, reported as mean ± std.</figcaption>
-      <div class="table-wrap" tabindex="0" role="region" aria-labelledby="t6-cap" data-render="controlTable"></div>
-    </figure>
-
-    <figure class="tfig col" aria-labelledby="t7-cap">
-      <figcaption id="t7-cap"><span class="fig-no">Table 7.</span> <strong>Surface concentration on the CC12M naive surface.</strong> Describe-style frame diagnostics on the CC12M images of Table 6. Lex overflow<sub>248</sub> is the share of captions over 248 lexical units; <em>Long-form refs.</em> gives the range over CC12M-LLaVA-NeXT and PixelProse on the same images.</figcaption>
-      <div class="table-wrap" tabindex="0" role="region" aria-labelledby="t7-cap" data-render="surfaceTable"></div>
-    </figure>
-  </article>
-
-  <!-- human verification -->
-  <article class="sub" id="human" aria-labelledby="h-human">
-    <div class="col">
-      <p class="kicker">Human verification</p>
-      <h3 id="h-human">Human verification matches the judges</h3>
-      <p><span data-bind="human.annotators"></span> annotators, blind to surface identity and machine labels, judged sampled CC12M claims first against the caption window and then against the image. The verification holds <span data-bind="human.judgments"></span> primary judgments on <span data-bind="human.claims"></span> claims; <span data-bind="human.repeated"></span> claims carry two independent labels.</p>
-      <p>Qwen and Gemma agree with humans at nearly identical rates. Human annotators find the claims of Ours supported at a higher rate than those of LLaVA-NeXT, the short tag surface, and PixelProse; none of its <span data-bind="human.oursN"></span> judgments is an explicit <em>no</em>, and uncertainty is recorded separately from support. Human explicit-<em>no</em> rates order the long-form surfaces as both Judges' risk does: Ours (<span data-bind="human.direct.0.no.1"></span>), LLaVA-NeXT (<span data-bind="human.direct.1.no.1"></span>), PixelProse (<span data-bind="human.direct.3.no.1"></span>).</p>
+    <div class="result" id="cc12m">
+      <h3>A long-vs-dense frontier on CC12M</h3>
+      <p>At <i class="m">B</i> = 64, Ours holds the highest supported yield and the lowest risk of the long-form surfaces; PixelProse, at ≈89 lex, carries the highest risk (<i class="m">ρ</i> = 0.129/0.161 under Qwen/Gemma), and CC12M-LLaVA-NeXT sits between. Across <i class="m">B</i> ∈ {16, 32, 48, 64} on all 4,494 aligned images, claimed CBU per caption grows and CBU per 100 lex declines on every long-form surface, and Ours leads them on both readings at every budget (5.59 → 15.21 CBU per caption, 33.9 → 23.2 per 100 lex).</p>
+      <figure class="results-figure">
+        <div class="plate">
+          <div class="two-panels">
+            <img src="assets/img/fig2-risk-v3.png" width="1500" height="909" alt="Scatter plot of risk against supported CBU per caption at B = 64. Ours sits alone at the lower right, highest supported yield and lowest risk, under both judges. CC12M-LLaVA-NeXT sits at lower yield and moderate risk; PixelProse at lower yield and the highest risk. Filled markers are the Qwen Judge, hollow markers the Gemma Judge.">
+            <img src="assets/img/fig2-budget.png" width="1500" height="888" alt="Budget frontier: CBU per 100 lex against claimed CBU per caption for B of 16, 32, 48 and 64, marker size growing with B. For each surface the points move right and down as B grows. The Ours trajectory lies above and to the right of CC12M-LLaVA-NeXT and PixelProse at every budget.">
+          </div>
+        </div>
+        <figcaption><b>CC12M long-form surfaces at <i class="m">B</i> = 64 and across the budget sweep.</b> <i>Left:</i> supported-yield / risk at <i class="m">B</i> = 64; marker shape encodes surface, fill (filled vs hollow) encodes Judge. <i>Right:</i> claimed-CBU budget frontier over <i class="m">B</i> ∈ {16,32,48,64} on all 4,494 aligned images; marker size scales with <i class="m">B</i>.</figcaption>
+      </figure>
     </div>
 
-    <figure class="tfig col" aria-labelledby="t9a-cap">
-      <figcaption id="t9a-cap"><span class="fig-no">Table 9a.</span> <strong>Judge–human agreement.</strong> Design-weighted nominal exact agreement on <span data-bind="human.resolved"></span> resolved claims, estimate ± standard deviation over <span data-bind="human.resamples"></span> image-cluster bootstrap resamples.</figcaption>
-      <div class="table-wrap" tabindex="0" role="region" aria-labelledby="t9a-cap" data-render="agreementTable"></div>
-    </figure>
-
-    <figure class="tfig col" aria-labelledby="t9b-cap">
-      <figcaption id="t9b-cap"><span class="fig-no">Table 9b.</span> <strong>Human image support.</strong> Unweighted distribution of all <span data-bind="human.judgments"></span> primary image judgments; uncertainty remains separate from support, and <em>other</em> is <em>not visual</em> or <em>prefer not to answer</em>.</figcaption>
-      <div class="table-wrap" tabindex="0" role="region" aria-labelledby="t9b-cap" data-render="directTable"></div>
-      <div class="legend legend--bars" aria-hidden="true">
-        <span class="lg"><i class="sw sw-yes"></i>Yes</span>
-        <span class="lg"><i class="sw sw-unc"></i>Uncertain</span>
-        <span class="lg"><i class="sw sw-no"></i>Explicit no</span>
-        <span class="lg"><i class="sw sw-oth"></i>Other</span>
-      </div>
-    </figure>
-  </article>
-</section>
-
-<!-- ===================================================== RELEASE -->
-<section class="sec" id="release" aria-labelledby="h-release">
-  <div class="col">
-    <h2 id="h-release">Released captions</h2>
-    <p class="lede">The corpus is a Hugging Face collection of our generated captions for nine source families, joined by row-level keys to the source releases that hold the images and the reference recaptions.</p>
-    <p>The code repository carries the audit pipeline, the CC12M and DataComp naive-control surfaces, and the result summaries behind every table. Captions are released as generated and caption-only, so each training pipeline applies its own personal-information, safety, NSFW, and dedup filters; every dataset card gives a removal channel through the repository's discussion page. Caption generation cost <span data-bind="summary.gpuHours"></span> H200 GPU-hours.</p>
-  </div>
-
-  <figure class="tfig wide stack" aria-labelledby="t2-cap">
-    <figcaption id="t2-cap"><span class="fig-no">Table 2.</span> <strong>Nine recaptioned source families: five with paired audits, four release-only.</strong> <em>Ours scale</em> counts unique images per family; a dash marks a release-only family. The dagger marks short tag-style surfaces (under 20 lexical units).</figcaption>
-    <div class="table-wrap" tabindex="0" role="region" aria-labelledby="t2-cap" data-render="releaseTable"></div>
-  </figure>
-
-  <div class="release-foot wide">
-    <a class="btn btn-primary" data-href="release.collection" href="https://huggingface.co/collections/BootsofLagrangian/recaptioned-image-text-6ab5bf978e69805c3e33d5ce">
-      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><ellipse cx="12" cy="5.5" rx="7.5" ry="2.7"/><path d="M4.5 5.5v13c0 1.5 3.4 2.7 7.5 2.7s7.5-1.2 7.5-2.7v-13M4.5 12c0 1.5 3.4 2.7 7.5 2.7s7.5-1.2 7.5-2.7"/></svg>
-      Browse the collection</a>
-    <ul class="facts">
-      <li><b>License</b> <span>CC-BY-4.0 for the generated caption text; source images, reference captions and third-party metadata keep their original licenses.</span></li>
-            <li><b>Danbooru</b> <span>The Danbooru caption text is public; Danbooru images sit in a separate gated repository.</span></li>
-    </ul>
+    <p class="pointer">The paper adds human verification of image support, per-claim-type results, and the surface diagnostics behind these numbers.</p>
   </div>
 </section>
 
-<!-- ===================================================== REPRODUCE -->
-<section class="sec" id="reproduce" aria-labelledby="h-reproduce">
-  <div class="col">
-    <h2 id="h-reproduce">Reproduce the profile</h2>
-    <p class="lede">The audit is corpus-agnostic. A third party supplies caption text, source-row identifiers and, for the image-conditioned axis, paired image access; the released tokenizer, prompt pools, CBU schema, question template, label schema and manifest are reused as they are.</p>
-  </div>
-  <ol class="steps wide">
-    <li class="step">
-      <div class="step-side"><p class="step-no">Step 1</p><h3>Install and load captions</h3></div>
-      <div class="step-body">
-        <p>The code uses <a href="https://docs.astral.sh/uv/">uv</a> and Python 3.11 or newer; <code>uv.lock</code> pins every dependency.</p>
-        <pre class="code"><code>git clone https://github.com/BootsofLagrangian/audit-recap-t2i.git
-cd audit-recap-t2i
-uv sync</code></pre>
-        <p>Captions stream from the Hugging Face collection, one dataset per family:</p>
-        <pre class="code"><code>from datasets import load_dataset
+<section class="dataset" id="dataset" aria-labelledby="h-dataset">
+  <div class="container">
+    <h2 id="h-dataset">Dataset</h2>
+    <p>The corpus is a Hugging Face collection of our generated captions for the nine source families, joined by row-level keys to the source releases that hold the images and the reference recaptions. Caption generation cost is ≈12.7k H200 GPU-hours.</p>
+    <figure>
+      <div class="table-scroll" tabindex="0" role="region" aria-label="Released source families">
+        <table class="t-families">
+          <thead>
+            <tr><th scope="col">Source family</th><th scope="col">Original supervision</th><th scope="col" class="n">Ours scale</th><th scope="col">Paired reference surface(s)</th></tr>
+          </thead>
+          <tbody>
+            <tr class="group-row"><th scope="colgroup" colspan="4">Photorealistic / web</th></tr>
+            <tr><th scope="row"><a href="https://huggingface.co/datasets/BootsofLagrangian/datacomp-recap-qwen3p5-35b-a3b">DataComp</a><span class="repo">BootsofLagrangian/datacomp-recap-qwen3p5-35b-a3b</span></th><td data-label="Original supervision">web image–text pairs</td><td class="n scale" data-label="Ours scale">≈325.5M</td><td class="refs" data-label="Paired reference surface(s)">Recap-DataComp</td></tr>
+            <tr><th scope="row"><a href="https://huggingface.co/datasets/BootsofLagrangian/cc12m-recap-qwen3p5-35b-a3b">CC12M</a><span class="repo">BootsofLagrangian/cc12m-recap-qwen3p5-35b-a3b</span></th><td data-label="Original supervision">web alt-text</td><td class="n scale" data-label="Ours scale">≈11.5M</td><td class="refs" data-label="Paired reference surface(s)">CC12M-LLaVA-NeXT, PixelProse, CC12M-Qwen3-VL<sup>†</sup></td></tr>
+            <tr><th scope="row"><a href="https://huggingface.co/datasets/BootsofLagrangian/laion-pop-recap-qwen3p5-35b-a3b">LAION-pop</a><span class="repo">BootsofLagrangian/laion-pop-recap-qwen3p5-35b-a3b</span></th><td data-label="Original supervision">web alt-text</td><td class="n scale" data-label="Ours scale">≈0.4M</td><td class="refs" data-label="Paired reference surface(s)">LAION-pop-Llama</td></tr>
+            <tr><th scope="row"><a href="https://huggingface.co/datasets/BootsofLagrangian/pd12m-recap-qwen3p5-35b-a3b">PD12M</a><span class="repo">BootsofLagrangian/pd12m-recap-qwen3p5-35b-a3b</span></th><td data-label="Original supervision">Florence-2 + metadata</td><td class="n scale" data-label="Ours scale">≈12.4M</td><td class="refs" data-label="Paired reference surface(s)">PD12M released</td></tr>
+            <tr><th scope="row"><a href="https://huggingface.co/datasets/BootsofLagrangian/commoncatalog-cc-by-recap-qwen3p5-35b-a3b">CommonCatalog</a><span class="repo">BootsofLagrangian/commoncatalog-cc-by-recap-qwen3p5-35b-a3b</span></th><td data-label="Original supervision">BLIP-2 captions</td><td class="n scale" data-label="Ours scale">≈14.6M</td><td class="refs" data-label="Paired reference surface(s)">—</td></tr>
+            <tr><th scope="row"><a href="https://huggingface.co/datasets/BootsofLagrangian/laion-aesthetics-recap-qwen3p5-35b-a3b">LAION-Aesthetics</a><span class="repo">BootsofLagrangian/laion-aesthetics-recap-qwen3p5-35b-a3b</span></th><td data-label="Original supervision">web alt-text</td><td class="n scale" data-label="Ours scale">≈23.7M</td><td class="refs" data-label="Paired reference surface(s)">—</td></tr>
+            <tr><th scope="row"><a href="https://huggingface.co/datasets/BootsofLagrangian/laion-highres-aesthetic-recap-qwen3p5-35b-a3b">LAION-HighRes-Aesthetic</a><span class="repo">BootsofLagrangian/laion-highres-aesthetic-recap-qwen3p5-35b-a3b</span></th><td data-label="Original supervision">web alt-text</td><td class="n scale" data-label="Ours scale">≈82.7M</td><td class="refs" data-label="Paired reference surface(s)">—</td></tr>
+            <tr><th scope="row"><a href="https://huggingface.co/datasets/BootsofLagrangian/megalith-cc0-recap-qwen3p5-35b-a3b">Megalith-CC0</a><span class="repo">BootsofLagrangian/megalith-cc0-recap-qwen3p5-35b-a3b</span></th><td data-label="Original supervision">Florence-2 captions</td><td class="n scale" data-label="Ours scale">≈8.1M</td><td class="refs" data-label="Paired reference surface(s)">—</td></tr>
+            <tr class="group-row"><th scope="colgroup" colspan="4">Anime / booru</th></tr>
+            <tr><th scope="row"><a href="https://huggingface.co/datasets/BootsofLagrangian/danbooru-recap-qwen3p5-35b-a3b">Danbooru</a><span class="repo">BootsofLagrangian/danbooru-recap-qwen3p5-35b-a3b</span></th><td data-label="Original supervision">booru tags + metadata</td><td class="n scale" data-label="Ours scale">≈11.3M</td><td class="refs" data-label="Paired reference surface(s)">Danbooru-Florence</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <figcaption><b>Nine recaptioned source families: five with paired audits, four release-only.</b> Ours scale counts unique images per family; a dash marks a release-only family. The dagger † marks short tag-style surfaces (under 20 lexical units).</figcaption>
+    </figure>
+
+    <h3>Load the captions</h3>
+    <p>This example streams the LAION-pop captions with the <code>datasets</code> library, as on its dataset card.</p>
+<pre><code>from datasets import load_dataset
 
 captions = load_dataset(
-    "BootsofLagrangian/cc12m-recap-qwen3p5-35b-a3b",
-    split="train", streaming=True)</code></pre>
-      </div>
-    </li>
-    <li class="step">
-      <div class="step-side"><p class="step-no">Step 2</p><h3>Text statistics and prompt pools</h3></div>
-      <div class="step-body">
-        <p>Build the paired slices and the seven prompt pools, then run <code>run_caption_fair_slice_surveys.py</code> for the surface descriptors and <code>caption_prompt_support_bootstrap.py</code> for prompt-mass support and <i>n</i>-gram JSD.</p>
-        <pre class="code"><code>uv run python scripts/build_caption_fair_slices.py --all \
-  --max-pairs 1000000 --seed 0
-uv run python scripts/prepare_prompt_pools.py \
-  --output-root data/prompt-pools/2026-04-24-expanded</code></pre>
-      </div>
-    </li>
-    <li class="step">
-      <div class="step-side"><p class="step-no">Step 3</p><h3>Claims and two judges</h3></div>
-      <div class="step-body">
-        <p>Serve the extractor, build one request per caption window, and run it with <code>run_text_json_requests.py</code>; <code>summarize_cbu_responses.py</code> reports CBU/cap and CBU/100 lex. <code>build_grounded_cbu_verify_requests.py</code> attaches the images, <code>build_cbu_vqa_requests.py</code> and <code>run_cbu_vqa_requests.py</code> ask the questions, and <code>summarize_cbu_vqa_responses.py</code> reports supported CBU per caption and risk. The Gemma Judge answers the same request file with <code>--model google/gemma-4-31B-it</code>.</p>
-        <pre class="code"><code>bash scripts/vllm/serve_397b.sh start
-uv run python scripts/build_caption_cbu_requests.py --input &lt;surface&gt;.jsonl \
-  --output artifacts/cbu/&lt;name&gt;.requests.jsonl --surface &lt;surface&gt; --token-budget 64</code></pre>
-        <p class="step-link"><a href="https://github.com/BootsofLagrangian/audit-recap-t2i#reproducing-the-paper">Full commands and flags: “Reproducing the paper” in the README</a></p>
-      </div>
-    </li>
-  </ol>
+    "BootsofLagrangian/laion-pop-recap-qwen3p5-35b-a3b",
+    split="train",
+    streaming=True,
+)
+row = next(iter(captions))
+print(row["image_shard"], row["image_member"], row["caption_text"])</code></pre>
+
+    <ul class="facts">
+      <li><b>License.</b> Captions: CC-BY-4.0. Code: Apache-2.0. Source images and original captions keep the licenses of their source releases.</li>
+      <li><b>Personal information.</b> Captions are released as generated: the captioner transcribes legible text, so a caption can carry a name, a contact detail, or an identifier that the source image shows. The text stays unmodified so that each user applies the filter that fits their use; every dataset card documents this and routes removal requests through the repository's discussion page with the row keys.</li>
+    </ul>
+  </div>
 </section>
 
-<!-- ===================================================== BIBTEX -->
-<section class="sec" id="bibtex" aria-labelledby="h-bibtex">
-  <div class="col">
+<section class="bibtex" id="bibtex" aria-labelledby="h-bibtex">
+  <div class="container">
     <h2 id="h-bibtex">BibTeX</h2>
-  </div>
-  <div class="bib col">
-    <div class="bib-bar">
-      <span class="bib-file">oh2026matchedbudget</span>
-      <button class="copy-btn" id="copy-bib" type="button" aria-describedby="copy-status">
-        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="8.5" y="8.5" width="11" height="12" rx="1.5"/><path d="M15.5 8.5V5a1.5 1.5 0 0 0-1.5-1.5H6A1.5 1.5 0 0 0 4.5 5v10A1.5 1.5 0 0 0 6 16.5h2.5"/></svg>
-        <span class="copy-label">Copy</span>
-      </button>
-    </div>
-    <pre class="code bib-code" id="bib-text"><code>@inproceedings{oh2026matchedbudget,
+    <div class="bib">
+      <button type="button" class="copy" id="copy-bib" aria-label="Copy BibTeX">Copy</button>
+<pre><code id="bibtex-text">@inproceedings{oh2026matchedbudget,
   title     = {A Matched-Budget Audit Framework for Recaptioned Image-Text Supervision Distributions},
   author    = {Oh, Giyeong and Park, Junghun and Bae, Yuhan and Yu, Youngjae},
   booktitle = {Advances in Neural Information Processing Systems, Evaluations and Datasets Track},
   year      = {2026},
   url       = {https://openreview.net/forum?id=JobgYHJvPo}
 }</code></pre>
-    <p class="sr-only" id="copy-status" role="status" aria-live="polite"></p>
+    </div>
   </div>
 </section>
 
 </main>
 
-<!-- ===================================================== FOOTER -->
-<footer class="footer">
-  <div class="foot-inner">
-    <div class="foot-grid">
-      <div>
-        <h2 class="foot-h">Contact</h2>
-        <p>Questions about the code or the audit: <a href="https://github.com/BootsofLagrangian/audit-recap-t2i/issues">open an issue</a> on the code repository.</p>
-      </div>
-      <div>
-        <h2 class="foot-h">Licenses</h2>
-        <p>Code: <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache-2.0</a><br>Captions: <a href="https://creativecommons.org/licenses/by/4.0/">CC-BY-4.0</a> (generated caption text)<br>Source images keep their original licenses.</p>
-      </div>
-      <div>
-        <h2 class="foot-h">Acknowledgement</h2>
-        <p>This work was partly supported by an Institute of Information &amp; communications Technology Planning &amp; Evaluation (IITP) grant funded by the Korean Government (MSIT) (No. RS-2021-II211343, Artificial Intelligence Graduate School Program (Seoul National University)).</p>
-      </div>
-    </div>
-    <p class="foot-base"><span>© 2026 Giyeong Oh, Junghun Park, Yuhan Bae, Youngjae Yu</span><span>No trackers, no analytics. Fonts under the <a href="assets/fonts/OFL.txt">SIL Open Font License</a>.</span></p>
-  </div>
+<footer>
+  <div class="container">Captions CC-BY-4.0 · Code Apache-2.0 · Questions through <a href="https://github.com/BootsofLagrangian/audit-recap-t2i/issues">GitHub issues</a></div>
 </footer>
+
+<script src="assets/js/page.js" defer></script>
 </body>
 </html>
