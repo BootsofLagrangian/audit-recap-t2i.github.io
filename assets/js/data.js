@@ -39,7 +39,7 @@
     laySummary:
       "🖼️ AI image generators learn by looking at millions of pictures, each with a short description. Today most of those descriptions are written by another AI, not by people.\n\n" +
       "🤔 But are those AI-written descriptions any good? Until now, finding out meant training a whole image generator, like baking an entire cake just to check whether the flour is fresh.\n\n" +
-      "🔍 We built a simple check-up instead. Part of it is as easy as a teacher flipping through a stack of essays and noticing that they all begin with the same sentence: we count how often descriptions repeat themselves. Then we read the first 64 words of each description and ask: does it sound like what people actually type when they ask for an image? How many concrete things does it say about the picture, and is each one really there? Two different AI judges answer that last question, and we compared them with human raters.\n\n" +
+      "🔍 We built a simple check-up instead. Part of it is as easy as a teacher flipping through a stack of essays and noticing that they all begin with the same sentence: we count how often descriptions repeat themselves. Then we read the first 64 words of each description and ask: does it sound like what people actually type when they ask for an image? How many concrete things does it say about the picture, and is each one really there? Two different AI judges answer that last question, and we compared them with human annotators.\n\n" +
       "✅ Our descriptions say more true things about each picture, and fewer wrong things, than existing long descriptions of the same pictures. The instructions make the difference: the same AI, simply told to “describe this picture in detail”, says about a quarter fewer true things.\n\n" +
       "🎁 We are sharing descriptions for about 490 million images, plus the check-up tool, so anyone can test their own.",
 
@@ -73,43 +73,40 @@
     /* Table 1: closest prior audits and caption metrics, as a check matrix.
        One row per work; `group` starts a new block (rules between blocks).
        marks follow `relatedColumns` after Work and Target: "✓" or "–". */
-    relatedColumns: ["Bias", "T2I", "Corpus", "Unit", "Image", "Budget", "Prompt"],
+    relatedColumns: ["Real", "Corpus", "Unit", "Image", "Budget", "Prompt"],
     relatedLegend: [
-      ["Bias", "social bias or harmful content"],
-      ["T2I", "images from T2I generators"],
-      ["Corpus", "dataset-level reading"],
+      ["Real", "text paired with non-generated images"],
+      ["Corpus", "dataset-level analysis"],
       ["Unit", "text scored per claim or object mention"],
       ["Image", "text verified against the image"],
       ["Budget", "fixed text window"],
       ["Prompt", "register of user prompts"]
     ],
     relatedWork: [
-      { group: "Dataset and caption studies",      work: "REVISE",         target: "visual datasets",      marks: ["✓", "–", "✓", "–", "–", "–", "–"] },
-      { group: "Dataset and caption studies",      work: "LAION's Den",    target: "image–alt-text pairs", marks: ["✓", "–", "✓", "–", "–", "–", "–"] },
-      { group: "Dataset and caption studies",      work: "Hirota et al.",  target: "caption enrichment",   marks: ["✓", "–", "✓", "✓", "✓", "–", "–"] },
-      { group: "Dataset and caption studies",      work: "Brack et al.",   target: "training captions",    marks: ["✓", "✓", "✓", "–", "–", "–", "–"] },
-      { group: "Claim-level metrics", work: "TIFA / DSG",     target: "generated images",     marks: ["–", "✓", "–", "✓", "✓", "–", "–"] },
-      { group: "Claim-level metrics", work: "FAITHSCORE",     target: "VLM answers",          marks: ["–", "–", "–", "✓", "✓", "–", "–"] },
-      { group: "Claim-level metrics", work: "DCScore",        target: "detailed captions",    marks: ["–", "–", "–", "✓", "✓", "–", "–"] },
-      { group: "Ours",                work: "Ours",           target: "recaptioned corpora",  marks: ["–", "–", "✓", "✓", "✓", "✓", "✓"], ours: true }
+      { group: "Dataset and caption studies", work: "REVISE",        target: "visual datasets",      marks: ["✓", "✓", "–", "–", "–", "–"] },
+      { group: "Dataset and caption studies", work: "LAION's Den",   target: "image–alt-text pairs", marks: ["✓", "✓", "–", "–", "–", "–"] },
+      { group: "Dataset and caption studies", work: "Hirota et al.", target: "caption enrichment",   marks: ["✓", "✓", "✓", "✓", "–", "–"] },
+      { group: "Dataset and caption studies", work: "Brack et al.",  target: "training captions",    marks: ["✓", "✓", "–", "–", "–", "–"] },
+      { group: "Claim-level metrics",         work: "TIFA / DSG",    target: "generated images",     marks: ["–", "–", "✓", "✓", "–", "–"] },
+      { group: "Claim-level metrics",         work: "FAITHSCORE",    target: "VLM answers",          marks: ["✓", "–", "✓", "✓", "–", "–"] },
+      { group: "Claim-level metrics",         work: "DCScore",       target: "detailed captions",    marks: ["✓", "–", "✓", "✓", "–", "–"] },
+      { group: "Ours",                        work: "Ours",          target: "recaptioned corpora",  marks: ["✓", "✓", "✓", "✓", "✓", "✓"], ours: true }
     ],
 
-    /* Table 4: audit axes. Noun phrases only; `rows` names the protocol
-       field that gives the row count (50k paired rows per slice for text
-       statistics and prompt-pool support; ≈5k rows per surface for claim
-       extraction and verification). Metric strings may carry <i>, <sub> and
-       the math class "m". */
+    /* Table 4: audit axes (Axis | Desideratum | Input | Metric | Rows).
+       `rows` names the protocol field that gives the row count. Metric and
+       input strings may carry <i>, <sub> and the math class "m". */
     axes: [
-      { axis: "Text budget",           des: "coverage",     reads: '<span class="m"><i>D<sub>c</sub></i></span>',
-        failure: "too little text",    metric: 'avg. lex, <span class="m"><i>B</i></span>-eligibility',          boundary: "length prerequisite",   rows: "captionOnlyShort" },
-      { axis: "Prompt-pool support",   des: "coverage",     reads: '<span class="m"><i>D<sub>c</sub></i></span> vs. pools',
-        failure: "missing prompt phrasing", metric: "prompt-mass support ↑, <i>n</i>-gram JSD ↓",               boundary: "pool-conditioned",      rows: "captionOnlyShort" },
-      { axis: "Claimed density",       des: "coverage",     reads: '<span class="m"><i>D<sub>c</sub></i></span>',
-        failure: "few claims",         metric: "CBU/cap ↑, CBU/100 lex",                                          boundary: "caption-only count",    rows: "vqaShort" },
-      { axis: "Surface concentration", des: "health",       reads: '<span class="m"><i>D<sub>c</sub></i></span>',
-        failure: "repeated form",      metric: "top-100 prefix mass ↓, distinct-3 ↑, rep-4 ↓",                   boundary: "surface artifact",      rows: "captionOnlyShort" },
-      { axis: "Support and risk",      des: "faithfulness", reads: '<span class="m"><i>D<sub>cx</sub></i></span>',
-        failure: "unsupported claims", metric: '<span class="m">𝔼[<i>s</i>]</span> ↑, <span class="m">𝔼[<i>u</i>]</span> ↓, <span class="m"><i>ρ</i></span> ↓', boundary: "judge-conditional proxy", rows: "vqaShort" }
+      { axis: "Text budget",           des: "Coverage",     input: '<span class="m"><i>D<sub>c</sub></i></span>',
+        metric: 'Avg. lex, <span class="m"><i>B</i></span>-eligibility',                       rows: "captionOnlyShort" },
+      { axis: "Prompt-pool support",   des: "Coverage",     input: '<span class="m"><i>D<sub>c</sub></i></span>, pools',
+        metric: "prompt-mass support ↑, <i>n</i>-gram JSD ↓",                                rows: "captionOnlyShort" },
+      { axis: "Claimed density",       des: "Coverage",     input: '<span class="m"><i>D<sub>c</sub></i></span>',
+        metric: "CBU/cap ↑, CBU/100 lex",                                                     rows: "vqaShort" },
+      { axis: "Surface concentration", des: "Health",       input: '<span class="m"><i>D<sub>c</sub></i></span>',
+        metric: "top-100 prefix mass ↓, distinct-3 ↑",                                        rows: "captionOnlyShort" },
+      { axis: "Support and risk",      des: "Faithfulness", input: '<span class="m"><i>D<sub>cx</sub></i></span>',
+        metric: '<span class="m">𝔼[<i>s</i>]</span> ↑, <span class="m"><i>ρ</i></span> ↓', rows: "vqaShort" }
     ],
 
     /* Table 5: Cross-corpus headline at B = 64 lexical units.
@@ -143,7 +140,7 @@
 
     /* Table 8: CC12M frontier at B = 64, four surfaces, both judges.
        All columns use the same 4,494 aligned images. The dagger marks the
-       short tag-style surface, read against Eq. (1) rather than long-form
+       short tag-style surface, read against Eq. (1) for window
        density. Section 5.3 text: PixelProse at ~89 lex; Qwen3-VL at ~12 lex. */
     cc12m: {
       surfaces: [
@@ -165,6 +162,9 @@
       pixelProseLex: "≈89",
       qwen3vlLex:    "≈12",
       tagSurfaceModel: "Qwen3-VL-8B",
+      // Sec. 5.3: dual-judge gap on supported CBU per caption (Qwen minus Gemma),
+      // as stated from the rounded Table 8 cells
+      dualGap: { tag: "0.12", llava: "0.40", pixelprose: "0.53", ours: "0.78" },
       // Sec. 5.3 "Length is not density" paragraph: one 64-word window of Ours vs. a whole CC12M-Qwen3-VL caption
       windowMultiple: "2.4×",
       // Sec. 5.3 "Budget sweep": Ours from B = 16 to B = 64
@@ -224,14 +224,15 @@
       // one-sentence reading, over both sources and both judges
       claimedGain: "+3.7 to +3.9",   // 15.21 - 11.32, 14.60 - 10.95
       supGain:     "+3.0 to +3.6",   // supported CBU per caption, Ours - Naive
-      riskWithin:  "0.03",           // |risk(Ours) - risk(Naive)| stays within this
+      riskAbove:   "0.01 to 0.02",   // risk(Ours) - risk(Naive)
       // CC12M surface concentration (Table 7) and the naive surface's openings
       naiveLonger: "1.8×",
       meanLexOurs: "186.6", meanLexNaive: "328.1",
-      // two of the five most frequent five-word openings of the naive surface
-      openingA: { text: "this is a close up",        count: "238 of 4,494" },
-      openingB: { text: "this is a richly detailed", count: "157" },
-      contentMassOurs: "0.09", contentMassNaive: "0.33", contentMassRefs: "0.13–0.16"
+      // two frequent 5-token prefixes of the naive surface (Sec. 5.2)
+      openingA: { text: "… richly detailed",     count: "157/4,494" },
+      openingB: { text: "… beautifully composed", count: "121" },
+      contentMassOurs: "0.09", contentMassNaive: "0.33",
+      contentMassReleased: "0.07–0.16"   // every released CC12M surface on the same images
     },
 
     /* Table 7: Surface concentration on the CC12M naive surface, same
@@ -239,7 +240,7 @@
        PixelProse on the same images. */
     surfaceControl: [
       { metric: "Mean lex",                         ours: "186.6", naive: "328.1", refs: "67.5–91.4" },
-      { metric: "Lex overflow (&gt;248 lex)",       ours: "6.9%",  naive: "91.2%", refs: "0.1–0.8%" },
+      { metric: "Lex overflow<sub>248</sub>",       ours: "6.9%",  naive: "91.2%", refs: "0.1–0.8%" },
       { metric: "Top-100 raw prefix mass ↓",       ours: "0.14",  naive: "0.60",  refs: "0.29–0.71" },
       { metric: "Top-100 content prefix mass ↓",   ours: "0.09",  naive: "0.33",  refs: "0.13–0.16" },
       { metric: "Distinct-3-gram rate ↑",          ours: "0.59",  naive: "0.57",  refs: "0.40–0.49" }
@@ -256,7 +257,7 @@
            mean ± standard deviation over 10,000 image-cluster bootstrap
            resamples (result file human_cbu/judge_human_agreement_bootstrap.json).
        (b) unweighted observed-sample distribution of all 217 primary image
-           ratings; "other" is "not visual" or "prefer not to answer". */
+           judgments; "other" is "not visual" or "prefer not to answer". */
     human: {
       annotators: "Seven", judgments: "217", claims: "137", repeated: "80", perCell: "five", cells: "16",
       resolved: "43", resamples: "10,000", oursN: "111",
@@ -289,7 +290,7 @@
           { family: "DataComp",      original: "web image–text pairs",        scale: "≈325.5M",
             refs: ["Recap-DataComp"], repo: "datacomp-recap-qwen3p5-35b-a3b" },
           { family: "CC12M",         original: "web alt-text",                     scale: "≈11.5M",
-            refs: ["CC12M-LLaVA-NeXT", "PixelProse"], repo: "cc12m-recap-qwen3p5-35b-a3b" },
+            refs: ["CC12M-LLaVA-NeXT", "PixelProse", "short tag surface†"], repo: "cc12m-recap-qwen3p5-35b-a3b" },
           { family: "LAION-pop",     original: "web alt-text",                     scale: "≈0.4M",
             refs: ["LAION-pop-Llama"], repo: "laion-pop-recap-qwen3p5-35b-a3b" },
           { family: "PD12M",         original: "Florence-2 captions + metadata",   scale: "≈12.4M",

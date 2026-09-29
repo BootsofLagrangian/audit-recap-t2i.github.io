@@ -106,16 +106,15 @@
     return D.relatedLegend.map(function (x) { return "<span><b>" + esc(x[0]) + "</b> " + esc(x[1]) + "</span>"; }).join("");
   };
 
-  /* Table 4: audit axes, noun phrases only */
+  /* Table 4: audit axes */
   renderers.axesTable = function () {
-    var h = '<table class="t-axes"><caption class="sr-only">Audit axes: reads, failure mode, metric, boundary and rows</caption><thead><tr>' +
-      th("Axis", "stick", 'scope="col"') + th("Reads", "", 'scope="col"') + th("Failure mode", "", 'scope="col"') +
-      th("Metric", "", 'scope="col"') + th("Boundary", "", 'scope="col"') + th("Rows", "n", 'scope="col"') + "</tr></thead><tbody>";
+    var h = '<table class="t-axes"><caption class="sr-only">Audit axes: desideratum, input, metric and rows</caption><thead><tr>' +
+      th("Axis", "stick", 'scope="col"') + th("Desideratum", "", 'scope="col"') + th("Input", "", 'scope="col"') +
+      th("Metric", "", 'scope="col"') + th("Rows", "n", 'scope="col"') + "</tr></thead><tbody>";
     D.axes.forEach(function (r) {
-      h += '<tr><th scope="row">' + esc(r.axis) + ' <span class="des">' + esc(r.des) + "</span></th>" +
-        '<td data-label="Reads">' + r.reads + '</td><td data-label="Failure mode">' + esc(r.failure) + "</td>" +
-        '<td data-label="Metric">' + r.metric + '</td><td data-label="Boundary">' + esc(r.boundary) + "</td>" +
-        '<td class="n" data-label="Rows">' + esc(D.protocol[r.rows]) + "</td></tr>";
+      h += '<tr><th scope="row">' + esc(r.axis) + "</th>" +
+        '<td data-label="Desideratum">' + esc(r.des) + '</td><td data-label="Input">' + r.input + "</td>" +
+        '<td data-label="Metric">' + r.metric + '</td><td class="n" data-label="Rows">' + esc(D.protocol[r.rows]) + "</td></tr>";
     });
     return h + "</tbody></table>";
   };

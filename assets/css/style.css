@@ -533,7 +533,7 @@ td.o { color: var(--accent); }
 .t-axes th[scope="row"] { min-width: 10rem; }
 .t-axes td { min-width: 7rem; }
 .t-axes .des { display: block; font-size: 0.78rem; font-weight: 500; color: var(--faint); margin-top: 2px; }
-.t-axes td:nth-child(5) { color: var(--muted); }
+.t-axes td:nth-child(2) { color: var(--muted); }
 
 /* related-work check matrix */
 .t-matrix { min-width: 640px; }
@@ -608,7 +608,7 @@ td.distc { width: 26%; min-width: 150px; vertical-align: middle; }
   .stack tr.group-row { padding: 16px 0 4px; border-bottom: 1px solid var(--rule); }
   .stack tr.total { border-top: 1px solid var(--rule-2); }
   .stack tr.total th, .stack tr.total td { border-top: 0; }
-  .t-release td.refs.none { display: none; }
+  .t-release tr.total td.refs { display: none; }
   .t-release tbody tr:not(.group-row) { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 14px; }
   .t-release tbody tr > th { grid-column: 1; grid-row: 1; }
   .t-release tbody td.scale { grid-column: 2; grid-row: 1; margin-top: 0 !important; text-align: right !important; font-size: 1rem; font-weight: 600; color: var(--ink); }
